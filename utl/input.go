@@ -44,6 +44,12 @@ func (i *Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
+func (i *Input) MustGetLine(index int) []string {
+	line, err := i.GetLine(index)
+	PanicIfErrorExist(err)
+	return line
+}
+
 func (i *Input) GetIntLine(index int) ([]int, error) {
 	if err := i.validateIndex(index); err != nil {
 		return nil, err
@@ -54,6 +60,12 @@ func (i *Input) GetIntLine(index int) ([]int, error) {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
 	return newLine, nil
+}
+
+func (i *Input) MustGetIntLine(index int) []int {
+	line, err := i.GetIntLine(index)
+	PanicIfErrorExist(err)
+	return line
 }
 
 func toIntLine(line []string) (intLine []int, err error) {
