@@ -15,5 +15,10 @@ bundle:
 
 .PHONY: bundle-utl
 bundle-utl:
+	make generate
 	bundle -o ${pkg}/bundled_utl.go -pkg main -dst github.com/mpppk/atcoder/${pkg} github.com/mpppk/atcoder/utl
+
+.PHONY: generate
+generate:
+	genny -in='./utl/slice.go' -out='./utl/gen-slice.go' gen "Value=int,int16,int32,int64,float32,float64"
 
