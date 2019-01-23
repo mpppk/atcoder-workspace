@@ -20,5 +20,5 @@ bundle-utl:
 
 .PHONY: generate
 generate:
-	genny -in='./utl/slice.go' -out='./utl/gen-slice.go' gen "Value=int,int16,int32,int64,float32,float64"
+	genny -in='./slice/slice.go' -out='./utl/gen-slice.go' -pkg utl gen "Value=int,int16,int32,int64,float32,float64"
 

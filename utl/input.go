@@ -6,11 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
-	"github.com/cheekybits/genny/generic"
 )
-
-type Type generic.Type
 
 func toLines(scanner *bufio.Scanner) [][]string {
 	var lines [][]string
@@ -50,6 +46,24 @@ func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 		return "", fmt.Errorf("Invalid col index: %v ", colIndex)
 	}
 	return line[colIndex], nil
+}
+
+func (i *Input) MustGetIntValue(rowIndex, colIndex int) int {
+	value := i.MustGetValue(rowIndex, colIndex)
+	intV, err := strconv.Atoi(value)
+	PanicIfErrorExist(err)
+	return intV
+}
+
+func (i *Input) MustGetFirstIntValue(rowIndex int) int {
+	return i.MustGetIntValue(rowIndex, 0)
+}
+
+func (i *Input) MustGetLastIntValue(rowIndex int) int {
+	v := i.MustGetLastValue(rowIndex)
+	intV, err := strconv.Atoi(v)
+	PanicIfErrorExist(err)
+	return intV
 }
 
 func (i *Input) MustGetValue(rowIndex, colIndex int) string {

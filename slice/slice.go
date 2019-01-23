@@ -1,6 +1,6 @@
-package utl
+package slice
 
-//go:generate genny -in=$GOFILE -out=gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
+//go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
 
 import "github.com/cheekybits/genny/generic"
 
