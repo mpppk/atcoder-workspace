@@ -46,27 +46,27 @@ func Test_toIntLine(t *testing.T) {
 	tests := []struct {
 		name        string
 		args        args
-		wantIntLine []int
+		wantIntLine []int64
 		wantErr     bool
 	}{
 		{
-			name: "can convert from string slice to int slice",
+			name: "can convert from string slice to int64 slice",
 			args: args{
 				line: []string{"1", "2", "3"},
 			},
-			wantIntLine: []int{1, 2, 3},
+			wantIntLine: []int64{1, 2, 3},
 			wantErr:     false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotIntLine, err := toIntLine(tt.args.line)
+			gotIntLine, err := toInt64Line(tt.args.line)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("toIntLine() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("toSpecificBitIntLine() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(gotIntLine, tt.wantIntLine) {
-				t.Errorf("toIntLine() = %v, want %v", gotIntLine, tt.wantIntLine)
+				t.Errorf("toSpecificBitIntLine() = %v, want %v", gotIntLine, tt.wantIntLine)
 			}
 		})
 	}

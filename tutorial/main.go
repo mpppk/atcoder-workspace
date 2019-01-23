@@ -9,8 +9,7 @@ import (
 func solve(input *utl_Input) string {
 	line1 := input.MustGetIntLine(0)
 	line2 := input.MustGetIntLine(1)
-	line3 := input.MustGetLine(2)
-	str := line3[0]
+	str := input.MustGetFirstValue(2)
 	concatLine := append(line1, line2...)
 	sum := 0
 	for _, v := range concatLine {
