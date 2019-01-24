@@ -13,3 +13,12 @@ func SumValue(values []Value) Value {
 	}
 	return sum
 }
+
+func FilterValue(values []Value, f func(v Value) bool) (newValues []Value) {
+	for _, value := range values {
+		if f(value) {
+			newValues = append(newValues, value)
+		}
+	}
+	return
+}
