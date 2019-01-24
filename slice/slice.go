@@ -22,3 +22,10 @@ func FilterValue(values []Value, f func(v Value) bool) (newValues []Value) {
 	}
 	return
 }
+
+func MapValue(values []Value, f func(v Value) Value) (newValues []Value) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}

@@ -60,3 +60,33 @@ func TestFilterValue(t *testing.T) {
 		})
 	}
 }
+
+func TestMapValue(t *testing.T) {
+	type args struct {
+		values []Value
+		f      func(v Value) Value
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues []Value
+	}{
+		{
+			name: "can increment int",
+			args: args{
+				values: []Value{1, 2, 3},
+				f: func(v Value) Value {
+					return v + 1
+				},
+			},
+			wantNewValues: []Value{2, 3, 4},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValues := MapValue(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("MapValue() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}
