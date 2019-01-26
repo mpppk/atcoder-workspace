@@ -26,6 +26,14 @@ type Input struct {
 	lines [][]string
 }
 
+func (i *Input) validateColIndex(index int) error {
+	if index < 0 {
+		return errors.New(fmt.Sprintf("index is under zero: %d", index))
+	}
+
+	return nil
+}
+
 func (i *Input) validateRowIndex(index int) error {
 	if index >= len(i.lines) {
 		return errors.New(fmt.Sprintf("index(%d) is larger than lines(%d)", index, len(i.lines)))
@@ -79,6 +87,45 @@ func (i *Input) MustGetFirstValue(rowIndex int) string {
 func (i *Input) MustGetLastValue(rowIndex int) string {
 	line := i.MustGetLine(rowIndex)
 	return line[len(line)-1]
+}
+
+func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
+	if err := i.validateRowIndex(colIndex); err != nil {
+		return nil, err
+	}
+
+	for i, line := range i.lines {
+		if len(line) <= colIndex {
+			return nil, errors.New(fmt.Sprintf("col index(%d) is larger than %dth line length(%d)", colIndex, i, len(line)))
+		}
+		newLine = append(newLine, line[colIndex])
+	}
+
+	return newLine, nil
+}
+
+func (i *Input) GetColIntLine(colIndex int) (newLine []int, err error) {
+	strLine, err := i.GetColLine(colIndex)
+	if err != nil {
+		return nil, err
+	}
+	newLine, err = toIntLine(strLine)
+	if err != nil {
+		return nil, fmt.Errorf("%dth col index: %v", colIndex, err)
+	}
+	return
+}
+
+func (i *Input) MustGetColLine(colIndex int) (newLine []string) {
+	newLine, err := i.GetColLine(colIndex)
+	PanicIfErrorExist(err)
+	return
+}
+
+func (i *Input) MustGetColIntLine(colIndex int) (newLine []int) {
+	newLine, err := i.GetColIntLine(colIndex)
+	PanicIfErrorExist(err)
+	return
 }
 
 func (i *Input) GetLine(index int) ([]string, error) {

@@ -116,3 +116,49 @@ func TestInput_GetLine(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_GetColLine(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		colIndex int
+	}
+	tests := []struct {
+		name        string
+		fields      fields
+		args        args
+		wantNewLine []string
+		wantErr     bool
+	}{
+		{
+			name: "GetColLine",
+			fields: fields{
+				lines: [][]string{
+					{"1", "2", "3"},
+					{"4", "5", "6"},
+				},
+			},
+			args: args{
+				colIndex: 0,
+			},
+			wantNewLine: []string{"1", "4"},
+			wantErr:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			gotNewLine, err := i.GetColLine(tt.args.colIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetColLine() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotNewLine, tt.wantNewLine) {
+				t.Errorf("Input.GetColLine() = %v, want %v", gotNewLine, tt.wantNewLine)
+			}
+		})
+	}
+}

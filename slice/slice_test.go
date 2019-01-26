@@ -116,3 +116,29 @@ func TestReverseValue(t *testing.T) {
 		})
 	}
 }
+
+func TestUniqValue(t *testing.T) {
+	type args struct {
+		values []Value
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues []Value
+	}{
+		{
+			name: "uniq",
+			args: args{
+				values: []Value{1, 2, 2, 3, 1},
+			},
+			wantNewValues: []Value{1, 2, 3},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValues := UniqValue(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("UniqValue() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}

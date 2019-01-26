@@ -45,3 +45,15 @@ func CopyValue(values []Value) []Value {
 	copy(dst, values)
 	return dst
 }
+
+func UniqValue(values []Value) (newValues []Value) {
+	m := map[Value]bool{}
+	for _, value := range values {
+		m[value] = true
+	}
+
+	for key := range m {
+		newValues = append(newValues, key)
+	}
+	return
+}
