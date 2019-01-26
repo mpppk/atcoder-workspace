@@ -90,3 +90,29 @@ func TestMapValue(t *testing.T) {
 		})
 	}
 }
+
+func TestReverseValue(t *testing.T) {
+	type args struct {
+		values []Value
+	}
+	tests := []struct {
+		name string
+		args args
+		want []Value
+	}{
+		{
+			name: "can reverse int slice",
+			args: args{
+				values: []Value{1, 2, 3},
+			},
+			want: []Value{3, 2, 1},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ReverseValue(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReverseValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

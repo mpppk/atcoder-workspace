@@ -2,7 +2,9 @@ package slice
 
 //go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
 
-import "github.com/cheekybits/genny/generic"
+import (
+	"github.com/cheekybits/genny/generic"
+)
 
 type Value generic.Number
 
@@ -28,4 +30,18 @@ func MapValue(values []Value, f func(v Value) Value) (newValues []Value) {
 		newValues = append(newValues, f(value))
 	}
 	return
+}
+
+func ReverseValue(values []Value) []Value {
+	newValues := CopyValue(values)
+	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
+		newValues[i], newValues[j] = values[j], values[i]
+	}
+	return newValues
+}
+
+func CopyValue(values []Value) []Value {
+	dst := make([]Value, len(values))
+	copy(dst, values)
+	return dst
 }
