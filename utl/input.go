@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -20,6 +21,35 @@ func toLines(scanner *bufio.Scanner) [][]string {
 		lines = append(lines, line)
 	}
 	return lines
+}
+
+func toLinesFromReader(reader *bufio.Reader) (lines [][]string, err error) {
+	for {
+		chunks, err := readLineAsChunks(reader)
+		if err == io.EOF {
+			return lines, nil
+		}
+
+		if err != nil {
+			return nil, fmt.Errorf("failed to read line from reader: %v", err)
+		}
+		lineStr := TrimSpaceAndNewLineCodeAndTab(strings.Join(chunks, ""))
+		line := strings.Split(lineStr, " ")
+		lines = append(lines, line)
+	}
+}
+
+func readLineAsChunks(reader *bufio.Reader) (chunks []string, err error) {
+	for {
+		chunk, isPrefix, err := reader.ReadLine()
+		if err != nil {
+			return nil, err
+		}
+		chunks = append(chunks, string(chunk))
+		if !isPrefix {
+			return chunks, nil
+		}
+	}
 }
 
 type Input struct {
@@ -290,4 +320,14 @@ func NewInput(scanner *bufio.Scanner) *Input {
 	return &Input{
 		lines: toLines(scanner),
 	}
+}
+
+func NewInputFromReader(reader *bufio.Reader) (*Input, error) {
+	lines, err := toLinesFromReader(reader)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create new Input from reader: %v", err)
+	}
+	return &Input{
+		lines: lines,
+	}, nil
 }

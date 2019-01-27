@@ -162,3 +162,86 @@ func TestInput_GetColLine(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_MustGetFirstValue(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		rowIndex int
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   string
+	}{
+		{
+			name: "MustGetFirstValue",
+			fields: fields{
+				lines: [][]string{
+					{"foo", "bar", "piyo"},
+					{"foo2", "bar2", "piyo2"},
+				},
+			},
+			args: args{
+				rowIndex: 0,
+			},
+			want: "foo",
+		},
+		{
+			name: "1x1 column",
+			fields: fields{
+				lines: [][]string{
+					{"foo"},
+				},
+			},
+			args: args{
+				rowIndex: 0,
+			},
+			want: "foo",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			if got := i.MustGetFirstValue(tt.args.rowIndex); got != tt.want {
+				t.Errorf("Input.MustGetFirstValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_toLinesFromReader(t *testing.T) {
+	type args struct {
+		reader *bufio.Reader
+	}
+	tests := []struct {
+		name      string
+		args      args
+		wantLines [][]string
+		wantErr   bool
+	}{
+		{
+			name: "toLinesFromReader",
+			args: args{
+				reader: bufio.NewReader(strings.NewReader("1 2 3\n4 5 6")),
+			},
+			wantLines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotLines, err := toLinesFromReader(tt.args.reader)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("toLinesFromReader() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotLines, tt.wantLines) {
+				t.Errorf("toLinesFromReader() = %v, want %v", gotLines, tt.wantLines)
+			}
+		})
+	}
+}

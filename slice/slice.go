@@ -32,20 +32,6 @@ func MapValue(values []Value, f func(v Value) Value) (newValues []Value) {
 	return
 }
 
-func ReverseValue(values []Value) []Value {
-	newValues := CopyValue(values)
-	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
-		newValues[i], newValues[j] = values[j], values[i]
-	}
-	return newValues
-}
-
-func CopyValue(values []Value) []Value {
-	dst := make([]Value, len(values))
-	copy(dst, values)
-	return dst
-}
-
 func UniqValue(values []Value) (newValues []Value) {
 	m := map[Value]bool{}
 	for _, value := range values {
