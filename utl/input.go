@@ -75,6 +75,32 @@ func (i *Input) validateRowIndex(index int) error {
 	return nil
 }
 
+func (i *Input) GetLines(startRowIndex, endRowIndex int) ([][]string, error) {
+	if err := i.validateRowIndex(startRowIndex); err != nil {
+		return nil, fmt.Errorf("invalid start row index: %v", err)
+	}
+	if err := i.validateRowIndex(endRowIndex - 1); err != nil {
+		return nil, fmt.Errorf("invalid end row index: %v", err)
+	}
+	return i.lines[startRowIndex:endRowIndex], nil
+}
+
+func (i *Input) MustGetLines(rowIndex, colIndex int) [][]string {
+	lines, err := i.GetLines(rowIndex, colIndex)
+	PanicIfErrorExist(err)
+	return lines
+}
+
+func (i *Input) MustGetIntLines(rowIndex, colIndex int) (lines [][]int) {
+	strLines := i.MustGetLines(rowIndex, colIndex)
+	for _, strLine := range strLines {
+		line, err := toIntLine(strLine)
+		PanicIfErrorExist(err)
+		lines = append(lines, line)
+	}
+	return lines
+}
+
 func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	line, err := i.GetLine(rowIndex)
 	if err != nil {

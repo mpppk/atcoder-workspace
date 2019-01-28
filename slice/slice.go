@@ -3,6 +3,9 @@ package slice
 //go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/cheekybits/genny/generic"
 )
 
@@ -25,13 +28,6 @@ func FilterValue(values []Value, f func(v Value) bool) (newValues []Value) {
 	return
 }
 
-func MapValue(values []Value, f func(v Value) Value) (newValues []Value) {
-	for _, value := range values {
-		newValues = append(newValues, f(value))
-	}
-	return
-}
-
 func UniqValue(values []Value) (newValues []Value) {
 	m := map[Value]bool{}
 	for _, value := range values {
@@ -42,4 +38,38 @@ func UniqValue(values []Value) (newValues []Value) {
 		newValues = append(newValues, key)
 	}
 	return
+}
+
+func SubtractValueBy(values1 []Value, values2 []Value, f func(v Value) Value) (newValues []Value, err error) {
+	if len(values1) != len(values2) {
+		return nil, errors.New("two values lengths are different")
+	}
+
+	for i := 0; i < len(values1); i++ {
+		fValue1 := f(values1[i])
+		fValue2 := f(values2[i])
+		newValues = append(newValues, fValue1-fValue2)
+	}
+	return newValues, nil
+}
+
+func SubtractValue(values1 []Value, values2 []Value) (newValues []Value, err error) {
+	return SubtractValueBy(values1, values2, func(v Value) Value {
+		return v
+	})
+}
+
+func RDiffValueBy(values []Value, f func(v Value) Value) (newValues []Value, err error) {
+	diffValues := append([]Value{0}, values...)
+	newValues, err = SubtractValueBy(values, diffValues[:len(diffValues)-1], f)
+	if err != nil {
+		return nil, fmt.Errorf("failed to RDiff: %v", err)
+	}
+	return newValues[1:], nil
+}
+
+func RDiffValue(values []Value) (newValues []Value, err error) {
+	return RDiffValueBy(values, func(v Value) Value {
+		return v
+	})
 }

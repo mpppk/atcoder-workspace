@@ -245,3 +245,60 @@ func Test_toLinesFromReader(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_GetLines(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		startRowIndex int
+		endRowIndex   int
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    [][]string
+		wantErr bool
+	}{
+		{
+			name: "GetLines",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}},
+			},
+			args: args{
+				startRowIndex: 0,
+				endRowIndex:   1,
+			},
+			want:    [][]string{{"1", "2", "3"}},
+			wantErr: false,
+		},
+		{
+			name: "GetLines2",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}},
+			},
+			args: args{
+				startRowIndex: 1,
+				endRowIndex:   3,
+			},
+			want:    [][]string{{"4", "5", "6"}, {"7", "8", "9"}},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			got, err := i.GetLines(tt.args.startRowIndex, tt.args.endRowIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetLines() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Input.GetLines() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
