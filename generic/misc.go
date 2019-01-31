@@ -1,4 +1,4 @@
-package slice
+package generic
 
 func GetEachDigitSumValue(n Value) (sum Value) {
 	for _, digit := range ToDigitSliceValue(n) {
