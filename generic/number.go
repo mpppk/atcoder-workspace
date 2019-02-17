@@ -1,4 +1,4 @@
-package slice
+package generic
 
 //go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
 

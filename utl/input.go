@@ -1,3 +1,4 @@
+//go:generate goofy mustify --file input.go
 package utl
 
 import (
@@ -85,22 +86,6 @@ func (i *Input) GetLines(startRowIndex, endRowIndex int) ([][]string, error) {
 	return i.lines[startRowIndex:endRowIndex], nil
 }
 
-func (i *Input) MustGetLines(rowIndex, colIndex int) [][]string {
-	lines, err := i.GetLines(rowIndex, colIndex)
-	PanicIfErrorExist(err)
-	return lines
-}
-
-func (i *Input) MustGetIntLines(rowIndex, colIndex int) (lines [][]int) {
-	strLines := i.MustGetLines(rowIndex, colIndex)
-	for _, strLine := range strLines {
-		line, err := toIntLine(strLine)
-		PanicIfErrorExist(err)
-		lines = append(lines, line)
-	}
-	return lines
-}
-
 func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	line, err := i.GetLine(rowIndex)
 	if err != nil {
@@ -112,37 +97,29 @@ func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	return line[colIndex], nil
 }
 
-func (i *Input) MustGetIntValue(rowIndex, colIndex int) int {
-	value := i.MustGetValue(rowIndex, colIndex)
-	intV, err := strconv.Atoi(value)
-	PanicIfErrorExist(err)
-	return intV
+func (i *Input) GetIntValue(rowIndex, colIndex int) (int, error) {
+	line, err := i.GetLine(rowIndex)
+	if err != nil {
+		return 0, err
+	}
+	if colIndex < 0 || colIndex >= len(line) {
+		return 0, fmt.Errorf("Invalid col index: %v ", colIndex)
+	}
+
+	intV, err := strconv.Atoi(line[colIndex])
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert string to int: %v, %v", line[colIndex], err)
+	}
+
+	return intV, nil
 }
 
-func (i *Input) MustGetFirstIntValue(rowIndex int) int {
-	return i.MustGetIntValue(rowIndex, 0)
+func (i *Input) GetFirstValue(rowIndex int) (string, error) {
+	return i.GetValue(rowIndex, 0)
 }
 
-func (i *Input) MustGetLastIntValue(rowIndex int) int {
-	v := i.MustGetLastValue(rowIndex)
-	intV, err := strconv.Atoi(v)
-	PanicIfErrorExist(err)
-	return intV
-}
-
-func (i *Input) MustGetValue(rowIndex, colIndex int) string {
-	line, err := i.GetValue(rowIndex, colIndex)
-	PanicIfErrorExist(err)
-	return line
-}
-
-func (i *Input) MustGetFirstValue(rowIndex int) string {
-	return i.MustGetValue(rowIndex, 0)
-}
-
-func (i *Input) MustGetLastValue(rowIndex int) string {
-	line := i.MustGetLine(rowIndex)
-	return line[len(line)-1]
+func (i *Input) GetFirstIntValue(rowIndex int) (int, error) {
+	return i.GetIntValue(rowIndex, 0)
 }
 
 func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
@@ -172,29 +149,11 @@ func (i *Input) GetColIntLine(colIndex int) (newLine []int, err error) {
 	return
 }
 
-func (i *Input) MustGetColLine(colIndex int) (newLine []string) {
-	newLine, err := i.GetColLine(colIndex)
-	PanicIfErrorExist(err)
-	return
-}
-
-func (i *Input) MustGetColIntLine(colIndex int) (newLine []int) {
-	newLine, err := i.GetColIntLine(colIndex)
-	PanicIfErrorExist(err)
-	return
-}
-
 func (i *Input) GetLine(index int) ([]string, error) {
 	if err := i.validateRowIndex(index); err != nil {
 		return nil, err
 	}
 	return i.lines[index], nil
-}
-
-func (i *Input) MustGetLine(index int) []string {
-	line, err := i.GetLine(index)
-	PanicIfErrorExist(err)
-	return line
 }
 
 func (i *Input) GetIntLine(index int) ([]int, error) {
@@ -255,32 +214,6 @@ func (i *Input) GetInt64Line(index int) ([]int64, error) {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
 	return newLine, nil
-}
-
-func (i *Input) MustGetIntLine(index int) []int {
-	line, err := i.GetIntLine(index)
-	PanicIfErrorExist(err)
-	return line
-}
-func (i *Input) MustGetInt8Line(index int) []int8 {
-	line, err := i.GetInt8Line(index)
-	PanicIfErrorExist(err)
-	return line
-}
-func (i *Input) MustGetInt16Line(index int) []int16 {
-	line, err := i.GetInt16Line(index)
-	PanicIfErrorExist(err)
-	return line
-}
-func (i *Input) MustGetInt32Line(index int) []int32 {
-	line, err := i.GetInt32Line(index)
-	PanicIfErrorExist(err)
-	return line
-}
-func (i *Input) MustGetInt64Line(index int) []int64 {
-	line, err := i.GetInt64Line(index)
-	PanicIfErrorExist(err)
-	return line
 }
 
 func toInt8Line(line []string) (int8Line []int8, err error) {

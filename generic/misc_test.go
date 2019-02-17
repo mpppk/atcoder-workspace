@@ -70,3 +70,30 @@ func TestGetEachDigitSumValue(t *testing.T) {
 		})
 	}
 }
+
+func TestDigitsToValue(t *testing.T) {
+	type args struct {
+		digits []int8
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "DigitsToValue",
+			args: args{
+				digits: []int8{1, 2, 3},
+			},
+			want: 123,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := DigitsToValue(tt.args.digits); got != tt.want {
+				t.Errorf("DigitsToValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

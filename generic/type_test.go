@@ -1,4 +1,4 @@
-package slice
+package generic
 
 import (
 	"reflect"
@@ -123,6 +123,129 @@ func TestZipType(t *testing.T) {
 			}
 			if !reflect.DeepEqual(gotNewValuesList, tt.wantNewValuesList) {
 				t.Errorf("ZipType() = %v, want %v", gotNewValuesList, tt.wantNewValuesList)
+			}
+		})
+	}
+}
+
+func TestChunkByBits(t *testing.T) {
+	type args struct {
+		values []Type
+		bits   []bool
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues [][]Type
+		wantErr       bool
+	}{
+		{
+			name: "ChunkTypeByBits",
+			args: args{
+				values: []Type{1, 2, 3},
+				bits:   []bool{true, false},
+			},
+			wantNewValues: [][]Type{{1}, {2, 3}},
+			wantErr:       false,
+		},
+		{
+			name: "ChunkByBits2",
+			args: args{
+				values: []Type{1, 2, 3},
+				bits:   []bool{false, true},
+			},
+			wantNewValues: [][]Type{{1, 2}, {3}},
+			wantErr:       false,
+		},
+		{
+			name: "different length",
+			args: args{
+				values: []Type{1, 2, 3, 4},
+				bits:   []bool{true, false},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotNewValues, err := ChunkTypeByBits(tt.args.values, tt.args.bits)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ChunkTypeByBits() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("ChunkTypeByBits() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}
+
+func TestReduceType(t *testing.T) {
+	type args struct {
+		values  []Type
+		f       func(acc, cur Type) Type
+		initial Type
+	}
+	tests := []struct {
+		name         string
+		args         args
+		wantNewValue Type
+	}{
+		{
+			name: "ReduceType",
+			args: args{
+				values: []Type{1, 2, 3},
+				f: func(acc, cur Type) Type {
+					a := acc.(int)
+					c := cur.(int)
+					return a + c
+				},
+				initial: 0,
+			},
+			wantNewValue: 6,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValue := ReduceType(tt.args.values, tt.args.f, tt.args.initial); !reflect.DeepEqual(gotNewValue, tt.wantNewValue) {
+				t.Errorf("ReduceType() = %v, want %v", gotNewValue, tt.wantNewValue)
+			}
+		})
+	}
+}
+
+func TestReduceTypeSlice(t *testing.T) {
+	type args struct {
+		values  [][]Type
+		f       func(acc Type, cur []Type) Type
+		initial Type
+	}
+	tests := []struct {
+		name         string
+		args         args
+		wantNewValue Type
+	}{
+		{
+			name: "ReduceTypeSlice",
+			args: args{
+				values: [][]Type{{1, 2, 3}, {4, 5, 6}},
+				f: func(acc Type, cur []Type) Type {
+					a := acc.(int)
+					for _, c := range cur {
+						cInt := c.(int)
+						a += cInt
+					}
+					return a
+				},
+				initial: 0,
+			},
+			wantNewValue: 21,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValue := ReduceTypeSlice(tt.args.values, tt.args.f, tt.args.initial); !reflect.DeepEqual(gotNewValue, tt.wantNewValue) {
+				t.Errorf("ReduceTypeSlice() = %v, want %v", gotNewValue, tt.wantNewValue)
 			}
 		})
 	}

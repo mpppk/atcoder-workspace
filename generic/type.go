@@ -1,12 +1,29 @@
-package slice
+package generic
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/cheekybits/genny/generic"
 )
 
 type Type generic.Type
+
+func ReduceType(values []Type, f func(acc, cur Type) Type, initial Type) (newValue Type) {
+	newValue = initial
+	for _, value := range values {
+		newValue = f(newValue, value)
+	}
+	return
+}
+
+func ReduceTypeSlice(values [][]Type, f func(acc Type, cur []Type) Type, initial Type) (newValue Type) {
+	newValue = initial
+	for _, value := range values {
+		newValue = f(newValue, value)
+	}
+	return
+}
 
 func CopyType(values []Type) []Type {
 	dst := make([]Type, len(values))
@@ -91,4 +108,22 @@ func EveryTypeSlice(valuesList [][]Type, f func(v []Type) bool) bool {
 		}
 	}
 	return true
+}
+
+func ChunkTypeByBits(values []Type, bits []bool) (newValues [][]Type, err error) {
+	if len(values) != len(bits)+1 {
+		return nil, errors.New(fmt.Sprintf("there are different length between values(%d) and bits(%d)", len(values), len(bits)))
+	}
+
+	var chunk []Type
+	for i, bit := range bits {
+		chunk = append(chunk, values[i])
+		if bit {
+			newValues = append(newValues, chunk)
+			chunk = []Type{}
+		}
+	}
+	chunk = append(chunk, values[len(values)-1])
+	newValues = append(newValues, chunk)
+	return
 }

@@ -1,5 +1,4 @@
 bundled_utl.go
-gen-misc.go
-gen-slice.go
-gen-string.go
 .idea/
+gen-*.go
+must-*.go

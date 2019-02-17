@@ -207,7 +207,10 @@ func TestInput_MustGetFirstValue(t *testing.T) {
 			i := &Input{
 				lines: tt.fields.lines,
 			}
-			if got := i.MustGetFirstValue(tt.args.rowIndex); got != tt.want {
+			if got, err := i.GetFirstValue(tt.args.rowIndex); got != tt.want {
+				if err != nil {
+					t.Errorf("unexpected errror occurred: %v", err)
+				}
 				t.Errorf("Input.MustGetFirstValue() = %v, want %v", got, tt.want)
 			}
 		})
