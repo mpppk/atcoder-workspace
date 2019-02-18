@@ -73,3 +73,14 @@ func RDiffValue(values []Value) (newValues []Value, err error) {
 		return v
 	})
 }
+
+func StringToValueLine(line []string) (ValueLine []Value, err error) {
+	newLine, err := toSpecificBitIntLine(line, 64)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range newLine {
+		ValueLine = append(ValueLine, Value(v))
+	}
+	return
+}

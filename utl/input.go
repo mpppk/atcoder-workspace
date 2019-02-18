@@ -173,7 +173,7 @@ func (i *Input) GetInt8Line(index int) ([]int8, error) {
 		return nil, err
 	}
 
-	newLine, err := toInt8Line(i.lines[index])
+	newLine, err := StringToInt8Line(i.lines[index])
 	if err != nil {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
@@ -185,7 +185,7 @@ func (i *Input) GetInt16Line(index int) ([]int16, error) {
 		return nil, err
 	}
 
-	newLine, err := toInt16Line(i.lines[index])
+	newLine, err := StringToInt16Line(i.lines[index])
 	if err != nil {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
@@ -197,7 +197,8 @@ func (i *Input) GetInt32Line(index int) ([]int32, error) {
 		return nil, err
 	}
 
-	newLine, err := toInt32Line(i.lines[index])
+	newLine, err := StringToInt32Line(i.lines[index])
+	//newLine, err := toInt32Line(i.lines[index])
 	if err != nil {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
@@ -209,49 +210,50 @@ func (i *Input) GetInt64Line(index int) ([]int64, error) {
 		return nil, err
 	}
 
-	newLine, err := toInt64Line(i.lines[index])
+	newLine, err := StringToInt64Line(i.lines[index])
+	//newLine, err := toInt64Line(i.lines[index])
 	if err != nil {
 		return nil, fmt.Errorf("%dth index: %v", index, err)
 	}
 	return newLine, nil
 }
 
-func toInt8Line(line []string) (int8Line []int8, err error) {
-	newLine, err := toSpecificBitIntLine(line, 8)
-	if err != nil {
-		return nil, err
-	}
-	for _, v := range newLine {
-		int8Line = append(int8Line, int8(v))
-	}
-	return
-}
-
-func toInt16Line(line []string) (int16Line []int16, err error) {
-	newLine, err := toSpecificBitIntLine(line, 16)
-	if err != nil {
-		return nil, err
-	}
-	for _, v := range newLine {
-		int16Line = append(int16Line, int16(v))
-	}
-	return
-}
-
-func toInt32Line(line []string) (int32Line []int32, err error) {
-	newLine, err := toSpecificBitIntLine(line, 32)
-	if err != nil {
-		return nil, err
-	}
-	for _, v := range newLine {
-		int32Line = append(int32Line, int32(v))
-	}
-	return
-}
-
-func toInt64Line(line []string) ([]int64, error) {
-	return toSpecificBitIntLine(line, 64)
-}
+//func toInt8Line(line []string) (int8Line []int8, err error) {
+//	newLine, err := toSpecificBitIntLine(line, 8)
+//	if err != nil {
+//		return nil, err
+//	}
+//	for _, v := range newLine {
+//		int8Line = append(int8Line, int8(v))
+//	}
+//	return
+//}
+//
+//func toInt16Line(line []string) (int16Line []int16, err error) {
+//	newLine, err := toSpecificBitIntLine(line, 16)
+//	if err != nil {
+//		return nil, err
+//	}
+//	for _, v := range newLine {
+//		int16Line = append(int16Line, int16(v))
+//	}
+//	return
+//}
+//
+//func toInt32Line(line []string) (int32Line []int32, err error) {
+//	newLine, err := toSpecificBitIntLine(line, 32)
+//	if err != nil {
+//		return nil, err
+//	}
+//	for _, v := range newLine {
+//		int32Line = append(int32Line, int32(v))
+//	}
+//	return
+//}
+//
+//func toInt64Line(line []string) ([]int64, error) {
+//	return toSpecificBitIntLine(line, 64)
+//}
 
 func toIntLine(line []string) (intLine []int, err error) {
 	for j, v := range line {
@@ -264,16 +266,16 @@ func toIntLine(line []string) (intLine []int, err error) {
 	return intLine, nil
 }
 
-func toSpecificBitIntLine(line []string, bitSize int) (intLine []int64, err error) {
-	for j, v := range line {
-		intV, err := strconv.ParseInt(v, 10, bitSize)
-		if err != nil {
-			return nil, fmt.Errorf(fmt.Sprintf("%dth value: %v", j, err.Error()))
-		}
-		intLine = append(intLine, intV)
-	}
-	return intLine, nil
-}
+//func toSpecificBitIntLine(line []string, bitSize int) (intLine []int64, err error) {
+//	for j, v := range line {
+//		intV, err := strconv.ParseInt(v, 10, bitSize)
+//		if err != nil {
+//			return nil, fmt.Errorf(fmt.Sprintf("%dth value: %v", j, err.Error()))
+//		}
+//		intLine = append(intLine, intV)
+//	}
+//	return intLine, nil
+//}
 
 func NewInput(scanner *bufio.Scanner) *Input {
 	return &Input{

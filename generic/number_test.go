@@ -162,3 +162,36 @@ func TestRDiffValueBy(t *testing.T) {
 		})
 	}
 }
+
+func TestStringToValueLine(t *testing.T) {
+	type args struct {
+		line []string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantValueLine []Value
+		wantErr       bool
+	}{
+		{
+			name: "StringToValueLine",
+			args: args{
+				line: []string{"1", "2", "3"},
+			},
+			wantValueLine: []Value{1, 2, 3},
+			wantErr:       false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotValueLine, err := StringToValueLine(tt.args.line)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("StringtoValueLine() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotValueLine, tt.wantValueLine) {
+				t.Errorf("StringtoValueLine() = %v, want %v", gotValueLine, tt.wantValueLine)
+			}
+		})
+	}
+}
