@@ -21,10 +21,12 @@ bundle-utl: generate
 .PHONY: generate
 generate:
 	genny -in='./generic/number.go' -out='./generic/gen-number.go' gen "Value=int,int8,int16,int32,int64,float32,float64"
+	genny -in='./generic/number2.go' -out='./generic/gen-number2.go' gen "ZZZ=int,int8,int16,int32,int64,float32,float64 Type=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./generic/int.go' -out='./generic/gen-int.go' gen "Value=int,int8,int16,int32,int64"
 	genny -in='./generic/type.go' -out='./generic/gen-type.go' gen "Type=rune,string,int,int8,int16,int32,int64,float32,float64"
 	genny -in='./generic/misc.go' -out='./generic/gen-misc.go' gen "Value=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./generic/number.go' -out='./utl/gen-number.go' -pkg utl gen "Value=int,int8,int16,int32,int64,float32,float64"
+	genny -in='./generic/number2.go' -out='./utl/gen-number2.go' -pkg utl gen "ZZZ=int,int8,int16,int32,int64,float32,float64 Type=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./generic/int.go' -out='./utl/gen-int.go' -pkg utl gen "Value=int,int8,int16,int32,int64"
 	genny -in='./generic/type.go' -out='./utl/gen-type.go' -pkg utl gen "Type=rune,string,int,int8,int16,int32,int64,float32,float64"
 	genny -in='./generic/misc.go' -out='./utl/gen-misc.go' -pkg utl gen "Value=int,int8,int16,int32,int64,float32,float64"
@@ -32,6 +34,8 @@ generate:
 	goimports -w ./utl/must-input.go
 	goofy mustify --file ./utl/gen-number.go --out ./utl/must-gen-number.go
 	goimports -w ./utl/must-gen-number.go
+	goofy mustify --file ./utl/gen-number2.go --out ./utl/must-gen-number2.go
+	goimports -w ./utl/must-gen-number2.go
 	goofy mustify --file ./utl/gen-int.go --out ./utl/must-gen-int.go
 	goimports -w ./utl/must-gen-int.go
 	goofy mustify --file ./utl/gen-type.go --out ./utl/must-gen-type.go

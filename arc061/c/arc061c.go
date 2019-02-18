@@ -11,10 +11,7 @@ import (
 func solve(input *utl_Input) int {
 	n := input.MustGetFirstIntValue(0)
 	int8Nums := utl_ToDigitSliceInt(n)
-	var nums []int
-	for _, int8num := range int8Nums { // FIXME
-		nums = append(nums, int(int8num))
-	}
+	nums := utl_Int8SliceToIntSlice(int8Nums)
 
 	if len(nums) == 1 {
 		return nums[0]
@@ -27,10 +24,7 @@ func solve(input *utl_Input) int {
 		bits := utl_IntToBits(i, len(nums)-1)
 		chunks := utl_MustChunkIntByBits(nums, bits)
 		sum := utl_ReduceIntSlice(chunks, func(acc int, cur []int) int {
-			var int8Cur []int8
-			for _, c := range cur {
-				int8Cur = append(int8Cur, int8(c))
-			}
+			int8Cur := utl_IntSliceToInt8Slice(cur)
 			joinedC := utl_DigitsToInt(int8Cur)
 			return acc + joinedC
 		}, 0)
@@ -40,7 +34,6 @@ func solve(input *utl_Input) int {
 }
 
 func main() {
-	input, err := utl_NewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
-	utl_PanicIfErrorExist(err)
+	input := utl_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }

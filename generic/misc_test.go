@@ -78,14 +78,14 @@ func TestDigitsToValue(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want int
+		want Value
 	}{
 		{
 			name: "DigitsToValue",
 			args: args{
 				digits: []int8{1, 2, 3},
 			},
-			want: 123,
+			want: Value(123),
 		},
 	}
 
