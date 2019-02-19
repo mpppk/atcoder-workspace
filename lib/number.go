@@ -1,4 +1,4 @@
-package generic
+package lib
 
 //go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "AAA=int,int16,int32,int64,float32,float64"
 

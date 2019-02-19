@@ -8,12 +8,12 @@ import (
 	"os"
 )
 
-func solve(input *generic_Input) float64 {
+func solve(input *lib_Input) float64 {
 	points := input.MustGetIntLines()
 	points = points[1:]
 
 	maxLength := 0.0
-	for _, c := range generic_MustIntSliceCombination(points, 2) {
+	for _, c := range lib_MustIntSliceCombination(points, 2) {
 		a := c[0]
 		b := c[1]
 
@@ -29,6 +29,6 @@ func solve(input *generic_Input) float64 {
 }
 
 func main() {
-	input := generic_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
+	input := lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }

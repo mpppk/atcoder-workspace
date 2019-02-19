@@ -77,8 +77,8 @@ func Test_solve(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		reader := bufio.NewReader(strings.NewReader(generic_TrimSpaceAndNewLineCodeAndTab(tt.input)))
-		input, err := generic_NewInputFromReader(reader)
+		reader := bufio.NewReader(strings.NewReader(lib_TrimSpaceAndNewLineCodeAndTab(tt.input)))
+		input, err := lib_NewInputFromReader(reader)
 		if err != nil {
 			t.Errorf("unexpected error occurred in test %s: %v", tt.name, err)
 		}

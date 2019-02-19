@@ -1,4 +1,4 @@
-package generic
+package lib
 
 import "github.com/cheekybits/genny/generic"
 

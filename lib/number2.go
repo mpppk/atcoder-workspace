@@ -1,4 +1,4 @@
-package generic
+package lib
 
 func AAASliceToBBBSlice(values []AAA) (newValues []BBB) {
 	for _, value := range values {

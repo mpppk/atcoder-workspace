@@ -1,5 +1,5 @@
 //go:generate goofy mustify --file input.go
-package generic
+package lib
 
 import (
 	"bufio"
