@@ -258,3 +258,39 @@ func TestInput_GetColAAALine(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_GetAAALines(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	tests := []struct {
+		name         string
+		fields       fields
+		wantNewLines [][]AAA
+		wantErr      bool
+	}{
+		{
+			name: "GetAAALines",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			wantNewLines: [][]AAA{{1, 2, 3}, {4, 5, 6}},
+			wantErr:      false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			gotNewLines, err := i.GetAAALines()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetAAALines() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotNewLines, tt.wantNewLines) {
+				t.Errorf("Input.GetAAALines() = %v, want %v", gotNewLines, tt.wantNewLines)
+			}
+		})
+	}
+}

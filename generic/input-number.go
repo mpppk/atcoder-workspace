@@ -5,6 +5,17 @@ import (
 	"strconv"
 )
 
+func (i *Input) GetAAALines() (newLines [][]AAA, err error) {
+	for index := range i.lines {
+		newLine, err := i.GetAAALine(index)
+		if err != nil {
+			return nil, err
+		}
+		newLines = append(newLines, newLine)
+	}
+	return
+}
+
 func (i *Input) GetAAALine(index int) ([]AAA, error) {
 	if err := i.validateRowIndex(index); err != nil {
 		return nil, err
