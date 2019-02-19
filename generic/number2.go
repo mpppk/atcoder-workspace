@@ -1,8 +1,8 @@
 package generic
 
-func ZZZSliceToTypeSlice(values []ZZZ) (newValues []Type) {
+func AAASliceToBBBSlice(values []AAA) (newValues []BBB) {
 	for _, value := range values {
-		newValues = append(newValues, Type(value))
+		newValues = append(newValues, BBB(value))
 	}
 	return
 }

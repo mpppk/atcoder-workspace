@@ -5,27 +5,27 @@ import (
 	"testing"
 )
 
-func TestZZZSliceToTypeSlice(t *testing.T) {
+func TestAAAliceToBBBBSlice(t *testing.T) {
 	type args struct {
-		values []ZZZ
+		values []AAA
 	}
 	tests := []struct {
 		name          string
 		args          args
-		wantNewValues []Type
+		wantNewValues []BBB
 	}{
 		{
 			name: "ZZZTypeSliceToTypeSlice",
 			args: args{
-				values: []ZZZ{1, 2, 3},
+				values: []AAA{1, 2, 3},
 			},
-			wantNewValues: []Type{1, 2, 3},
+			wantNewValues: []BBB{1, 2, 3},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotNewValues := ZZZSliceToTypeSlice(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("ZZZSliceToTypeSlice() = %v, want %v", gotNewValues, tt.wantNewValues)
+			if gotNewValues := AAASliceToBBBSlice(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("AAASliceToBBBSlice() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
 	}

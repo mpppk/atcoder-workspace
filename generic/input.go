@@ -1,5 +1,5 @@
 //go:generate goofy mustify --file input.go
-package utl
+package generic
 
 import (
 	"bufio"
@@ -156,103 +156,66 @@ func (i *Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
-func (i *Input) GetIntLine(index int) ([]int, error) {
-	if err := i.validateRowIndex(index); err != nil {
-		return nil, err
-	}
-
-	newLine, err := toIntLine(i.lines[index])
-	if err != nil {
-		return nil, fmt.Errorf("%dth index: %v", index, err)
-	}
-	return newLine, nil
-}
-
-func (i *Input) GetInt8Line(index int) ([]int8, error) {
-	if err := i.validateRowIndex(index); err != nil {
-		return nil, err
-	}
-
-	newLine, err := StringToInt8Line(i.lines[index])
-	if err != nil {
-		return nil, fmt.Errorf("%dth index: %v", index, err)
-	}
-	return newLine, nil
-}
-
-func (i *Input) GetInt16Line(index int) ([]int16, error) {
-	if err := i.validateRowIndex(index); err != nil {
-		return nil, err
-	}
-
-	newLine, err := StringToInt16Line(i.lines[index])
-	if err != nil {
-		return nil, fmt.Errorf("%dth index: %v", index, err)
-	}
-	return newLine, nil
-}
-
-func (i *Input) GetInt32Line(index int) ([]int32, error) {
-	if err := i.validateRowIndex(index); err != nil {
-		return nil, err
-	}
-
-	newLine, err := StringToInt32Line(i.lines[index])
-	//newLine, err := toInt32Line(i.lines[index])
-	if err != nil {
-		return nil, fmt.Errorf("%dth index: %v", index, err)
-	}
-	return newLine, nil
-}
-
-func (i *Input) GetInt64Line(index int) ([]int64, error) {
-	if err := i.validateRowIndex(index); err != nil {
-		return nil, err
-	}
-
-	newLine, err := StringToInt64Line(i.lines[index])
-	//newLine, err := toInt64Line(i.lines[index])
-	if err != nil {
-		return nil, fmt.Errorf("%dth index: %v", index, err)
-	}
-	return newLine, nil
-}
-
-//func toInt8Line(line []string) (int8Line []int8, err error) {
-//	newLine, err := toSpecificBitIntLine(line, 8)
-//	if err != nil {
+//func (i *Input) GetIntLine(index int) ([]int, error) {
+//	if err := i.validateRowIndex(index); err != nil {
 //		return nil, err
 //	}
-//	for _, v := range newLine {
-//		int8Line = append(int8Line, int8(v))
+//
+//	newLine, err := toIntLine(i.lines[index])
+//	if err != nil {
+//		return nil, fmt.Errorf("%dth index: %v", index, err)
 //	}
-//	return
+//	return newLine, nil
 //}
 //
-//func toInt16Line(line []string) (int16Line []int16, err error) {
-//	newLine, err := toSpecificBitIntLine(line, 16)
-//	if err != nil {
+//func (i *Input) GetInt8Line(index int) ([]int8, error) {
+//	if err := i.validateRowIndex(index); err != nil {
 //		return nil, err
 //	}
-//	for _, v := range newLine {
-//		int16Line = append(int16Line, int16(v))
+//
+//	newLine, err := StringToInt8Line(i.lines[index])
+//	if err != nil {
+//		return nil, fmt.Errorf("%dth index: %v", index, err)
 //	}
-//	return
+//	return newLine, nil
 //}
 //
-//func toInt32Line(line []string) (int32Line []int32, err error) {
-//	newLine, err := toSpecificBitIntLine(line, 32)
-//	if err != nil {
+//func (i *Input) GetInt16Line(index int) ([]int16, error) {
+//	if err := i.validateRowIndex(index); err != nil {
 //		return nil, err
 //	}
-//	for _, v := range newLine {
-//		int32Line = append(int32Line, int32(v))
+//
+//	newLine, err := StringToInt16Line(i.lines[index])
+//	if err != nil {
+//		return nil, fmt.Errorf("%dth index: %v", index, err)
 //	}
-//	return
+//	return newLine, nil
 //}
 //
-//func toInt64Line(line []string) ([]int64, error) {
-//	return toSpecificBitIntLine(line, 64)
+//func (i *Input) GetInt32Line(index int) ([]int32, error) {
+//	if err := i.validateRowIndex(index); err != nil {
+//		return nil, err
+//	}
+//
+//	newLine, err := StringToInt32Line(i.lines[index])
+//	//newLine, err := toInt32Line(i.lines[index])
+//	if err != nil {
+//		return nil, fmt.Errorf("%dth index: %v", index, err)
+//	}
+//	return newLine, nil
+//}
+//
+//func (i *Input) GetInt64Line(index int) ([]int64, error) {
+//	if err := i.validateRowIndex(index); err != nil {
+//		return nil, err
+//	}
+//
+//	newLine, err := StringToInt64Line(i.lines[index])
+//	//newLine, err := toInt64Line(i.lines[index])
+//	if err != nil {
+//		return nil, fmt.Errorf("%dth index: %v", index, err)
+//	}
+//	return newLine, nil
 //}
 
 func toIntLine(line []string) (intLine []int, err error) {

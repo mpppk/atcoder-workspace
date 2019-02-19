@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ValueToBits(value Value, minDigits int) (bits []bool) {
+func AAAToBits(value AAA, minDigits int) (bits []bool) {
 	bin := fmt.Sprintf("%b", int(value))
 	digits := 0
 	for _, b := range bin {

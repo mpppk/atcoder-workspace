@@ -7,25 +7,25 @@ import (
 
 func TestSumValue(t *testing.T) {
 	type args struct {
-		values []Value
+		values []AAA
 	}
 	tests := []struct {
 		name string
 		args args
-		want Value
+		want AAA
 	}{
 		{
 			name: "can calc sum",
 			args: args{
-				values: []Value{0, 1, 2},
+				values: []AAA{0, 1, 2},
 			},
 			want: 3,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SumValue(tt.args.values); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SumValue() = %v, want %v", got, tt.want)
+			if got := SumAAA(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SumAAA() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -33,29 +33,29 @@ func TestSumValue(t *testing.T) {
 
 func TestFilterValue(t *testing.T) {
 	type args struct {
-		values []Value
-		f      func(v Value) bool
+		values []AAA
+		f      func(v AAA) bool
 	}
 	tests := []struct {
 		name          string
 		args          args
-		wantNewValues []Value
+		wantNewValues []AAA
 	}{
 		{
 			name: "can filter",
 			args: args{
-				values: []Value{1, 2, 3},
-				f: func(v Value) bool {
+				values: []AAA{1, 2, 3},
+				f: func(v AAA) bool {
 					return v == 2
 				},
 			},
-			wantNewValues: []Value{2},
+			wantNewValues: []AAA{2},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotNewValues := FilterValue(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("FilterValue() = %v, want %v", gotNewValues, tt.wantNewValues)
+			if gotNewValues := FilterAAA(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("FilterAAA() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
 	}
@@ -63,25 +63,25 @@ func TestFilterValue(t *testing.T) {
 
 func TestUniqValue(t *testing.T) {
 	type args struct {
-		values []Value
+		values []AAA
 	}
 	tests := []struct {
 		name          string
 		args          args
-		wantNewValues []Value
+		wantNewValues []AAA
 	}{
 		{
 			name: "uniq",
 			args: args{
-				values: []Value{1, 2, 2, 3, 1},
+				values: []AAA{1, 2, 2, 3, 1},
 			},
-			wantNewValues: []Value{1, 2, 3},
+			wantNewValues: []AAA{1, 2, 3},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotNewValues := UniqValue(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("UniqValue() = %v, want %v", gotNewValues, tt.wantNewValues)
+			if gotNewValues := UniqAAA(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("UniqAAA() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
 	}
@@ -89,38 +89,38 @@ func TestUniqValue(t *testing.T) {
 
 func TestSubtractValueBy(t *testing.T) {
 	type args struct {
-		values1 []Value
-		values2 []Value
-		f       func(v Value) Value
+		values1 []AAA
+		values2 []AAA
+		f       func(v AAA) AAA
 	}
 	tests := []struct {
 		name          string
 		args          args
-		wantNewValues []Value
+		wantNewValues []AAA
 		wantErr       bool
 	}{
 		{
-			name: "SubtractValueBy",
+			name: "SubtractAAABy",
 			args: args{
-				values1: []Value{4, 5, 6},
-				values2: []Value{3, 2, 1},
-				f: func(v Value) Value {
+				values1: []AAA{4, 5, 6},
+				values2: []AAA{3, 2, 1},
+				f: func(v AAA) AAA {
 					return v
 				},
 			},
-			wantNewValues: []Value{1, 3, 5},
+			wantNewValues: []AAA{1, 3, 5},
 			wantErr:       false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotNewValues, err := SubtractValueBy(tt.args.values1, tt.args.values2, tt.args.f)
+			gotNewValues, err := SubtractAAABy(tt.args.values1, tt.args.values2, tt.args.f)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("SubtractValueBy() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SubtractAAABy() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("SubtractValueBy() = %v, want %v", gotNewValues, tt.wantNewValues)
+				t.Errorf("SubtractAAABy() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
 	}
@@ -128,36 +128,36 @@ func TestSubtractValueBy(t *testing.T) {
 
 func TestRDiffValueBy(t *testing.T) {
 	type args struct {
-		values []Value
-		f      func(v Value) Value
+		values []AAA
+		f      func(v AAA) AAA
 	}
 	tests := []struct {
 		name          string
 		args          args
-		wantNewValues []Value
+		wantNewValues []AAA
 		wantErr       bool
 	}{
 		{
-			name: "RDiffValueBy",
+			name: "RDiffAAABy",
 			args: args{
-				values: []Value{1, 2, 4},
-				f: func(v Value) Value {
+				values: []AAA{1, 2, 4},
+				f: func(v AAA) AAA {
 					return v
 				},
 			},
-			wantNewValues: []Value{1, 2},
+			wantNewValues: []AAA{1, 2},
 			wantErr:       false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotNewValues, err := RDiffValueBy(tt.args.values, tt.args.f)
+			gotNewValues, err := RDiffAAABy(tt.args.values, tt.args.f)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("RDiffValueBy() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("RDiffAAABy() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("RDiffValueBy() = %v, want %v", gotNewValues, tt.wantNewValues)
+				t.Errorf("RDiffAAABy() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
 	}
@@ -170,21 +170,21 @@ func TestStringToValueLine(t *testing.T) {
 	tests := []struct {
 		name          string
 		args          args
-		wantValueLine []Value
+		wantValueLine []AAA
 		wantErr       bool
 	}{
 		{
-			name: "StringToValueLine",
+			name: "StringToAAALine",
 			args: args{
 				line: []string{"1", "2", "3"},
 			},
-			wantValueLine: []Value{1, 2, 3},
+			wantValueLine: []AAA{1, 2, 3},
 			wantErr:       false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotValueLine, err := StringToValueLine(tt.args.line)
+			gotValueLine, err := StringToAAALine(tt.args.line)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("StringtoValueLine() error = %v, wantErr %v", err, tt.wantErr)
 				return

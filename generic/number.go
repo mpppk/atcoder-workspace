@@ -1,25 +1,21 @@
 package generic
 
-//go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "Value=int,int16,int32,int64,float32,float64"
+//go:generate genny -in=$GOFILE -out=../gen-$GOFILE gen "AAA=int,int16,int32,int64,float32,float64"
 
 import (
 	"errors"
 	"fmt"
-
-	"github.com/cheekybits/genny/generic"
 )
 
-type Value generic.Number
-
-func SumValue(values []Value) Value {
-	var sum Value = 0
+func SumAAA(values []AAA) AAA {
+	var sum AAA = 0
 	for _, value := range values {
 		sum += value
 	}
 	return sum
 }
 
-func FilterValue(values []Value, f func(v Value) bool) (newValues []Value) {
+func FilterAAA(values []AAA, f func(v AAA) bool) (newValues []AAA) {
 	for _, value := range values {
 		if f(value) {
 			newValues = append(newValues, value)
@@ -28,8 +24,8 @@ func FilterValue(values []Value, f func(v Value) bool) (newValues []Value) {
 	return
 }
 
-func UniqValue(values []Value) (newValues []Value) {
-	m := map[Value]bool{}
+func UniqAAA(values []AAA) (newValues []AAA) {
+	m := map[AAA]bool{}
 	for _, value := range values {
 		m[value] = true
 	}
@@ -40,7 +36,7 @@ func UniqValue(values []Value) (newValues []Value) {
 	return
 }
 
-func SubtractValueBy(values1 []Value, values2 []Value, f func(v Value) Value) (newValues []Value, err error) {
+func SubtractAAABy(values1 []AAA, values2 []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
 	if len(values1) != len(values2) {
 		return nil, errors.New("two values lengths are different")
 	}
@@ -53,34 +49,34 @@ func SubtractValueBy(values1 []Value, values2 []Value, f func(v Value) Value) (n
 	return newValues, nil
 }
 
-func SubtractValue(values1 []Value, values2 []Value) (newValues []Value, err error) {
-	return SubtractValueBy(values1, values2, func(v Value) Value {
+func SubtractAAA(values1 []AAA, values2 []AAA) (newValues []AAA, err error) {
+	return SubtractAAABy(values1, values2, func(v AAA) AAA {
 		return v
 	})
 }
 
-func RDiffValueBy(values []Value, f func(v Value) Value) (newValues []Value, err error) {
-	diffValues := append([]Value{0}, values...)
-	newValues, err = SubtractValueBy(values, diffValues[:len(diffValues)-1], f)
+func RDiffAAABy(values []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
+	diffValues := append([]AAA{0}, values...)
+	newValues, err = SubtractAAABy(values, diffValues[:len(diffValues)-1], f)
 	if err != nil {
 		return nil, fmt.Errorf("failed to RDiff: %v", err)
 	}
 	return newValues[1:], nil
 }
 
-func RDiffValue(values []Value) (newValues []Value, err error) {
-	return RDiffValueBy(values, func(v Value) Value {
+func RDiffAAA(values []AAA) (newValues []AAA, err error) {
+	return RDiffAAABy(values, func(v AAA) AAA {
 		return v
 	})
 }
 
-func StringToValueLine(line []string) (ValueLine []Value, err error) {
+func StringToAAALine(line []string) (ValueLine []AAA, err error) {
 	newLine, err := toSpecificBitIntLine(line, 64)
 	if err != nil {
 		return nil, err
 	}
 	for _, v := range newLine {
-		ValueLine = append(ValueLine, Value(v))
+		ValueLine = append(ValueLine, AAA(v))
 	}
 	return
 }

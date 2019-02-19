@@ -7,7 +7,7 @@ import (
 
 func TestValueToBits(t *testing.T) {
 	type args struct {
-		value     Value
+		value     AAA
 		minDigits int
 	}
 	tests := []struct {
@@ -16,7 +16,7 @@ func TestValueToBits(t *testing.T) {
 		wantBits []bool
 	}{
 		{
-			name: "ValueToBits",
+			name: "AAAToBits",
 			args: args{
 				value:     0,
 				minDigits: 1,
@@ -24,7 +24,7 @@ func TestValueToBits(t *testing.T) {
 			wantBits: []bool{false},
 		},
 		{
-			name: "ValueToBits",
+			name: "AAAToBits",
 			args: args{
 				value:     0,
 				minDigits: 3,
@@ -42,8 +42,8 @@ func TestValueToBits(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotBits := ValueToBits(tt.args.value, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
-				t.Errorf("ValueToBits() = %v, want %v", gotBits, tt.wantBits)
+			if gotBits := AAAToBits(tt.args.value, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
+				t.Errorf("AAAToBits() = %v, want %v", gotBits, tt.wantBits)
 			}
 		})
 	}

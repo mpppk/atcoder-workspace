@@ -7,7 +7,7 @@ import (
 
 func TestToDigitSliceValue(t *testing.T) {
 	type args struct {
-		n Value
+		n AAA
 	}
 	tests := []struct {
 		name       string
@@ -24,8 +24,8 @@ func TestToDigitSliceValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotDigits := ToDigitSliceValue(tt.args.n); !reflect.DeepEqual(gotDigits, tt.wantDigits) {
-				t.Errorf("ToDigitSliceValue() = %v, want %v", gotDigits, tt.wantDigits)
+			if gotDigits := ToDigitSliceAAA(tt.args.n); !reflect.DeepEqual(gotDigits, tt.wantDigits) {
+				t.Errorf("ToDigitSliceAAA() = %v, want %v", gotDigits, tt.wantDigits)
 			}
 		})
 	}
@@ -33,12 +33,12 @@ func TestToDigitSliceValue(t *testing.T) {
 
 func TestGetEachDigitSumValue(t *testing.T) {
 	type args struct {
-		n Value
+		n AAA
 	}
 	tests := []struct {
 		name    string
 		args    args
-		wantSum Value
+		wantSum AAA
 	}{
 		{
 			name: "can sum int slice digits",
@@ -64,8 +64,8 @@ func TestGetEachDigitSumValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotSum := GetEachDigitSumValue(tt.args.n); !reflect.DeepEqual(gotSum, tt.wantSum) {
-				t.Errorf("GetEachDigitSumValue() = %v, want %v", gotSum, tt.wantSum)
+			if gotSum := GetEachDigitSumAAA(tt.args.n); !reflect.DeepEqual(gotSum, tt.wantSum) {
+				t.Errorf("GetEachDigitSumAAA() = %v, want %v", gotSum, tt.wantSum)
 			}
 		})
 	}
@@ -78,21 +78,21 @@ func TestDigitsToValue(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want Value
+		want AAA
 	}{
 		{
-			name: "DigitsToValue",
+			name: "DigitsToAAA",
 			args: args{
 				digits: []int8{1, 2, 3},
 			},
-			want: Value(123),
+			want: AAA(123),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DigitsToValue(tt.args.digits); got != tt.want {
-				t.Errorf("DigitsToValue() = %v, want %v", got, tt.want)
+			if got := DigitsToAAA(tt.args.digits); got != tt.want {
+				t.Errorf("DigitsToAAA() = %v, want %v", got, tt.want)
 			}
 		})
 	}
