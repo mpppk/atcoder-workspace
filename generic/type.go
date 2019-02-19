@@ -123,3 +123,84 @@ func ChunkZZZByBits(values []ZZZ, bits []bool) (newValues [][]ZZZ, err error) {
 	newValues = append(newValues, chunk)
 	return
 }
+
+func UnsetZZZ(values []ZZZ, i int) ([]ZZZ, error) {
+	if i < 0 {
+		return nil, fmt.Errorf("negative number index is given: %d", i)
+	}
+
+	if i >= len(values) {
+		return nil, fmt.Errorf("index(%d) is larger than slice length(%d)", i, len(values))
+	}
+
+	if len(values) == 1 {
+		return []ZZZ{}, nil
+	}
+
+	if i == len(values)-1 {
+		return values[:len(values)-1], nil
+	}
+
+	newValues := make([]ZZZ, len(values))
+	copy(newValues, values)
+	return append(newValues[:i], newValues[i+1:]...), nil
+}
+
+func ZZZCombination(values []ZZZ, r int) (combinations [][]ZZZ, err error) {
+	if r == 1 {
+		for _, value := range values {
+			combinations = append(combinations, []ZZZ{value})
+		}
+		return
+	}
+
+	for i := range values {
+		fmt.Println(i, values)
+		newValues := values
+		for j := 0; j <= i; j++ {
+			newValues = newValues[1:]
+			if err != nil {
+				return nil, err
+			}
+		}
+		partialCombinations, err := ZZZCombination(newValues, r-1)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, pc := range partialCombinations {
+			newC := append(pc, values[i])
+			combinations = append(combinations, newC)
+		}
+	}
+	return
+}
+
+func ZZZSliceCombination(values [][]ZZZ, r int) (combinations [][][]ZZZ, err error) {
+	if r == 1 {
+		for _, value := range values {
+			combinations = append(combinations, [][]ZZZ{value})
+		}
+		return
+	}
+
+	for i := range values {
+		newValues := values
+		for j := 0; j <= i; j++ {
+			newValues = newValues[1:]
+			if err != nil {
+				return nil, err
+			}
+		}
+		partialCombinations, err := ZZZSliceCombination(newValues, r-1)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, pc := range partialCombinations {
+			newC := append(pc, values[i])
+			combinations = append(combinations, newC)
+		}
+	}
+	return
+}

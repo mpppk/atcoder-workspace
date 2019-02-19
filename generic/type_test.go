@@ -250,3 +250,153 @@ func TestReduceTypeSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestUnsetZZZ(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		i      int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []ZZZ
+		wantErr bool
+	}{
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      4,
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      -1,
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      0,
+			},
+			want:    []ZZZ{2, 3, 4},
+			wantErr: false,
+		},
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      1,
+			},
+			want:    []ZZZ{1, 3, 4},
+			wantErr: false,
+		},
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      2,
+			},
+			want:    []ZZZ{1, 2, 4},
+			wantErr: false,
+		},
+		{
+			name: "UnsetZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3, 4},
+				i:      3,
+			},
+			want:    []ZZZ{1, 2, 3},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := UnsetZZZ(tt.args.values, tt.args.i)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("UnsetZZZ() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UnsetZZZ() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestAAACombination(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		r      int
+	}
+	tests := []struct {
+		name             string
+		args             args
+		wantCombinations [][]ZZZ
+		wantErr          bool
+	}{
+		{
+			name: "ZZZCombination",
+			args: args{
+				values: []ZZZ{1, 2, 3},
+				r:      2,
+			},
+			wantCombinations: [][]ZZZ{{2, 1}, {3, 1}, {3, 2}}, // FIXME ignore sequence
+			wantErr:          false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotCombinations, err := ZZZCombination(tt.args.values, tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ZZZCombination() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotCombinations, tt.wantCombinations) {
+				t.Errorf("ZZZCombination() = %v, want %v", gotCombinations, tt.wantCombinations)
+			}
+		})
+	}
+}
+
+func TestZZZSliceCombination(t *testing.T) {
+	type args struct {
+		values [][]ZZZ
+		r      int
+	}
+	tests := []struct {
+		name             string
+		args             args
+		wantCombinations [][][]ZZZ
+		wantErr          bool
+	}{
+		{
+			name: "ZZZCombination",
+			args: args{
+				values: [][]ZZZ{{1, 1}, {2, 2}, {3, 3}},
+				r:      2,
+			},
+			wantCombinations: [][][]ZZZ{{{2, 2}, {1, 1}}, {{3, 3}, {1, 1}}, {{3, 3}, {2, 2}}}, // FIXME ignore sequence
+			wantErr:          false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotCombinations, err := ZZZSliceCombination(tt.args.values, tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ZZZSliceCombination() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotCombinations, tt.wantCombinations) {
+				t.Errorf("ZZZSliceCombination() = %v, want %v", gotCombinations, tt.wantCombinations)
+			}
+		})
+	}
+}
