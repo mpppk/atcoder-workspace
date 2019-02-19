@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"strconv"
 	"strings"
 )
 
@@ -102,7 +101,7 @@ func (i *Input) GetFirstValue(rowIndex int) (string, error) {
 }
 
 func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
-	if err := i.validateRowIndex(colIndex); err != nil {
+	if err := i.validateColIndex(colIndex); err != nil {
 		return nil, err
 	}
 
@@ -116,34 +115,11 @@ func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
 	return newLine, nil
 }
 
-func (i *Input) GetColIntLine(colIndex int) (newLine []int, err error) {
-	strLine, err := i.GetColLine(colIndex)
-	if err != nil {
-		return nil, err
-	}
-	newLine, err = toIntLine(strLine)
-	if err != nil {
-		return nil, fmt.Errorf("%dth col index: %v", colIndex, err)
-	}
-	return
-}
-
 func (i *Input) GetLine(index int) ([]string, error) {
 	if err := i.validateRowIndex(index); err != nil {
 		return nil, err
 	}
 	return i.lines[index], nil
-}
-
-func toIntLine(line []string) (intLine []int, err error) {
-	for j, v := range line {
-		intV, err := strconv.Atoi(v)
-		if err != nil {
-			return nil, fmt.Errorf(fmt.Sprintf("%dth value: %v", j, err.Error()))
-		}
-		intLine = append(intLine, intV)
-	}
-	return intLine, nil
 }
 
 func NewInput(scanner *bufio.Scanner) *Input {

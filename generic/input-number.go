@@ -37,3 +37,15 @@ func (i *Input) GetAAAValue(rowIndex, colIndex int) (AAA, error) {
 func (i *Input) GetFirstAAAValue(rowIndex int) (AAA, error) {
 	return i.GetAAAValue(rowIndex, 0)
 }
+
+func (i *Input) GetColAAALine(colIndex int) (newLine []AAA, err error) {
+	strLine, err := i.GetColLine(colIndex)
+	if err != nil {
+		return nil, err
+	}
+	newLine, err = StringSliceToAAASlice(strLine)
+	if err != nil {
+		return nil, fmt.Errorf("%dth col index: %v", colIndex, err)
+	}
+	return
+}
