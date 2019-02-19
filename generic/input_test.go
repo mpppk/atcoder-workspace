@@ -60,7 +60,7 @@ func Test_toIntLine(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotIntLine, err := StringToInt64Line(tt.args.line)
+			gotIntLine, err := StringSliceToInt64Slice(tt.args.line)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("toSpecificBitIntLine() error = %v, wantErr %v", err, tt.wantErr)
 				return

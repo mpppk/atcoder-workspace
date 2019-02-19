@@ -101,10 +101,6 @@ func (i *Input) GetFirstValue(rowIndex int) (string, error) {
 	return i.GetValue(rowIndex, 0)
 }
 
-//func (i *Input) GetFirstIntValue(rowIndex int) (int, error) {
-//	return i.GetIntValue(rowIndex, 0)
-//}
-
 func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
 	if err := i.validateRowIndex(colIndex); err != nil {
 		return nil, err

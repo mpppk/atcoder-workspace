@@ -33,3 +33,7 @@ func (i *Input) GetAAAValue(rowIndex, colIndex int) (AAA, error) {
 
 	return AAA(v), nil
 }
+
+func (i *Input) GetFirstAAAValue(rowIndex int) (AAA, error) {
+	return i.GetAAAValue(rowIndex, 0)
+}
