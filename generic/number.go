@@ -70,7 +70,7 @@ func RDiffAAA(values []AAA) (newValues []AAA, err error) {
 	})
 }
 
-func StringToAAALine(line []string) (ValueLine []AAA, err error) {
+func StringSliceToAAASlice(line []string) (ValueLine []AAA, err error) {
 	newLine, err := toSpecificBitIntLine(line, 64)
 	if err != nil {
 		return nil, err

@@ -174,7 +174,7 @@ func TestStringToValueLine(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name: "StringToAAALine",
+			name: "StringSliceToAAASlice",
 			args: args{
 				line: []string{"1", "2", "3"},
 			},
@@ -184,7 +184,7 @@ func TestStringToValueLine(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotValueLine, err := StringToAAALine(tt.args.line)
+			gotValueLine, err := StringSliceToAAASlice(tt.args.line)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("StringtoValueLine() error = %v, wantErr %v", err, tt.wantErr)
 				return

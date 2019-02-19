@@ -97,30 +97,13 @@ func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	return line[colIndex], nil
 }
 
-func (i *Input) GetIntValue(rowIndex, colIndex int) (int, error) {
-	line, err := i.GetLine(rowIndex)
-	if err != nil {
-		return 0, err
-	}
-	if colIndex < 0 || colIndex >= len(line) {
-		return 0, fmt.Errorf("Invalid col index: %v ", colIndex)
-	}
-
-	intV, err := strconv.Atoi(line[colIndex])
-	if err != nil {
-		return 0, fmt.Errorf("failed to convert string to int: %v, %v", line[colIndex], err)
-	}
-
-	return intV, nil
-}
-
 func (i *Input) GetFirstValue(rowIndex int) (string, error) {
 	return i.GetValue(rowIndex, 0)
 }
 
-func (i *Input) GetFirstIntValue(rowIndex int) (int, error) {
-	return i.GetIntValue(rowIndex, 0)
-}
+//func (i *Input) GetFirstIntValue(rowIndex int) (int, error) {
+//	return i.GetIntValue(rowIndex, 0)
+//}
 
 func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
 	if err := i.validateRowIndex(colIndex); err != nil {
@@ -156,68 +139,6 @@ func (i *Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
-//func (i *Input) GetIntLine(index int) ([]int, error) {
-//	if err := i.validateRowIndex(index); err != nil {
-//		return nil, err
-//	}
-//
-//	newLine, err := toIntLine(i.lines[index])
-//	if err != nil {
-//		return nil, fmt.Errorf("%dth index: %v", index, err)
-//	}
-//	return newLine, nil
-//}
-//
-//func (i *Input) GetInt8Line(index int) ([]int8, error) {
-//	if err := i.validateRowIndex(index); err != nil {
-//		return nil, err
-//	}
-//
-//	newLine, err := StringToInt8Line(i.lines[index])
-//	if err != nil {
-//		return nil, fmt.Errorf("%dth index: %v", index, err)
-//	}
-//	return newLine, nil
-//}
-//
-//func (i *Input) GetInt16Line(index int) ([]int16, error) {
-//	if err := i.validateRowIndex(index); err != nil {
-//		return nil, err
-//	}
-//
-//	newLine, err := StringToInt16Line(i.lines[index])
-//	if err != nil {
-//		return nil, fmt.Errorf("%dth index: %v", index, err)
-//	}
-//	return newLine, nil
-//}
-//
-//func (i *Input) GetInt32Line(index int) ([]int32, error) {
-//	if err := i.validateRowIndex(index); err != nil {
-//		return nil, err
-//	}
-//
-//	newLine, err := StringToInt32Line(i.lines[index])
-//	//newLine, err := toInt32Line(i.lines[index])
-//	if err != nil {
-//		return nil, fmt.Errorf("%dth index: %v", index, err)
-//	}
-//	return newLine, nil
-//}
-//
-//func (i *Input) GetInt64Line(index int) ([]int64, error) {
-//	if err := i.validateRowIndex(index); err != nil {
-//		return nil, err
-//	}
-//
-//	newLine, err := StringToInt64Line(i.lines[index])
-//	//newLine, err := toInt64Line(i.lines[index])
-//	if err != nil {
-//		return nil, fmt.Errorf("%dth index: %v", index, err)
-//	}
-//	return newLine, nil
-//}
-
 func toIntLine(line []string) (intLine []int, err error) {
 	for j, v := range line {
 		intV, err := strconv.Atoi(v)
@@ -228,17 +149,6 @@ func toIntLine(line []string) (intLine []int, err error) {
 	}
 	return intLine, nil
 }
-
-//func toSpecificBitIntLine(line []string, bitSize int) (intLine []int64, err error) {
-//	for j, v := range line {
-//		intV, err := strconv.ParseInt(v, 10, bitSize)
-//		if err != nil {
-//			return nil, fmt.Errorf(fmt.Sprintf("%dth value: %v", j, err.Error()))
-//		}
-//		intLine = append(intLine, intV)
-//	}
-//	return intLine, nil
-//}
 
 func NewInput(scanner *bufio.Scanner) *Input {
 	return &Input{
