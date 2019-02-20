@@ -17,7 +17,14 @@ import (
 )
 
 func (i *lib_Input) GetIntLines() (newLines [][]int, err error) {
+	return i.GetIntLinesFrom(0)
+}
+
+func (i *lib_Input) GetIntLinesFrom(fromIndex int) (newLines [][]int, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetIntLine(index)
 		if err != nil {
 			return nil, err
@@ -73,7 +80,14 @@ func (i *lib_Input) GetColIntLine(colIndex int) (newLine []int, err error) {
 }
 
 func (i *lib_Input) GetInt8Lines() (newLines [][]int8, err error) {
+	return i.GetInt8LinesFrom(0)
+}
+
+func (i *lib_Input) GetInt8LinesFrom(fromIndex int) (newLines [][]int8, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetInt8Line(index)
 		if err != nil {
 			return nil, err
@@ -129,7 +143,14 @@ func (i *lib_Input) GetColInt8Line(colIndex int) (newLine []int8, err error) {
 }
 
 func (i *lib_Input) GetInt16Lines() (newLines [][]int16, err error) {
+	return i.GetInt16LinesFrom(0)
+}
+
+func (i *lib_Input) GetInt16LinesFrom(fromIndex int) (newLines [][]int16, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetInt16Line(index)
 		if err != nil {
 			return nil, err
@@ -185,7 +206,14 @@ func (i *lib_Input) GetColInt16Line(colIndex int) (newLine []int16, err error) {
 }
 
 func (i *lib_Input) GetInt32Lines() (newLines [][]int32, err error) {
+	return i.GetInt32LinesFrom(0)
+}
+
+func (i *lib_Input) GetInt32LinesFrom(fromIndex int) (newLines [][]int32, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetInt32Line(index)
 		if err != nil {
 			return nil, err
@@ -241,7 +269,14 @@ func (i *lib_Input) GetColInt32Line(colIndex int) (newLine []int32, err error) {
 }
 
 func (i *lib_Input) GetInt64Lines() (newLines [][]int64, err error) {
+	return i.GetInt64LinesFrom(0)
+}
+
+func (i *lib_Input) GetInt64LinesFrom(fromIndex int) (newLines [][]int64, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetInt64Line(index)
 		if err != nil {
 			return nil, err
@@ -297,7 +332,14 @@ func (i *lib_Input) GetColInt64Line(colIndex int) (newLine []int64, err error) {
 }
 
 func (i *lib_Input) GetFloat32Lines() (newLines [][]float32, err error) {
+	return i.GetFloat32LinesFrom(0)
+}
+
+func (i *lib_Input) GetFloat32LinesFrom(fromIndex int) (newLines [][]float32, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetFloat32Line(index)
 		if err != nil {
 			return nil, err
@@ -353,7 +395,14 @@ func (i *lib_Input) GetColFloat32Line(colIndex int) (newLine []float32, err erro
 }
 
 func (i *lib_Input) GetFloat64Lines() (newLines [][]float64, err error) {
+	return i.GetFloat64LinesFrom(0)
+}
+
+func (i *lib_Input) GetFloat64LinesFrom(fromIndex int) (newLines [][]float64, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetFloat64Line(index)
 		if err != nil {
 			return nil, err
@@ -781,6 +830,34 @@ func lib_StringSliceToIntSlice(line []string) (ValueLine []int, err error) {
 	return
 }
 
+func lib_MaxInt(values []int) (max int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinInt(values []int) (min int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
+	}
+	return
+}
+
 func lib_SumInt8(values []int8) int8 {
 	var sum int8 = 0
 	for _, value := range values {
@@ -851,6 +928,34 @@ func lib_StringSliceToInt8Slice(line []string) (ValueLine []int8, err error) {
 	}
 	for _, v := range newLine {
 		ValueLine = append(ValueLine, int8(v))
+	}
+	return
+}
+
+func lib_MaxInt8(values []int8) (max int8, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinInt8(values []int8) (min int8, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
 	}
 	return
 }
@@ -929,6 +1034,34 @@ func lib_StringSliceToInt16Slice(line []string) (ValueLine []int16, err error) {
 	return
 }
 
+func lib_MaxInt16(values []int16) (max int16, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinInt16(values []int16) (min int16, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
+	}
+	return
+}
+
 func lib_SumInt32(values []int32) int32 {
 	var sum int32 = 0
 	for _, value := range values {
@@ -999,6 +1132,34 @@ func lib_StringSliceToInt32Slice(line []string) (ValueLine []int32, err error) {
 	}
 	for _, v := range newLine {
 		ValueLine = append(ValueLine, int32(v))
+	}
+	return
+}
+
+func lib_MaxInt32(values []int32) (max int32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinInt32(values []int32) (min int32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
 	}
 	return
 }
@@ -1077,6 +1238,34 @@ func lib_StringSliceToInt64Slice(line []string) (ValueLine []int64, err error) {
 	return
 }
 
+func lib_MaxInt64(values []int64) (max int64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinInt64(values []int64) (min int64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
+	}
+	return
+}
+
 func lib_SumFloat32(values []float32) float32 {
 	var sum float32 = 0
 	for _, value := range values {
@@ -1147,6 +1336,34 @@ func lib_StringSliceToFloat32Slice(line []string) (ValueLine []float32, err erro
 	}
 	for _, v := range newLine {
 		ValueLine = append(ValueLine, float32(v))
+	}
+	return
+}
+
+func lib_MaxFloat32(values []float32) (max float32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinFloat32(values []float32) (min float32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
 	}
 	return
 }
@@ -1225,11 +1442,61 @@ func lib_StringSliceToFloat64Slice(line []string) (ValueLine []float64, err erro
 	return
 }
 
+func lib_MaxFloat64(values []float64) (max float64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MinFloat64(values []float64) (min float64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
+	}
+	return
+}
+
 func lib_IntSliceToIntSlice(values []int) (newValues []int) {
 	for _, value := range values {
 		newValues = append(newValues, int(value))
 	}
 	return
+}
+
+func lib_MapIntSliceToInt(values [][]int, f func(v []int) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToInt(values [][][]int, f func(v [][]int) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByIntSlice(values [][]int, f func(vs []int) int) (max int, err error) {
+	return lib_MaxInt(lib_MapIntSliceToInt(values, f))
+}
+
+func lib_MaxIntByIntSlice2(values [][][]int, f func(vs [][]int) int) (max int, err error) {
+	return lib_MaxInt(lib_MapIntSlice2ToInt(values, f))
 }
 
 func lib_IntSliceToInt8Slice(values []int) (newValues []int8) {
@@ -1239,11 +1506,55 @@ func lib_IntSliceToInt8Slice(values []int) (newValues []int8) {
 	return
 }
 
+func lib_MapInt8SliceToInt(values [][]int8, f func(v []int8) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToInt(values [][][]int8, f func(v [][]int8) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByInt8Slice(values [][]int8, f func(vs []int8) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt8SliceToInt(values, f))
+}
+
+func lib_MaxIntByInt8Slice2(values [][][]int8, f func(vs [][]int8) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt8Slice2ToInt(values, f))
+}
+
 func lib_IntSliceToInt16Slice(values []int) (newValues []int16) {
 	for _, value := range values {
 		newValues = append(newValues, int16(value))
 	}
 	return
+}
+
+func lib_MapInt16SliceToInt(values [][]int16, f func(v []int16) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToInt(values [][][]int16, f func(v [][]int16) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByInt16Slice(values [][]int16, f func(vs []int16) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt16SliceToInt(values, f))
+}
+
+func lib_MaxIntByInt16Slice2(values [][][]int16, f func(vs [][]int16) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt16Slice2ToInt(values, f))
 }
 
 func lib_IntSliceToInt32Slice(values []int) (newValues []int32) {
@@ -1253,11 +1564,55 @@ func lib_IntSliceToInt32Slice(values []int) (newValues []int32) {
 	return
 }
 
+func lib_MapInt32SliceToInt(values [][]int32, f func(v []int32) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToInt(values [][][]int32, f func(v [][]int32) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByInt32Slice(values [][]int32, f func(vs []int32) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt32SliceToInt(values, f))
+}
+
+func lib_MaxIntByInt32Slice2(values [][][]int32, f func(vs [][]int32) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt32Slice2ToInt(values, f))
+}
+
 func lib_IntSliceToInt64Slice(values []int) (newValues []int64) {
 	for _, value := range values {
 		newValues = append(newValues, int64(value))
 	}
 	return
+}
+
+func lib_MapInt64SliceToInt(values [][]int64, f func(v []int64) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToInt(values [][][]int64, f func(v [][]int64) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByInt64Slice(values [][]int64, f func(vs []int64) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt64SliceToInt(values, f))
+}
+
+func lib_MaxIntByInt64Slice2(values [][][]int64, f func(vs [][]int64) int) (max int, err error) {
+	return lib_MaxInt(lib_MapInt64Slice2ToInt(values, f))
 }
 
 func lib_IntSliceToFloat32Slice(values []int) (newValues []float32) {
@@ -1267,11 +1622,55 @@ func lib_IntSliceToFloat32Slice(values []int) (newValues []float32) {
 	return
 }
 
+func lib_MapFloat32SliceToInt(values [][]float32, f func(v []float32) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToInt(values [][][]float32, f func(v [][]float32) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByFloat32Slice(values [][]float32, f func(vs []float32) int) (max int, err error) {
+	return lib_MaxInt(lib_MapFloat32SliceToInt(values, f))
+}
+
+func lib_MaxIntByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int) (max int, err error) {
+	return lib_MaxInt(lib_MapFloat32Slice2ToInt(values, f))
+}
+
 func lib_IntSliceToFloat64Slice(values []int) (newValues []float64) {
 	for _, value := range values {
 		newValues = append(newValues, float64(value))
 	}
 	return
+}
+
+func lib_MapFloat64SliceToInt(values [][]float64, f func(v []float64) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToInt(values [][][]float64, f func(v [][]float64) int) (newValues []int) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxIntByFloat64Slice(values [][]float64, f func(vs []float64) int) (max int, err error) {
+	return lib_MaxInt(lib_MapFloat64SliceToInt(values, f))
+}
+
+func lib_MaxIntByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int) (max int, err error) {
+	return lib_MaxInt(lib_MapFloat64Slice2ToInt(values, f))
 }
 
 func lib_Int8SliceToIntSlice(values []int8) (newValues []int) {
@@ -1281,11 +1680,55 @@ func lib_Int8SliceToIntSlice(values []int8) (newValues []int) {
 	return
 }
 
+func lib_MapIntSliceToInt8(values [][]int, f func(v []int) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToInt8(values [][][]int, f func(v [][]int) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByIntSlice(values [][]int, f func(vs []int) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapIntSliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByIntSlice2(values [][][]int, f func(vs [][]int) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapIntSlice2ToInt8(values, f))
+}
+
 func lib_Int8SliceToInt8Slice(values []int8) (newValues []int8) {
 	for _, value := range values {
 		newValues = append(newValues, int8(value))
 	}
 	return
+}
+
+func lib_MapInt8SliceToInt8(values [][]int8, f func(v []int8) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToInt8(values [][][]int8, f func(v [][]int8) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByInt8Slice(values [][]int8, f func(vs []int8) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt8SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt8Slice2ToInt8(values, f))
 }
 
 func lib_Int8SliceToInt16Slice(values []int8) (newValues []int16) {
@@ -1295,11 +1738,55 @@ func lib_Int8SliceToInt16Slice(values []int8) (newValues []int16) {
 	return
 }
 
+func lib_MapInt16SliceToInt8(values [][]int16, f func(v []int16) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToInt8(values [][][]int16, f func(v [][]int16) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByInt16Slice(values [][]int16, f func(vs []int16) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt16SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt16Slice2ToInt8(values, f))
+}
+
 func lib_Int8SliceToInt32Slice(values []int8) (newValues []int32) {
 	for _, value := range values {
 		newValues = append(newValues, int32(value))
 	}
 	return
+}
+
+func lib_MapInt32SliceToInt8(values [][]int32, f func(v []int32) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToInt8(values [][][]int32, f func(v [][]int32) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByInt32Slice(values [][]int32, f func(vs []int32) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt32SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt32Slice2ToInt8(values, f))
 }
 
 func lib_Int8SliceToInt64Slice(values []int8) (newValues []int64) {
@@ -1309,11 +1796,55 @@ func lib_Int8SliceToInt64Slice(values []int8) (newValues []int64) {
 	return
 }
 
+func lib_MapInt64SliceToInt8(values [][]int64, f func(v []int64) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToInt8(values [][][]int64, f func(v [][]int64) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByInt64Slice(values [][]int64, f func(vs []int64) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt64SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapInt64Slice2ToInt8(values, f))
+}
+
 func lib_Int8SliceToFloat32Slice(values []int8) (newValues []float32) {
 	for _, value := range values {
 		newValues = append(newValues, float32(value))
 	}
 	return
+}
+
+func lib_MapFloat32SliceToInt8(values [][]float32, f func(v []float32) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToInt8(values [][][]float32, f func(v [][]float32) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByFloat32Slice(values [][]float32, f func(vs []float32) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapFloat32SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapFloat32Slice2ToInt8(values, f))
 }
 
 func lib_Int8SliceToFloat64Slice(values []int8) (newValues []float64) {
@@ -1323,11 +1854,55 @@ func lib_Int8SliceToFloat64Slice(values []int8) (newValues []float64) {
 	return
 }
 
+func lib_MapFloat64SliceToInt8(values [][]float64, f func(v []float64) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToInt8(values [][][]float64, f func(v [][]float64) int8) (newValues []int8) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt8ByFloat64Slice(values [][]float64, f func(vs []float64) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapFloat64SliceToInt8(values, f))
+}
+
+func lib_MaxInt8ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int8) (max int8, err error) {
+	return lib_MaxInt8(lib_MapFloat64Slice2ToInt8(values, f))
+}
+
 func lib_Int16SliceToIntSlice(values []int16) (newValues []int) {
 	for _, value := range values {
 		newValues = append(newValues, int(value))
 	}
 	return
+}
+
+func lib_MapIntSliceToInt16(values [][]int, f func(v []int) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToInt16(values [][][]int, f func(v [][]int) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByIntSlice(values [][]int, f func(vs []int) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapIntSliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByIntSlice2(values [][][]int, f func(vs [][]int) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapIntSlice2ToInt16(values, f))
 }
 
 func lib_Int16SliceToInt8Slice(values []int16) (newValues []int8) {
@@ -1337,11 +1912,55 @@ func lib_Int16SliceToInt8Slice(values []int16) (newValues []int8) {
 	return
 }
 
+func lib_MapInt8SliceToInt16(values [][]int8, f func(v []int8) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToInt16(values [][][]int8, f func(v [][]int8) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByInt8Slice(values [][]int8, f func(vs []int8) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt8SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt8Slice2ToInt16(values, f))
+}
+
 func lib_Int16SliceToInt16Slice(values []int16) (newValues []int16) {
 	for _, value := range values {
 		newValues = append(newValues, int16(value))
 	}
 	return
+}
+
+func lib_MapInt16SliceToInt16(values [][]int16, f func(v []int16) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToInt16(values [][][]int16, f func(v [][]int16) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByInt16Slice(values [][]int16, f func(vs []int16) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt16SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt16Slice2ToInt16(values, f))
 }
 
 func lib_Int16SliceToInt32Slice(values []int16) (newValues []int32) {
@@ -1351,11 +1970,55 @@ func lib_Int16SliceToInt32Slice(values []int16) (newValues []int32) {
 	return
 }
 
+func lib_MapInt32SliceToInt16(values [][]int32, f func(v []int32) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToInt16(values [][][]int32, f func(v [][]int32) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByInt32Slice(values [][]int32, f func(vs []int32) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt32SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt32Slice2ToInt16(values, f))
+}
+
 func lib_Int16SliceToInt64Slice(values []int16) (newValues []int64) {
 	for _, value := range values {
 		newValues = append(newValues, int64(value))
 	}
 	return
+}
+
+func lib_MapInt64SliceToInt16(values [][]int64, f func(v []int64) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToInt16(values [][][]int64, f func(v [][]int64) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByInt64Slice(values [][]int64, f func(vs []int64) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt64SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapInt64Slice2ToInt16(values, f))
 }
 
 func lib_Int16SliceToFloat32Slice(values []int16) (newValues []float32) {
@@ -1365,11 +2028,55 @@ func lib_Int16SliceToFloat32Slice(values []int16) (newValues []float32) {
 	return
 }
 
+func lib_MapFloat32SliceToInt16(values [][]float32, f func(v []float32) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToInt16(values [][][]float32, f func(v [][]float32) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByFloat32Slice(values [][]float32, f func(vs []float32) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapFloat32SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapFloat32Slice2ToInt16(values, f))
+}
+
 func lib_Int16SliceToFloat64Slice(values []int16) (newValues []float64) {
 	for _, value := range values {
 		newValues = append(newValues, float64(value))
 	}
 	return
+}
+
+func lib_MapFloat64SliceToInt16(values [][]float64, f func(v []float64) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToInt16(values [][][]float64, f func(v [][]float64) int16) (newValues []int16) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt16ByFloat64Slice(values [][]float64, f func(vs []float64) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapFloat64SliceToInt16(values, f))
+}
+
+func lib_MaxInt16ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int16) (max int16, err error) {
+	return lib_MaxInt16(lib_MapFloat64Slice2ToInt16(values, f))
 }
 
 func lib_Int32SliceToIntSlice(values []int32) (newValues []int) {
@@ -1379,11 +2086,55 @@ func lib_Int32SliceToIntSlice(values []int32) (newValues []int) {
 	return
 }
 
+func lib_MapIntSliceToInt32(values [][]int, f func(v []int) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToInt32(values [][][]int, f func(v [][]int) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByIntSlice(values [][]int, f func(vs []int) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapIntSliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByIntSlice2(values [][][]int, f func(vs [][]int) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapIntSlice2ToInt32(values, f))
+}
+
 func lib_Int32SliceToInt8Slice(values []int32) (newValues []int8) {
 	for _, value := range values {
 		newValues = append(newValues, int8(value))
 	}
 	return
+}
+
+func lib_MapInt8SliceToInt32(values [][]int8, f func(v []int8) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToInt32(values [][][]int8, f func(v [][]int8) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByInt8Slice(values [][]int8, f func(vs []int8) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt8SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt8Slice2ToInt32(values, f))
 }
 
 func lib_Int32SliceToInt16Slice(values []int32) (newValues []int16) {
@@ -1393,11 +2144,55 @@ func lib_Int32SliceToInt16Slice(values []int32) (newValues []int16) {
 	return
 }
 
+func lib_MapInt16SliceToInt32(values [][]int16, f func(v []int16) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToInt32(values [][][]int16, f func(v [][]int16) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByInt16Slice(values [][]int16, f func(vs []int16) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt16SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt16Slice2ToInt32(values, f))
+}
+
 func lib_Int32SliceToInt32Slice(values []int32) (newValues []int32) {
 	for _, value := range values {
 		newValues = append(newValues, int32(value))
 	}
 	return
+}
+
+func lib_MapInt32SliceToInt32(values [][]int32, f func(v []int32) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToInt32(values [][][]int32, f func(v [][]int32) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByInt32Slice(values [][]int32, f func(vs []int32) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt32SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt32Slice2ToInt32(values, f))
 }
 
 func lib_Int32SliceToInt64Slice(values []int32) (newValues []int64) {
@@ -1407,11 +2202,55 @@ func lib_Int32SliceToInt64Slice(values []int32) (newValues []int64) {
 	return
 }
 
+func lib_MapInt64SliceToInt32(values [][]int64, f func(v []int64) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToInt32(values [][][]int64, f func(v [][]int64) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByInt64Slice(values [][]int64, f func(vs []int64) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt64SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapInt64Slice2ToInt32(values, f))
+}
+
 func lib_Int32SliceToFloat32Slice(values []int32) (newValues []float32) {
 	for _, value := range values {
 		newValues = append(newValues, float32(value))
 	}
 	return
+}
+
+func lib_MapFloat32SliceToInt32(values [][]float32, f func(v []float32) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToInt32(values [][][]float32, f func(v [][]float32) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByFloat32Slice(values [][]float32, f func(vs []float32) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapFloat32SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapFloat32Slice2ToInt32(values, f))
 }
 
 func lib_Int32SliceToFloat64Slice(values []int32) (newValues []float64) {
@@ -1421,11 +2260,55 @@ func lib_Int32SliceToFloat64Slice(values []int32) (newValues []float64) {
 	return
 }
 
+func lib_MapFloat64SliceToInt32(values [][]float64, f func(v []float64) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToInt32(values [][][]float64, f func(v [][]float64) int32) (newValues []int32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt32ByFloat64Slice(values [][]float64, f func(vs []float64) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapFloat64SliceToInt32(values, f))
+}
+
+func lib_MaxInt32ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int32) (max int32, err error) {
+	return lib_MaxInt32(lib_MapFloat64Slice2ToInt32(values, f))
+}
+
 func lib_Int64SliceToIntSlice(values []int64) (newValues []int) {
 	for _, value := range values {
 		newValues = append(newValues, int(value))
 	}
 	return
+}
+
+func lib_MapIntSliceToInt64(values [][]int, f func(v []int) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToInt64(values [][][]int, f func(v [][]int) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByIntSlice(values [][]int, f func(vs []int) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapIntSliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByIntSlice2(values [][][]int, f func(vs [][]int) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapIntSlice2ToInt64(values, f))
 }
 
 func lib_Int64SliceToInt8Slice(values []int64) (newValues []int8) {
@@ -1435,11 +2318,55 @@ func lib_Int64SliceToInt8Slice(values []int64) (newValues []int8) {
 	return
 }
 
+func lib_MapInt8SliceToInt64(values [][]int8, f func(v []int8) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToInt64(values [][][]int8, f func(v [][]int8) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByInt8Slice(values [][]int8, f func(vs []int8) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt8SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt8Slice2ToInt64(values, f))
+}
+
 func lib_Int64SliceToInt16Slice(values []int64) (newValues []int16) {
 	for _, value := range values {
 		newValues = append(newValues, int16(value))
 	}
 	return
+}
+
+func lib_MapInt16SliceToInt64(values [][]int16, f func(v []int16) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToInt64(values [][][]int16, f func(v [][]int16) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByInt16Slice(values [][]int16, f func(vs []int16) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt16SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt16Slice2ToInt64(values, f))
 }
 
 func lib_Int64SliceToInt32Slice(values []int64) (newValues []int32) {
@@ -1449,11 +2376,55 @@ func lib_Int64SliceToInt32Slice(values []int64) (newValues []int32) {
 	return
 }
 
+func lib_MapInt32SliceToInt64(values [][]int32, f func(v []int32) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToInt64(values [][][]int32, f func(v [][]int32) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByInt32Slice(values [][]int32, f func(vs []int32) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt32SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt32Slice2ToInt64(values, f))
+}
+
 func lib_Int64SliceToInt64Slice(values []int64) (newValues []int64) {
 	for _, value := range values {
 		newValues = append(newValues, int64(value))
 	}
 	return
+}
+
+func lib_MapInt64SliceToInt64(values [][]int64, f func(v []int64) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToInt64(values [][][]int64, f func(v [][]int64) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByInt64Slice(values [][]int64, f func(vs []int64) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt64SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapInt64Slice2ToInt64(values, f))
 }
 
 func lib_Int64SliceToFloat32Slice(values []int64) (newValues []float32) {
@@ -1463,11 +2434,55 @@ func lib_Int64SliceToFloat32Slice(values []int64) (newValues []float32) {
 	return
 }
 
+func lib_MapFloat32SliceToInt64(values [][]float32, f func(v []float32) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToInt64(values [][][]float32, f func(v [][]float32) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByFloat32Slice(values [][]float32, f func(vs []float32) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapFloat32SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapFloat32Slice2ToInt64(values, f))
+}
+
 func lib_Int64SliceToFloat64Slice(values []int64) (newValues []float64) {
 	for _, value := range values {
 		newValues = append(newValues, float64(value))
 	}
 	return
+}
+
+func lib_MapFloat64SliceToInt64(values [][]float64, f func(v []float64) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToInt64(values [][][]float64, f func(v [][]float64) int64) (newValues []int64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxInt64ByFloat64Slice(values [][]float64, f func(vs []float64) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapFloat64SliceToInt64(values, f))
+}
+
+func lib_MaxInt64ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int64) (max int64, err error) {
+	return lib_MaxInt64(lib_MapFloat64Slice2ToInt64(values, f))
 }
 
 func lib_Float32SliceToIntSlice(values []float32) (newValues []int) {
@@ -1477,11 +2492,55 @@ func lib_Float32SliceToIntSlice(values []float32) (newValues []int) {
 	return
 }
 
+func lib_MapIntSliceToFloat32(values [][]int, f func(v []int) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToFloat32(values [][][]int, f func(v [][]int) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByIntSlice(values [][]int, f func(vs []int) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapIntSliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByIntSlice2(values [][][]int, f func(vs [][]int) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapIntSlice2ToFloat32(values, f))
+}
+
 func lib_Float32SliceToInt8Slice(values []float32) (newValues []int8) {
 	for _, value := range values {
 		newValues = append(newValues, int8(value))
 	}
 	return
+}
+
+func lib_MapInt8SliceToFloat32(values [][]int8, f func(v []int8) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToFloat32(values [][][]int8, f func(v [][]int8) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByInt8Slice(values [][]int8, f func(vs []int8) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt8SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByInt8Slice2(values [][][]int8, f func(vs [][]int8) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt8Slice2ToFloat32(values, f))
 }
 
 func lib_Float32SliceToInt16Slice(values []float32) (newValues []int16) {
@@ -1491,11 +2550,55 @@ func lib_Float32SliceToInt16Slice(values []float32) (newValues []int16) {
 	return
 }
 
+func lib_MapInt16SliceToFloat32(values [][]int16, f func(v []int16) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToFloat32(values [][][]int16, f func(v [][]int16) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByInt16Slice(values [][]int16, f func(vs []int16) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt16SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByInt16Slice2(values [][][]int16, f func(vs [][]int16) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt16Slice2ToFloat32(values, f))
+}
+
 func lib_Float32SliceToInt32Slice(values []float32) (newValues []int32) {
 	for _, value := range values {
 		newValues = append(newValues, int32(value))
 	}
 	return
+}
+
+func lib_MapInt32SliceToFloat32(values [][]int32, f func(v []int32) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToFloat32(values [][][]int32, f func(v [][]int32) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByInt32Slice(values [][]int32, f func(vs []int32) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt32SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByInt32Slice2(values [][][]int32, f func(vs [][]int32) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt32Slice2ToFloat32(values, f))
 }
 
 func lib_Float32SliceToInt64Slice(values []float32) (newValues []int64) {
@@ -1505,11 +2608,55 @@ func lib_Float32SliceToInt64Slice(values []float32) (newValues []int64) {
 	return
 }
 
+func lib_MapInt64SliceToFloat32(values [][]int64, f func(v []int64) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToFloat32(values [][][]int64, f func(v [][]int64) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByInt64Slice(values [][]int64, f func(vs []int64) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt64SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByInt64Slice2(values [][][]int64, f func(vs [][]int64) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapInt64Slice2ToFloat32(values, f))
+}
+
 func lib_Float32SliceToFloat32Slice(values []float32) (newValues []float32) {
 	for _, value := range values {
 		newValues = append(newValues, float32(value))
 	}
 	return
+}
+
+func lib_MapFloat32SliceToFloat32(values [][]float32, f func(v []float32) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToFloat32(values [][][]float32, f func(v [][]float32) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByFloat32Slice(values [][]float32, f func(vs []float32) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapFloat32SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapFloat32Slice2ToFloat32(values, f))
 }
 
 func lib_Float32SliceToFloat64Slice(values []float32) (newValues []float64) {
@@ -1519,11 +2666,55 @@ func lib_Float32SliceToFloat64Slice(values []float32) (newValues []float64) {
 	return
 }
 
+func lib_MapFloat64SliceToFloat32(values [][]float64, f func(v []float64) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToFloat32(values [][][]float64, f func(v [][]float64) float32) (newValues []float32) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat32ByFloat64Slice(values [][]float64, f func(vs []float64) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapFloat64SliceToFloat32(values, f))
+}
+
+func lib_MaxFloat32ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) float32) (max float32, err error) {
+	return lib_MaxFloat32(lib_MapFloat64Slice2ToFloat32(values, f))
+}
+
 func lib_Float64SliceToIntSlice(values []float64) (newValues []int) {
 	for _, value := range values {
 		newValues = append(newValues, int(value))
 	}
 	return
+}
+
+func lib_MapIntSliceToFloat64(values [][]int, f func(v []int) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapIntSlice2ToFloat64(values [][][]int, f func(v [][]int) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByIntSlice(values [][]int, f func(vs []int) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapIntSliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByIntSlice2(values [][][]int, f func(vs [][]int) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapIntSlice2ToFloat64(values, f))
 }
 
 func lib_Float64SliceToInt8Slice(values []float64) (newValues []int8) {
@@ -1533,11 +2724,55 @@ func lib_Float64SliceToInt8Slice(values []float64) (newValues []int8) {
 	return
 }
 
+func lib_MapInt8SliceToFloat64(values [][]int8, f func(v []int8) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt8Slice2ToFloat64(values [][][]int8, f func(v [][]int8) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByInt8Slice(values [][]int8, f func(vs []int8) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt8SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByInt8Slice2(values [][][]int8, f func(vs [][]int8) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt8Slice2ToFloat64(values, f))
+}
+
 func lib_Float64SliceToInt16Slice(values []float64) (newValues []int16) {
 	for _, value := range values {
 		newValues = append(newValues, int16(value))
 	}
 	return
+}
+
+func lib_MapInt16SliceToFloat64(values [][]int16, f func(v []int16) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt16Slice2ToFloat64(values [][][]int16, f func(v [][]int16) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByInt16Slice(values [][]int16, f func(vs []int16) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt16SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByInt16Slice2(values [][][]int16, f func(vs [][]int16) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt16Slice2ToFloat64(values, f))
 }
 
 func lib_Float64SliceToInt32Slice(values []float64) (newValues []int32) {
@@ -1547,11 +2782,55 @@ func lib_Float64SliceToInt32Slice(values []float64) (newValues []int32) {
 	return
 }
 
+func lib_MapInt32SliceToFloat64(values [][]int32, f func(v []int32) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt32Slice2ToFloat64(values [][][]int32, f func(v [][]int32) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByInt32Slice(values [][]int32, f func(vs []int32) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt32SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByInt32Slice2(values [][][]int32, f func(vs [][]int32) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt32Slice2ToFloat64(values, f))
+}
+
 func lib_Float64SliceToInt64Slice(values []float64) (newValues []int64) {
 	for _, value := range values {
 		newValues = append(newValues, int64(value))
 	}
 	return
+}
+
+func lib_MapInt64SliceToFloat64(values [][]int64, f func(v []int64) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapInt64Slice2ToFloat64(values [][][]int64, f func(v [][]int64) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByInt64Slice(values [][]int64, f func(vs []int64) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt64SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByInt64Slice2(values [][][]int64, f func(vs [][]int64) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapInt64Slice2ToFloat64(values, f))
 }
 
 func lib_Float64SliceToFloat32Slice(values []float64) (newValues []float32) {
@@ -1561,11 +2840,55 @@ func lib_Float64SliceToFloat32Slice(values []float64) (newValues []float32) {
 	return
 }
 
+func lib_MapFloat32SliceToFloat64(values [][]float32, f func(v []float32) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat32Slice2ToFloat64(values [][][]float32, f func(v [][]float32) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByFloat32Slice(values [][]float32, f func(vs []float32) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapFloat32SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapFloat32Slice2ToFloat64(values, f))
+}
+
 func lib_Float64SliceToFloat64Slice(values []float64) (newValues []float64) {
 	for _, value := range values {
 		newValues = append(newValues, float64(value))
 	}
 	return
+}
+
+func lib_MapFloat64SliceToFloat64(values [][]float64, f func(v []float64) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MapFloat64Slice2ToFloat64(values [][][]float64, f func(v [][]float64) float64) (newValues []float64) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+func lib_MaxFloat64ByFloat64Slice(values [][]float64, f func(vs []float64) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapFloat64SliceToFloat64(values, f))
+}
+
+func lib_MaxFloat64ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) float64) (max float64, err error) {
+	return lib_MaxFloat64(lib_MapFloat64Slice2ToFloat64(values, f))
 }
 
 func lib_ReduceRune(values []rune, f func(acc, cur rune) rune, initial rune) (newValue rune) {
@@ -3505,6 +4828,14 @@ func (i *lib_Input) MustGetIntLines() (newLines [][]int) {
 	return newLines
 }
 
+func (i *lib_Input) MustGetIntLinesFrom(fromIndex int) (newLines [][]int) {
+	newLines, err := i.GetIntLinesFrom(fromIndex)
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
 func (i *lib_Input) MustGetIntLine(index int) []int {
 	v, err := i.GetIntLine(index)
 	if err != nil {
@@ -3539,6 +4870,14 @@ func (i *lib_Input) MustGetColIntLine(colIndex int) (newLine []int) {
 
 func (i *lib_Input) MustGetInt8Lines() (newLines [][]int8) {
 	newLines, err := i.GetInt8Lines()
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
+func (i *lib_Input) MustGetInt8LinesFrom(fromIndex int) (newLines [][]int8) {
+	newLines, err := i.GetInt8LinesFrom(fromIndex)
 	if err != nil {
 		panic(err)
 	}
@@ -3585,6 +4924,14 @@ func (i *lib_Input) MustGetInt16Lines() (newLines [][]int16) {
 	return newLines
 }
 
+func (i *lib_Input) MustGetInt16LinesFrom(fromIndex int) (newLines [][]int16) {
+	newLines, err := i.GetInt16LinesFrom(fromIndex)
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
 func (i *lib_Input) MustGetInt16Line(index int) []int16 {
 	v, err := i.GetInt16Line(index)
 	if err != nil {
@@ -3619,6 +4966,14 @@ func (i *lib_Input) MustGetColInt16Line(colIndex int) (newLine []int16) {
 
 func (i *lib_Input) MustGetInt32Lines() (newLines [][]int32) {
 	newLines, err := i.GetInt32Lines()
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
+func (i *lib_Input) MustGetInt32LinesFrom(fromIndex int) (newLines [][]int32) {
+	newLines, err := i.GetInt32LinesFrom(fromIndex)
 	if err != nil {
 		panic(err)
 	}
@@ -3665,6 +5020,14 @@ func (i *lib_Input) MustGetInt64Lines() (newLines [][]int64) {
 	return newLines
 }
 
+func (i *lib_Input) MustGetInt64LinesFrom(fromIndex int) (newLines [][]int64) {
+	newLines, err := i.GetInt64LinesFrom(fromIndex)
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
 func (i *lib_Input) MustGetInt64Line(index int) []int64 {
 	v, err := i.GetInt64Line(index)
 	if err != nil {
@@ -3705,6 +5068,14 @@ func (i *lib_Input) MustGetFloat32Lines() (newLines [][]float32) {
 	return newLines
 }
 
+func (i *lib_Input) MustGetFloat32LinesFrom(fromIndex int) (newLines [][]float32) {
+	newLines, err := i.GetFloat32LinesFrom(fromIndex)
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
 func (i *lib_Input) MustGetFloat32Line(index int) []float32 {
 	v, err := i.GetFloat32Line(index)
 	if err != nil {
@@ -3739,6 +5110,14 @@ func (i *lib_Input) MustGetColFloat32Line(colIndex int) (newLine []float32) {
 
 func (i *lib_Input) MustGetFloat64Lines() (newLines [][]float64) {
 	newLines, err := i.GetFloat64Lines()
+	if err != nil {
+		panic(err)
+	}
+	return newLines
+}
+
+func (i *lib_Input) MustGetFloat64LinesFrom(fromIndex int) (newLines [][]float64) {
+	newLines, err := i.GetFloat64LinesFrom(fromIndex)
 	if err != nil {
 		panic(err)
 	}
@@ -3817,6 +5196,22 @@ func lib_MustStringSliceToIntSlice(line []string) (ValueLine []int) {
 	return ValueLine
 }
 
+func lib_MustMaxInt(values []int) (max int) {
+	max, err := lib_MaxInt(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinInt(values []int) (min int) {
+	min, err := lib_MinInt(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
+}
+
 func lib_MustSubtractInt8By(values1 []int8, values2 []int8, f func(v int8) int8) (newValues []int8) {
 	newValues, err := lib_SubtractInt8By(values1, values2, f)
 	if err != nil {
@@ -3855,6 +5250,22 @@ func lib_MustStringSliceToInt8Slice(line []string) (ValueLine []int8) {
 		panic(err)
 	}
 	return ValueLine
+}
+
+func lib_MustMaxInt8(values []int8) (max int8) {
+	max, err := lib_MaxInt8(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinInt8(values []int8) (min int8) {
+	min, err := lib_MinInt8(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
 }
 
 func lib_MustSubtractInt16By(values1 []int16, values2 []int16, f func(v int16) int16) (newValues []int16) {
@@ -3897,6 +5308,22 @@ func lib_MustStringSliceToInt16Slice(line []string) (ValueLine []int16) {
 	return ValueLine
 }
 
+func lib_MustMaxInt16(values []int16) (max int16) {
+	max, err := lib_MaxInt16(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinInt16(values []int16) (min int16) {
+	min, err := lib_MinInt16(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
+}
+
 func lib_MustSubtractInt32By(values1 []int32, values2 []int32, f func(v int32) int32) (newValues []int32) {
 	newValues, err := lib_SubtractInt32By(values1, values2, f)
 	if err != nil {
@@ -3935,6 +5362,22 @@ func lib_MustStringSliceToInt32Slice(line []string) (ValueLine []int32) {
 		panic(err)
 	}
 	return ValueLine
+}
+
+func lib_MustMaxInt32(values []int32) (max int32) {
+	max, err := lib_MaxInt32(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinInt32(values []int32) (min int32) {
+	min, err := lib_MinInt32(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
 }
 
 func lib_MustSubtractInt64By(values1 []int64, values2 []int64, f func(v int64) int64) (newValues []int64) {
@@ -3977,6 +5420,22 @@ func lib_MustStringSliceToInt64Slice(line []string) (ValueLine []int64) {
 	return ValueLine
 }
 
+func lib_MustMaxInt64(values []int64) (max int64) {
+	max, err := lib_MaxInt64(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinInt64(values []int64) (min int64) {
+	min, err := lib_MinInt64(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
+}
+
 func lib_MustSubtractFloat32By(values1 []float32, values2 []float32, f func(v float32) float32) (newValues []float32) {
 	newValues, err := lib_SubtractFloat32By(values1, values2, f)
 	if err != nil {
@@ -4017,6 +5476,22 @@ func lib_MustStringSliceToFloat32Slice(line []string) (ValueLine []float32) {
 	return ValueLine
 }
 
+func lib_MustMaxFloat32(values []float32) (max float32) {
+	max, err := lib_MaxFloat32(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinFloat32(values []float32) (min float32) {
+	min, err := lib_MinFloat32(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
+}
+
 func lib_MustSubtractFloat64By(values1 []float64, values2 []float64, f func(v float64) float64) (newValues []float64) {
 	newValues, err := lib_SubtractFloat64By(values1, values2, f)
 	if err != nil {
@@ -4055,6 +5530,806 @@ func lib_MustStringSliceToFloat64Slice(line []string) (ValueLine []float64) {
 		panic(err)
 	}
 	return ValueLine
+}
+
+func lib_MustMaxFloat64(values []float64) (max float64) {
+	max, err := lib_MaxFloat64(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMinFloat64(values []float64) (min float64) {
+	min, err := lib_MinFloat64(values)
+	if err != nil {
+		panic(err)
+	}
+	return min
+}
+
+func lib_MustMaxIntByIntSlice(values [][]int, f func(vs []int) int) (max int) {
+	max, err := lib_MaxIntByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByIntSlice2(values [][][]int, f func(vs [][]int) int) (max int) {
+	max, err := lib_MaxIntByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt8Slice(values [][]int8, f func(vs []int8) int) (max int) {
+	max, err := lib_MaxIntByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt8Slice2(values [][][]int8, f func(vs [][]int8) int) (max int) {
+	max, err := lib_MaxIntByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt16Slice(values [][]int16, f func(vs []int16) int) (max int) {
+	max, err := lib_MaxIntByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt16Slice2(values [][][]int16, f func(vs [][]int16) int) (max int) {
+	max, err := lib_MaxIntByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt32Slice(values [][]int32, f func(vs []int32) int) (max int) {
+	max, err := lib_MaxIntByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt32Slice2(values [][][]int32, f func(vs [][]int32) int) (max int) {
+	max, err := lib_MaxIntByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt64Slice(values [][]int64, f func(vs []int64) int) (max int) {
+	max, err := lib_MaxIntByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByInt64Slice2(values [][][]int64, f func(vs [][]int64) int) (max int) {
+	max, err := lib_MaxIntByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByFloat32Slice(values [][]float32, f func(vs []float32) int) (max int) {
+	max, err := lib_MaxIntByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int) (max int) {
+	max, err := lib_MaxIntByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByFloat64Slice(values [][]float64, f func(vs []float64) int) (max int) {
+	max, err := lib_MaxIntByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxIntByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int) (max int) {
+	max, err := lib_MaxIntByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByIntSlice(values [][]int, f func(vs []int) int8) (max int8) {
+	max, err := lib_MaxInt8ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByIntSlice2(values [][][]int, f func(vs [][]int) int8) (max int8) {
+	max, err := lib_MaxInt8ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt8Slice(values [][]int8, f func(vs []int8) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt16Slice(values [][]int16, f func(vs []int16) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt32Slice(values [][]int32, f func(vs []int32) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt64Slice(values [][]int64, f func(vs []int64) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int8) (max int8) {
+	max, err := lib_MaxInt8ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByFloat32Slice(values [][]float32, f func(vs []float32) int8) (max int8) {
+	max, err := lib_MaxInt8ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int8) (max int8) {
+	max, err := lib_MaxInt8ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByFloat64Slice(values [][]float64, f func(vs []float64) int8) (max int8) {
+	max, err := lib_MaxInt8ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int8) (max int8) {
+	max, err := lib_MaxInt8ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByIntSlice(values [][]int, f func(vs []int) int16) (max int16) {
+	max, err := lib_MaxInt16ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByIntSlice2(values [][][]int, f func(vs [][]int) int16) (max int16) {
+	max, err := lib_MaxInt16ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt8Slice(values [][]int8, f func(vs []int8) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt16Slice(values [][]int16, f func(vs []int16) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt32Slice(values [][]int32, f func(vs []int32) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt64Slice(values [][]int64, f func(vs []int64) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int16) (max int16) {
+	max, err := lib_MaxInt16ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByFloat32Slice(values [][]float32, f func(vs []float32) int16) (max int16) {
+	max, err := lib_MaxInt16ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int16) (max int16) {
+	max, err := lib_MaxInt16ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByFloat64Slice(values [][]float64, f func(vs []float64) int16) (max int16) {
+	max, err := lib_MaxInt16ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt16ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int16) (max int16) {
+	max, err := lib_MaxInt16ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByIntSlice(values [][]int, f func(vs []int) int32) (max int32) {
+	max, err := lib_MaxInt32ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByIntSlice2(values [][][]int, f func(vs [][]int) int32) (max int32) {
+	max, err := lib_MaxInt32ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt8Slice(values [][]int8, f func(vs []int8) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt16Slice(values [][]int16, f func(vs []int16) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt32Slice(values [][]int32, f func(vs []int32) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt64Slice(values [][]int64, f func(vs []int64) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int32) (max int32) {
+	max, err := lib_MaxInt32ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByFloat32Slice(values [][]float32, f func(vs []float32) int32) (max int32) {
+	max, err := lib_MaxInt32ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int32) (max int32) {
+	max, err := lib_MaxInt32ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByFloat64Slice(values [][]float64, f func(vs []float64) int32) (max int32) {
+	max, err := lib_MaxInt32ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int32) (max int32) {
+	max, err := lib_MaxInt32ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByIntSlice(values [][]int, f func(vs []int) int64) (max int64) {
+	max, err := lib_MaxInt64ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByIntSlice2(values [][][]int, f func(vs [][]int) int64) (max int64) {
+	max, err := lib_MaxInt64ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt8Slice(values [][]int8, f func(vs []int8) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt8Slice2(values [][][]int8, f func(vs [][]int8) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt16Slice(values [][]int16, f func(vs []int16) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt16Slice2(values [][][]int16, f func(vs [][]int16) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt32Slice(values [][]int32, f func(vs []int32) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt32Slice2(values [][][]int32, f func(vs [][]int32) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt64Slice(values [][]int64, f func(vs []int64) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByInt64Slice2(values [][][]int64, f func(vs [][]int64) int64) (max int64) {
+	max, err := lib_MaxInt64ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByFloat32Slice(values [][]float32, f func(vs []float32) int64) (max int64) {
+	max, err := lib_MaxInt64ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) int64) (max int64) {
+	max, err := lib_MaxInt64ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByFloat64Slice(values [][]float64, f func(vs []float64) int64) (max int64) {
+	max, err := lib_MaxInt64ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt64ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) int64) (max int64) {
+	max, err := lib_MaxInt64ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByIntSlice(values [][]int, f func(vs []int) float32) (max float32) {
+	max, err := lib_MaxFloat32ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByIntSlice2(values [][][]int, f func(vs [][]int) float32) (max float32) {
+	max, err := lib_MaxFloat32ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt8Slice(values [][]int8, f func(vs []int8) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt8Slice2(values [][][]int8, f func(vs [][]int8) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt16Slice(values [][]int16, f func(vs []int16) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt16Slice2(values [][][]int16, f func(vs [][]int16) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt32Slice(values [][]int32, f func(vs []int32) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt32Slice2(values [][][]int32, f func(vs [][]int32) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt64Slice(values [][]int64, f func(vs []int64) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByInt64Slice2(values [][][]int64, f func(vs [][]int64) float32) (max float32) {
+	max, err := lib_MaxFloat32ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByFloat32Slice(values [][]float32, f func(vs []float32) float32) (max float32) {
+	max, err := lib_MaxFloat32ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) float32) (max float32) {
+	max, err := lib_MaxFloat32ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByFloat64Slice(values [][]float64, f func(vs []float64) float32) (max float32) {
+	max, err := lib_MaxFloat32ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat32ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) float32) (max float32) {
+	max, err := lib_MaxFloat32ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByIntSlice(values [][]int, f func(vs []int) float64) (max float64) {
+	max, err := lib_MaxFloat64ByIntSlice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByIntSlice2(values [][][]int, f func(vs [][]int) float64) (max float64) {
+	max, err := lib_MaxFloat64ByIntSlice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt8Slice(values [][]int8, f func(vs []int8) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt8Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt8Slice2(values [][][]int8, f func(vs [][]int8) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt8Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt16Slice(values [][]int16, f func(vs []int16) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt16Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt16Slice2(values [][][]int16, f func(vs [][]int16) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt16Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt32Slice(values [][]int32, f func(vs []int32) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt32Slice2(values [][][]int32, f func(vs [][]int32) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt64Slice(values [][]int64, f func(vs []int64) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByInt64Slice2(values [][][]int64, f func(vs [][]int64) float64) (max float64) {
+	max, err := lib_MaxFloat64ByInt64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByFloat32Slice(values [][]float32, f func(vs []float32) float64) (max float64) {
+	max, err := lib_MaxFloat64ByFloat32Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByFloat32Slice2(values [][][]float32, f func(vs [][]float32) float64) (max float64) {
+	max, err := lib_MaxFloat64ByFloat32Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByFloat64Slice(values [][]float64, f func(vs []float64) float64) (max float64) {
+	max, err := lib_MaxFloat64ByFloat64Slice(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64ByFloat64Slice2(values [][][]float64, f func(vs [][]float64) float64) (max float64) {
+	max, err := lib_MaxFloat64ByFloat64Slice2(values, f)
+	if err != nil {
+		panic(err)
+	}
+	return max
 }
 
 func lib_MustZipRune(valuesList ...[]rune) (newValuesList [][]rune) {

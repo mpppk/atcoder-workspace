@@ -6,7 +6,14 @@ import (
 )
 
 func (i *Input) GetAAALines() (newLines [][]AAA, err error) {
+	return i.GetAAALinesFrom(0)
+}
+
+func (i *Input) GetAAALinesFrom(fromIndex int) (newLines [][]AAA, err error) {
 	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
 		newLine, err := i.GetAAALine(index)
 		if err != nil {
 			return nil, err
