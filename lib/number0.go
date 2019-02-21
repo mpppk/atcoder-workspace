@@ -15,3 +15,18 @@ func toSpecificBitIntLine(line []string, bitSize int) (intLine []int64, err erro
 	}
 	return intLine, nil
 }
+
+func BitEnumeration(digits uint) (enums [][]bool) {
+	if digits == 0 {
+		return [][]bool{}
+	}
+
+	for i := 0; i < 1<<digits; i++ {
+		e := []bool{}
+		for d := uint(0); d < digits; d++ {
+			e = append(e, i>>d&1 == 1)
+		}
+		enums = append(enums, e)
+	}
+	return
+}

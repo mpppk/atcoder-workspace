@@ -5,6 +5,7 @@ package lib
 import (
 	"errors"
 	"fmt"
+	"strconv"
 )
 
 func SumAAA(values []AAA) AAA {
@@ -68,6 +69,17 @@ func RDiffAAA(values []AAA) (newValues []AAA, err error) {
 	return RDiffAAABy(values, func(v AAA) AAA {
 		return v
 	})
+}
+
+func StringToAAASlice(s string) (ValueLine []AAA, err error) {
+	for _, r := range s {
+		v, err := strconv.ParseInt(string(r), 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		ValueLine = append(ValueLine, AAA(v))
+	}
+	return
 }
 
 func StringSliceToAAASlice(line []string) (ValueLine []AAA, err error) {

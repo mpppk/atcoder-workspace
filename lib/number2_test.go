@@ -70,3 +70,33 @@ func TestMaxAAAByBBBSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestSumAAAByBBB(t *testing.T) {
+	type args struct {
+		values []AAA
+		f      func(v AAA) BBB
+	}
+	tests := []struct {
+		name string
+		args args
+		want BBB
+	}{
+		{
+			name: "SumAAAByBBB",
+			args: args{
+				values: []AAA{1, 2, 3},
+				f: func(a AAA) BBB {
+					return BBB(int(a) * int(a))
+				},
+			},
+			want: 14,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := SumAAAByBBB(tt.args.values, tt.args.f); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SumAAAByBBB() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

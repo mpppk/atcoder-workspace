@@ -195,3 +195,44 @@ func TestStringToValueLine(t *testing.T) {
 		})
 	}
 }
+
+func TestStringToAAASlice(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantValueLine []AAA
+		wantErr       bool
+	}{
+		{
+			name: "StringToAAASlice",
+			args: args{
+				s: "012",
+			},
+			wantValueLine: []AAA{0, 1, 2},
+			wantErr:       false,
+		},
+		{
+			name: "StringToAAASlice",
+			args: args{
+				s: "a",
+			},
+			wantValueLine: nil,
+			wantErr:       true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotValueLine, err := StringToAAASlice(tt.args.s)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("StringToAAASlice() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotValueLine, tt.wantValueLine) {
+				t.Errorf("StringToAAASlice() = %v, want %v", gotValueLine, tt.wantValueLine)
+			}
+		})
+	}
+}
