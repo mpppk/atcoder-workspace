@@ -305,3 +305,57 @@ func TestInput_GetLines(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_GetStringLinesFrom(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		fromIndex int
+	}
+	tests := []struct {
+		name         string
+		fields       fields
+		args         args
+		wantNewLines [][]string
+		wantErr      bool
+	}{
+		{
+			name: "GetLines",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}},
+			},
+			args: args{
+				fromIndex: 0,
+			},
+			wantNewLines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}},
+			wantErr:      false,
+		},
+		{
+			name: "GetLines",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}},
+			},
+			args: args{
+				fromIndex: 1,
+			},
+			wantNewLines: [][]string{{"4", "5", "6"}, {"7", "8", "9"}},
+			wantErr:      false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			gotNewLines, err := i.GetStringLinesFrom(tt.args.fromIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetStringLinesFrom() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotNewLines, tt.wantNewLines) {
+				t.Errorf("Input.GetStringLinesFrom() = %v, want %v", gotNewLines, tt.wantNewLines)
+			}
+		})
+	}
+}

@@ -85,6 +85,20 @@ func (i *Input) GetLines(startRowIndex, endRowIndex int) ([][]string, error) {
 	return i.lines[startRowIndex:endRowIndex], nil
 }
 
+func (i *Input) GetStringLinesFrom(fromIndex int) (newLines [][]string, err error) {
+	for index := range i.lines {
+		if index < fromIndex {
+			continue
+		}
+		newLine, err := i.GetLine(index)
+		if err != nil {
+			return nil, err
+		}
+		newLines = append(newLines, newLine)
+	}
+	return
+}
+
 func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	line, err := i.GetLine(rowIndex)
 	if err != nil {
