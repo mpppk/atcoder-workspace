@@ -22,6 +22,8 @@ bundle-gen: mustify-gen
 mustify-gen: genny-gen
 	goofy mustify --file ./gen/input.go --out ./gen/must-input.go
 	goimports -w ./gen/must-input.go
+	goofy mustify --file ./gen/string.go --out ./gen/must-string.go
+	goimports -w ./gen/must-string.go
 	goofy mustify --file ./gen/gen-input-number.go --out ./gen/must-gen-input-number.go
 	goimports -w ./gen/must-gen-input-number.go
 	goofy mustify --file ./gen/gen-number.go --out ./gen/must-gen-number.go
@@ -38,6 +40,7 @@ mustify-gen: genny-gen
 .PHONY: genny-gen
 genny-gen: genny-lib
 	cp ./lib/number0.go ./gen/number0.go
+	cp ./lib/string.go ./gen/string.go
 	cp ./lib/input.go ./gen/input.go
 	cp ./lib/utl.go ./gen/utl.go
 	genny -in='./lib/number.go' -out='./gen/gen-number.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"

@@ -359,3 +359,79 @@ func TestInput_GetStringLinesFrom(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_ReadAsStringGridFrom(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		fromIndex int
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    [][]string
+		wantErr bool
+	}{
+		{
+			name: "ReadAsStringGridFrom",
+			fields: fields{
+				lines: [][]string{{"123"}, {"456"}},
+			},
+			args: args{
+				fromIndex: 0,
+			},
+			want:    [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			wantErr: false,
+		},
+		{
+			name: "ReadAsStringGridFrom",
+			fields: fields{
+				lines: [][]string{{"123"}, {"456"}},
+			},
+			args: args{
+				fromIndex: 1,
+			},
+			want:    [][]string{{"4", "5", "6"}},
+			wantErr: false,
+		},
+		{
+			name: "ReadAsStringGridFrom",
+			fields: fields{
+				lines: [][]string{{"12", "3"}, {"456"}},
+			},
+			args: args{
+				fromIndex: 0,
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "ReadAsStringGridFrom",
+			fields: fields{
+				lines: [][]string{{"123"}, {"45", "6"}},
+			},
+			args: args{
+				fromIndex: 1,
+			},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			got, err := i.ReadAsStringGridFrom(tt.args.fromIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.ReadAsStringGridFrom() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Input.ReadAsStringGridFrom() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -5287,6 +5287,27 @@ func (i *lib_Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
+func (i *lib_Input) ReadAsStringGridFrom(fromIndex int) ([][]string, error) {
+	lines, err := i.GetStringLinesFrom(fromIndex)
+	if err != nil {
+		return nil, err
+	}
+
+	var m [][]string
+	for _, line := range lines {
+		if len(line) > 1 {
+			return nil, fmt.Errorf("unexpected length line: %v", line)
+		}
+
+		var mLine []string
+		for _, r := range line[0] {
+			mLine = append(mLine, string(r))
+		}
+		m = append(m, mLine)
+	}
+	return m, nil
+}
+
 func lib_NewInput(scanner *bufio.Scanner) *lib_Input {
 	return &lib_Input{
 		lines: lib_toLines(scanner),
@@ -7279,6 +7300,14 @@ func (i *lib_Input) MustGetLine(index int) []string {
 	return v
 }
 
+func (i *lib_Input) MustReadAsStringGridFrom(fromIndex int) [][]string {
+	v, err := i.ReadAsStringGridFrom(fromIndex)
+	if err != nil {
+		panic(err)
+	}
+	return v
+}
+
 func lib_MustNewInputFromReader(reader *bufio.Reader) *lib_Input {
 	v, err := lib_NewInputFromReader(reader)
 	if err != nil {
@@ -7311,6 +7340,17 @@ func lib_BitEnumeration(digits uint) (enums [][]bool) {
 		enums = append(enums, e)
 	}
 	return
+}
+
+func lib_FindPosFromStringGrid(m [][]string, s string) (int, int) {
+	for rowIndex, row := range m {
+		for colIndex, p := range row {
+			if p == s {
+				return rowIndex, colIndex
+			}
+		}
+	}
+	panic(s + " not found")
 }
 
 func lib_PanicIfErrorExist(err error) {

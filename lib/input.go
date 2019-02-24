@@ -136,6 +136,27 @@ func (i *Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
+func (i *Input) ReadAsStringGridFrom(fromIndex int) ([][]string, error) {
+	lines, err := i.GetStringLinesFrom(fromIndex)
+	if err != nil {
+		return nil, err
+	}
+
+	var m [][]string
+	for _, line := range lines {
+		if len(line) > 1 {
+			return nil, fmt.Errorf("unexpected length line: %v", line)
+		}
+
+		var mLine []string
+		for _, r := range line[0] {
+			mLine = append(mLine, string(r))
+		}
+		m = append(m, mLine)
+	}
+	return m, nil
+}
+
 func NewInput(scanner *bufio.Scanner) *Input {
 	return &Input{
 		lines: toLines(scanner),

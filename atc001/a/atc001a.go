@@ -8,18 +8,9 @@ import (
 )
 
 func solve(input *lib_Input) string {
-	lines := input.MustGetStringLinesFrom(1)
-	var m [][]string
-	for _, line := range lines {
-		var mLine []string
-		for _, r := range line[0] {
-			mLine = append(mLine, string(r))
-		}
-		m = append(m, mLine)
-	}
-
-	startRowIndex, startColIndex := findPos(m, "s")
-	goalRowIndex, goalColIndex := findPos(m, "g")
+	m := input.MustReadAsStringGridFrom(1)
+	startRowIndex, startColIndex := lib_FindPosFromStringGrid(m, "s")
+	goalRowIndex, goalColIndex := lib_FindPosFromStringGrid(m, "g")
 
 	visitMap := map[[2]int]bool{}
 	if isValidRoute(m, visitMap, startRowIndex, startColIndex, goalRowIndex, goalColIndex) {
@@ -62,17 +53,6 @@ func isValidRoute(m [][]string, visitMap map[[2]int]bool, fromRowIndex, fromColI
 		return true
 	}
 	return false
-}
-
-func findPos(m [][]string, s string) (int, int) {
-	for rowIndex, row := range m {
-		for colIndex, p := range row {
-			if p == s {
-				return rowIndex, colIndex
-			}
-		}
-	}
-	panic(s + " not found")
 }
 
 func main() {
