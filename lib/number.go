@@ -120,3 +120,14 @@ func MinAAA(values []AAA) (min AAA, err error) {
 	}
 	return
 }
+
+func NewAAAGridMap(grid [][]string, defaultValue AAA) (m [][]AAA) {
+	for _, line := range grid {
+		var newLine []AAA
+		for range line {
+			newLine = append(newLine, defaultValue)
+		}
+		m = append(m, newLine)
+	}
+	return
+}

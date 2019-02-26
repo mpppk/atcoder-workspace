@@ -155,13 +155,9 @@ func ZZZCombination(values []ZZZ, r int) (combinations [][]ZZZ, err error) {
 	}
 
 	for i := range values {
-		fmt.Println(i, values)
 		newValues := values
 		for j := 0; j <= i; j++ {
 			newValues = newValues[1:]
-			if err != nil {
-				return nil, err
-			}
 		}
 		partialCombinations, err := ZZZCombination(newValues, r-1)
 		if err != nil {
@@ -171,6 +167,23 @@ func ZZZCombination(values []ZZZ, r int) (combinations [][]ZZZ, err error) {
 		for _, pc := range partialCombinations {
 			newC := append(pc, values[i])
 			combinations = append(combinations, newC)
+		}
+	}
+	return
+}
+
+func ZZZPermutation(values []ZZZ, r int) (permutations [][]ZZZ) {
+	if r == 1 {
+		for _, value := range values {
+			permutations = append(permutations, []ZZZ{value})
+		}
+		return
+	}
+	for i := range values {
+		newValues := ZZZRemoveFromSlice(values, i)
+		for _, pc := range ZZZPermutation(newValues, r-1) {
+			newC := append(pc, values[i])
+			permutations = append(permutations, newC)
 		}
 	}
 	return
@@ -203,4 +216,10 @@ func ZZZSliceCombination(values [][]ZZZ, r int) (combinations [][][]ZZZ, err err
 		}
 	}
 	return
+}
+
+func ZZZRemoveFromSlice(slice []ZZZ, i int) []ZZZ {
+	n := make([]ZZZ, len(slice))
+	copy(n, slice)
+	return append(n[:i], n[i+1:]...)
 }

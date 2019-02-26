@@ -400,3 +400,31 @@ func TestZZZSliceCombination(t *testing.T) {
 		})
 	}
 }
+
+func TestZZZPermutation(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		r      int
+	}
+	tests := []struct {
+		name             string
+		args             args
+		wantPermutations [][]ZZZ
+	}{
+		{
+			name: "ZZZPermutation",
+			args: args{
+				values: []ZZZ{1, 2, 3},
+				r:      3,
+			},
+			wantPermutations: [][]ZZZ{{3, 2, 1}, {2, 3, 1}, {3, 1, 2}, {1, 3, 2}, {2, 1, 3}, {1, 2, 3}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotPermutations := ZZZPermutation(tt.args.values, tt.args.r); !reflect.DeepEqual(gotPermutations, tt.wantPermutations) {
+				t.Errorf("ZZZPermutation() = %v, want %v", gotPermutations, tt.wantPermutations)
+			}
+		})
+	}
+}

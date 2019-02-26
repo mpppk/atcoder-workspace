@@ -236,3 +236,31 @@ func TestStringToAAASlice(t *testing.T) {
 		})
 	}
 }
+
+func TestNewAAAGridMap(t *testing.T) {
+	type args struct {
+		grid         [][]string
+		defaultValue AAA
+	}
+	tests := []struct {
+		name  string
+		args  args
+		wantM [][]AAA
+	}{
+		{
+			name: "NewAAAGridMap",
+			args: args{
+				grid:         [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+				defaultValue: 1,
+			},
+			wantM: [][]AAA{{1, 1, 1}, {1, 1, 1}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotM := NewAAAGridMap(tt.args.grid, tt.args.defaultValue); !reflect.DeepEqual(gotM, tt.wantM) {
+				t.Errorf("NewAAAGridMap() = %v, want %v", gotM, tt.wantM)
+			}
+		})
+	}
+}

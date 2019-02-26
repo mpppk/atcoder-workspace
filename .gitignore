@@ -2,3 +2,4 @@ bundled_utl.go
 .idea/
 gen-*.go
 must-*.go
+gen/
