@@ -428,3 +428,33 @@ func TestZZZPermutation(t *testing.T) {
 		})
 	}
 }
+
+func TestMapZZZSlice(t *testing.T) {
+	type args struct {
+		values [][]ZZZ
+		f      func(v []ZZZ) []ZZZ
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues [][]ZZZ
+	}{
+		{
+			name: "MapZZZSlice",
+			args: args{
+				values: [][]ZZZ{{1, 2, 3}, {4, 5, 6}},
+				f: func(v []ZZZ) []ZZZ {
+					return append(v, 0)
+				},
+			},
+			wantNewValues: [][]ZZZ{{1, 2, 3, 0}, {4, 5, 6, 0}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValues := MapZZZSlice(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("MapZZZSlice() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}

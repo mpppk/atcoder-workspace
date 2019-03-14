@@ -42,6 +42,13 @@ func MapZZZ(values []ZZZ, f func(v ZZZ) ZZZ) (newValues []ZZZ) {
 	return
 }
 
+func MapZZZSlice(values [][]ZZZ, f func(v []ZZZ) []ZZZ) (newValues [][]ZZZ) {
+	for _, value := range values {
+		newValues = append(newValues, f(value))
+	}
+	return
+}
+
 func MapTypeZZZ(values [][]ZZZ, f func(v []ZZZ) ZZZ) (newValues []ZZZ) {
 	for _, value := range values {
 		newValues = append(newValues, f(value))

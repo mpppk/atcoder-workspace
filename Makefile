@@ -36,6 +36,8 @@ mustify-gen: genny-gen
 	goimports -w ./gen/must-gen-type.go
 	goofy mustify --file ./gen/gen-misc.go --out ./gen/must-gen-misc.go
 	goimports -w ./gen/must-gen-misc.go
+	goofy mustify --file ./gen/graph.go --out ./gen/must-graph.go
+	goimports -w ./gen/must-graph.go
 
 .PHONY: genny-gen
 genny-gen: genny-lib
@@ -43,6 +45,7 @@ genny-gen: genny-lib
 	cp ./lib/string.go ./gen/string.go
 	cp ./lib/input.go ./gen/input.go
 	cp ./lib/utl.go ./gen/utl.go
+	cp ./lib/graph.go ./gen/graph.go
 	genny -in='./lib/number.go' -out='./gen/gen-number.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/number2.go' -out='./gen/gen-number2.go' gen "AAA=int,int8,int16,int32,int64,float32,float64 BBB=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/int.go' -out='./gen/gen-int.go' gen "AAA=int,int8,int16,int32,int64"

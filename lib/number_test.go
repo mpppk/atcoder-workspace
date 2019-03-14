@@ -2,6 +2,7 @@ package lib
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -61,6 +62,35 @@ func TestFilterValue(t *testing.T) {
 	}
 }
 
+func TestFilterAAASlice(t *testing.T) {
+	type args struct {
+		values [][]AAA
+		f      func(v []AAA) bool
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues [][]AAA
+	}{
+		{
+			name: "FilterAAASlice",
+			args: args{
+				values: [][]AAA{{1, 2, 3}, {4, 5, 6}},
+				f: func(v []AAA) bool {
+					return v[0] == 1
+				},
+			},
+			wantNewValues: [][]AAA{{1, 2, 3}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValues := FilterAAASlice(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("FilterAAASlice() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}
 func TestUniqValue(t *testing.T) {
 	type args struct {
 		values []AAA
@@ -80,7 +110,14 @@ func TestUniqValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotNewValues := UniqAAA(tt.args.values); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+			gotNewValues := UniqAAA(tt.args.values)
+			sort.SliceStable(gotNewValues, func(i, j int) bool {
+				return gotNewValues[i] < gotNewValues[j]
+			})
+			sort.SliceStable(tt.wantNewValues, func(i, j int) bool {
+				return tt.wantNewValues[i] < tt.wantNewValues[j]
+			})
+			if !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
 				t.Errorf("UniqAAA() = %v, want %v", gotNewValues, tt.wantNewValues)
 			}
 		})
@@ -260,6 +297,54 @@ func TestNewAAAGridMap(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if gotM := NewAAAGridMap(tt.args.grid, tt.args.defaultValue); !reflect.DeepEqual(gotM, tt.wantM) {
 				t.Errorf("NewAAAGridMap() = %v, want %v", gotM, tt.wantM)
+			}
+		})
+	}
+}
+
+func TestAAARange(t *testing.T) {
+	type args struct {
+		start AAA
+		end   AAA
+		step  AAA
+	}
+	tests := []struct {
+		name string
+		args args
+		want []AAA
+	}{
+		{
+			name: "AAARange",
+			args: args{
+				start: 0,
+				end:   1,
+				step:  1,
+			},
+			want: []AAA{0},
+		},
+		{
+			name: "AAARange",
+			args: args{
+				start: 1,
+				end:   3,
+				step:  1,
+			},
+			want: []AAA{1, 2},
+		},
+		{
+			name: "AAARange",
+			args: args{
+				start: 0,
+				end:   1,
+				step:  0.5,
+			},
+			want: []AAA{0, 0.5},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := AAARange(tt.args.start, tt.args.end, tt.args.step); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("AAARange() = %v, want %v", got, tt.want)
 			}
 		})
 	}

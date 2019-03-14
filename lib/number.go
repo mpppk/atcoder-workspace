@@ -25,6 +25,15 @@ func FilterAAA(values []AAA, f func(v AAA) bool) (newValues []AAA) {
 	return
 }
 
+func FilterAAASlice(values [][]AAA, f func(v []AAA) bool) (newValues [][]AAA) {
+	for _, value := range values {
+		if f(value) {
+			newValues = append(newValues, value)
+		}
+	}
+	return
+}
+
 func UniqAAA(values []AAA) (newValues []AAA) {
 	m := map[AAA]bool{}
 	for _, value := range values {
@@ -130,4 +139,16 @@ func NewAAAGridMap(grid [][]string, defaultValue AAA) (m [][]AAA) {
 		m = append(m, newLine)
 	}
 	return
+}
+
+func AAARange(start, end, step AAA) []AAA {
+	if end < start {
+		return []AAA{}
+	}
+	s := make([]AAA, 0, int(1+(end-start)/step))
+	for start < end {
+		s = append(s, start)
+		start += step
+	}
+	return s
 }
