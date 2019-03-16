@@ -50,6 +50,7 @@ genny-gen: genny-lib
 	genny -in='./lib/number2.go' -out='./gen/gen-number2.go' gen "AAA=int,int8,int16,int32,int64,float32,float64 BBB=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/int.go' -out='./gen/gen-int.go' gen "AAA=int,int8,int16,int32,int64"
 	genny -in='./lib/type.go' -out='./gen/gen-type.go' gen "ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64"
+	genny -in='./lib/type2.go' -out='./gen/gen-type2.go' gen "YYY=rune,string,int,int8,int16,int32,int64,float32,float64 ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/misc.go' -out='./gen/gen-misc.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/input-number.go' -out='./gen/gen-input-number.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"
 
@@ -59,5 +60,6 @@ genny-lib:
 	genny -in='./lib/number2.go' -out='./lib/gen-number2.go' gen "AAA=int,int8,int16,int32,int64,float32,float64 BBB=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/int.go' -out='./lib/gen-int.go' gen "AAA=int,int8,int16,int32,int64"
 	genny -in='./lib/type.go' -out='./lib/gen-type.go' gen "ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64"
+	genny -in='./lib/type2.go' -out='./lib/gen-type2.go' gen "YYY=rune,string,int,int8,int16,int32,int64,float32,float64 ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/misc.go' -out='./lib/gen-misc.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"
 	genny -in='./lib/input-number.go' -out='./lib/gen-input-number.go' gen "AAA=int,int8,int16,int32,int64,float32,float64"
