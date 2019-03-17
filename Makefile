@@ -4,6 +4,8 @@ AAAint := AAA=int,int8,int16,int32,int64
 BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
 YYY := YYY=rune,string,int,int8,int16,int32,int64,float32,float64
 ZZZ := ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64
+REPO_PATH := github.com/mpppk/atcoder
+COPY_FILES := ./lib/number0.go ./lib/string.go ./lib/input.go ./lib/utl.go ./lib/graph.go
 
 .PHONY: test
 test:
@@ -17,11 +19,11 @@ clean:
 
 .PHONY: bundle
 bundle: bundle-gen
-	bundle -pkg main -prefix ' ' -dst github.com/mpppk/atcoder/${pkg} github.com/mpppk/atcoder/${pkg} | pbcopy
+	bundle -pkg main -prefix ' ' -dst $(REPO_PATH)/${pkg} $(REPO_PATH)/${pkg} | pbcopy
 
 .PHONY: bundle-gen
 bundle-gen: mustify-gen
-	bundle -o ${pkg}/bundled_gen.go -pkg main -dst github.com/mpppk/atcoder/${pkg} github.com/mpppk/atcoder/gen
+	bundle -o ${pkg}/bundled_gen.go -pkg main -dst $(REPO_PATH)/${pkg} $(REPO_PATH)/gen
 
 .PHONY: mustify-gen
 mustify-gen: genny-gen
@@ -30,11 +32,7 @@ mustify-gen: genny-gen
 
 .PHONY: genny-gen
 genny-gen: genny-lib
-	cp ./lib/number0.go ./gen/number0.go
-	cp ./lib/string.go ./gen/string.go
-	cp ./lib/input.go ./gen/input.go
-	cp ./lib/utl.go ./gen/utl.go
-	cp ./lib/graph.go ./gen/graph.go
+	cp $(COPY_FILES) ./gen
 	genny -in='./lib/number.go' -out='./gen/gen-number.go' gen "$(AAAnumber)"
 	genny -in='./lib/number2.go' -out='./gen/gen-number2.go' gen "$(AAAnumber) $(BBBnumber)"
 	genny -in='./lib/int.go' -out='./gen/gen-int.go' gen "$(AAAint)"
