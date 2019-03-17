@@ -20,24 +20,8 @@ bundle-gen: mustify-gen
 
 .PHONY: mustify-gen
 mustify-gen: genny-gen
-	goofy mustify --file ./gen/input.go --out ./gen/must-input.go
-	goimports -w ./gen/must-input.go
-	goofy mustify --file ./gen/string.go --out ./gen/must-string.go
-	goimports -w ./gen/must-string.go
-	goofy mustify --file ./gen/gen-input-number.go --out ./gen/must-gen-input-number.go
-	goimports -w ./gen/must-gen-input-number.go
-	goofy mustify --file ./gen/gen-number.go --out ./gen/must-gen-number.go
-	goimports -w ./gen/must-gen-number.go
-	goofy mustify --file ./gen/gen-number2.go --out ./gen/must-gen-number2.go
-	goimports -w ./gen/must-gen-number2.go
-	goofy mustify --file ./gen/gen-int.go --out ./gen/must-gen-int.go
-	goimports -w ./gen/must-gen-int.go
-	goofy mustify --file ./gen/gen-type.go --out ./gen/must-gen-type.go
-	goimports -w ./gen/must-gen-type.go
-	goofy mustify --file ./gen/gen-misc.go --out ./gen/must-gen-misc.go
-	goimports -w ./gen/must-gen-misc.go
-	goofy mustify --file ./gen/graph.go --out ./gen/must-graph.go
-	goimports -w ./gen/must-graph.go
+	goofy mustify --file ./gen/input.go
+	find ./gen/*.go -type f | xargs goimports -w
 
 .PHONY: genny-gen
 genny-gen: genny-lib
