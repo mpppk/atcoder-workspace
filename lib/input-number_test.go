@@ -359,3 +359,72 @@ func TestInput_GetAAALinesFrom(t *testing.T) {
 		})
 	}
 }
+
+func TestInput_GetAAALineRange(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		fromRowIndex int
+		rangeNum     int
+	}
+	tests := []struct {
+		name         string
+		fields       fields
+		args         args
+		wantNewLines [][]AAA
+		wantErr      bool
+	}{
+		{
+			name: "GetAAALineRange",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				fromRowIndex: 0,
+				rangeNum:     1,
+			},
+			wantNewLines: [][]AAA{{1, 2, 3}},
+			wantErr:      false,
+		},
+		{
+			name: "GetAAALineRange",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				fromRowIndex: 0,
+				rangeNum:     2,
+			},
+			wantNewLines: [][]AAA{{1, 2, 3}, {4, 5, 6}},
+			wantErr:      false,
+		},
+		{
+			name: "GetAAALineRange",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				fromRowIndex: 1,
+				rangeNum:     1,
+			},
+			wantNewLines: [][]AAA{{4, 5, 6}},
+			wantErr:      false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			gotNewLines, err := i.GetAAALineRange(tt.args.fromRowIndex, tt.args.rangeNum)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetAAALineRange() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotNewLines, tt.wantNewLines) {
+				t.Errorf("Input.GetAAALineRange() = %v, want %v", gotNewLines, tt.wantNewLines)
+			}
+		})
+	}
+}

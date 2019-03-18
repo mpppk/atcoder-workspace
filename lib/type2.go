@@ -1,15 +1,5 @@
 package lib
 
-type YYY2ToZZZCache map[YYY]map[YYY]ZZZ
-
-func (c YYY2ToZZZCache) has(v1 YYY, v2 YYY) bool {
-	if _, ok := c[v1]; !ok {
-		return false
-	}
-	_, ok := c[v1][v2]
-	return ok
-}
-
 func MemoizeYYY2ToZZZ(f func(v1, v2 YYY) ZZZ) func(v1, v2 YYY) ZZZ {
 	cache := map[YYY]map[YYY]ZZZ{}
 

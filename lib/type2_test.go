@@ -5,51 +5,6 @@ import (
 	"testing"
 )
 
-func TestMemoizeYYYToZZZ(t *testing.T) {
-	funcCalledNum := 0
-	type args struct {
-		f func(v1 YYY) ZZZ
-	}
-	tests := []struct {
-		name    string
-		args    args
-		testArg YYY
-		want    ZZZ
-	}{
-		{
-			name: "MemoizeYYY2ToZZZ",
-			args: args{
-				f: func(v1 YYY) ZZZ {
-					funcCalledNum++
-					v1Int := v1.(int)
-					return ZZZ(v1Int + 1)
-				},
-			},
-			testArg: 1,
-			want:    2,
-		},
-	}
-	for _, tt := range tests {
-		funcCalledNum = 0
-		t.Run(tt.name, func(t *testing.T) {
-			generatedFunc := MemoizeYYYToZZZ(tt.args.f)
-			if got := generatedFunc(tt.testArg); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("MemoizeYYY2ToZZZ() = %v, want %v", got, tt.want)
-			}
-			if got := generatedFunc(tt.testArg); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("MemoizeYYY2ToZZZ() = %v, want %v", got, tt.want)
-			}
-			if funcCalledNum != 1 {
-				t.Errorf("funcCalledNum = %v, want %v", funcCalledNum, 1)
-			}
-		})
-	}
-
-	if funcCalledNum != 1 {
-
-	}
-}
-
 func TestMemoizeYYY2ToZZZ(t *testing.T) {
 	funcCalledNum := 0
 	type args struct {

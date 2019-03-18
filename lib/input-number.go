@@ -23,6 +23,25 @@ func (i *Input) GetAAALinesFrom(fromIndex int) (newLines [][]AAA, err error) {
 	return
 }
 
+func (i *Input) GetAAALineRange(fromRowIndex, rangeNum int) (newLines [][]AAA, err error) {
+	cnt := 0
+	for index := range i.lines {
+		if index < fromRowIndex {
+			continue
+		}
+		newLine, err := i.GetAAALine(index)
+		if err != nil {
+			return nil, err
+		}
+		newLines = append(newLines, newLine)
+		cnt++
+		if cnt >= rangeNum {
+			return newLines, nil
+		}
+	}
+	return
+}
+
 func (i *Input) GetAAALine(index int) ([]AAA, error) {
 	if err := i.validateRowIndex(index); err != nil {
 		return nil, err
