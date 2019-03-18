@@ -458,3 +458,42 @@ func TestMapZZZSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestTernaryOPZZZ(t *testing.T) {
+	type args struct {
+		ok bool
+		v1 ZZZ
+		v2 ZZZ
+	}
+	tests := []struct {
+		name string
+		args args
+		want ZZZ
+	}{
+		{
+			name: "TernaryOPZZZ",
+			args: args{
+				ok: true,
+				v1: 1,
+				v2: 2,
+			},
+			want: 1,
+		},
+		{
+			name: "TernaryOPZZZ",
+			args: args{
+				ok: false,
+				v1: 1,
+				v2: 2,
+			},
+			want: 2,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := TernaryOPZZZ(tt.args.ok, tt.args.v1, tt.args.v2); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("TernaryOPZZZ() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

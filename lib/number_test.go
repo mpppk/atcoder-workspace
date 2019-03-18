@@ -349,3 +349,36 @@ func TestAAARange(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxAAAVA(t *testing.T) {
+	type args struct {
+		values []AAA
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantMax AAA
+		wantErr bool
+	}{
+		{
+			name: "MaxAAAVA",
+			args: args{
+				values: []AAA{1, 2, 3},
+			},
+			wantMax: 3,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotMax, err := MaxAAAVA(tt.args.values...)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("MaxAAAVA() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotMax, tt.wantMax) {
+				t.Errorf("MaxAAAVA() = %v, want %v", gotMax, tt.wantMax)
+			}
+		})
+	}
+}

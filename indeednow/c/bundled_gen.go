@@ -997,6 +997,20 @@ func lib_MaxInt(values []int) (max int, err error) {
 	return
 }
 
+func lib_MaxIntVA(values ...int) (max int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
 func lib_MinInt(values []int) (min int, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
@@ -1129,6 +1143,20 @@ func lib_StringSliceToInt8Slice(line []string) (ValueLine []int8, err error) {
 }
 
 func lib_MaxInt8(values []int8) (max int8, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MaxInt8VA(values ...int8) (max int8, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
 	}
@@ -1287,6 +1315,20 @@ func lib_MaxInt16(values []int16) (max int16, err error) {
 	return
 }
 
+func lib_MaxInt16VA(values ...int16) (max int16, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
 func lib_MinInt16(values []int16) (min int16, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
@@ -1419,6 +1461,20 @@ func lib_StringSliceToInt32Slice(line []string) (ValueLine []int32, err error) {
 }
 
 func lib_MaxInt32(values []int32) (max int32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MaxInt32VA(values ...int32) (max int32, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
 	}
@@ -1577,6 +1633,20 @@ func lib_MaxInt64(values []int64) (max int64, err error) {
 	return
 }
 
+func lib_MaxInt64VA(values ...int64) (max int64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
 func lib_MinInt64(values []int64) (min int64, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
@@ -1722,6 +1792,20 @@ func lib_MaxFloat32(values []float32) (max float32, err error) {
 	return
 }
 
+func lib_MaxFloat32VA(values ...float32) (max float32, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
 func lib_MinFloat32(values []float32) (min float32, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
@@ -1854,6 +1938,20 @@ func lib_StringSliceToFloat64Slice(line []string) (ValueLine []float64, err erro
 }
 
 func lib_MaxFloat64(values []float64) (max float64, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
+}
+
+func lib_MaxFloat64VA(values ...float64) (max float64, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
 	}
@@ -5854,6 +5952,13 @@ func lib_RuneRemoveFromSlice(slice []rune, i int) []rune {
 	return append(n[:i], n[i+1:]...)
 }
 
+func lib_TernaryOPRune(ok bool, v1, v2 rune) rune {
+	if ok {
+		return v1
+	}
+	return v2
+}
+
 func lib_ReduceString(values []string, f func(acc, cur string) string, initial string) (newValue string) {
 	newValue = initial
 	for _, value := range values {
@@ -6078,6 +6183,13 @@ func lib_StringRemoveFromSlice(slice []string, i int) []string {
 	n := make([]string, len(slice))
 	copy(n, slice)
 	return append(n[:i], n[i+1:]...)
+}
+
+func lib_TernaryOPString(ok bool, v1, v2 string) string {
+	if ok {
+		return v1
+	}
+	return v2
 }
 
 func lib_ReduceInt(values []int, f func(acc, cur int) int, initial int) (newValue int) {
@@ -6306,6 +6418,13 @@ func lib_IntRemoveFromSlice(slice []int, i int) []int {
 	return append(n[:i], n[i+1:]...)
 }
 
+func lib_TernaryOPInt(ok bool, v1, v2 int) int {
+	if ok {
+		return v1
+	}
+	return v2
+}
+
 func lib_ReduceInt8(values []int8, f func(acc, cur int8) int8, initial int8) (newValue int8) {
 	newValue = initial
 	for _, value := range values {
@@ -6530,6 +6649,13 @@ func lib_Int8RemoveFromSlice(slice []int8, i int) []int8 {
 	n := make([]int8, len(slice))
 	copy(n, slice)
 	return append(n[:i], n[i+1:]...)
+}
+
+func lib_TernaryOPInt8(ok bool, v1, v2 int8) int8 {
+	if ok {
+		return v1
+	}
+	return v2
 }
 
 func lib_ReduceInt16(values []int16, f func(acc, cur int16) int16, initial int16) (newValue int16) {
@@ -6758,6 +6884,13 @@ func lib_Int16RemoveFromSlice(slice []int16, i int) []int16 {
 	return append(n[:i], n[i+1:]...)
 }
 
+func lib_TernaryOPInt16(ok bool, v1, v2 int16) int16 {
+	if ok {
+		return v1
+	}
+	return v2
+}
+
 func lib_ReduceInt32(values []int32, f func(acc, cur int32) int32, initial int32) (newValue int32) {
 	newValue = initial
 	for _, value := range values {
@@ -6982,6 +7115,13 @@ func lib_Int32RemoveFromSlice(slice []int32, i int) []int32 {
 	n := make([]int32, len(slice))
 	copy(n, slice)
 	return append(n[:i], n[i+1:]...)
+}
+
+func lib_TernaryOPInt32(ok bool, v1, v2 int32) int32 {
+	if ok {
+		return v1
+	}
+	return v2
 }
 
 func lib_ReduceInt64(values []int64, f func(acc, cur int64) int64, initial int64) (newValue int64) {
@@ -7210,6 +7350,13 @@ func lib_Int64RemoveFromSlice(slice []int64, i int) []int64 {
 	return append(n[:i], n[i+1:]...)
 }
 
+func lib_TernaryOPInt64(ok bool, v1, v2 int64) int64 {
+	if ok {
+		return v1
+	}
+	return v2
+}
+
 func lib_ReduceFloat32(values []float32, f func(acc, cur float32) float32, initial float32) (newValue float32) {
 	newValue = initial
 	for _, value := range values {
@@ -7436,6 +7583,13 @@ func lib_Float32RemoveFromSlice(slice []float32, i int) []float32 {
 	return append(n[:i], n[i+1:]...)
 }
 
+func lib_TernaryOPFloat32(ok bool, v1, v2 float32) float32 {
+	if ok {
+		return v1
+	}
+	return v2
+}
+
 func lib_ReduceFloat64(values []float64, f func(acc, cur float64) float64, initial float64) (newValue float64) {
 	newValue = initial
 	for _, value := range values {
@@ -7660,6 +7814,13 @@ func lib_Float64RemoveFromSlice(slice []float64, i int) []float64 {
 	n := make([]float64, len(slice))
 	copy(n, slice)
 	return append(n[:i], n[i+1:]...)
+}
+
+func lib_TernaryOPFloat64(ok bool, v1, v2 float64) float64 {
+	if ok {
+		return v1
+	}
+	return v2
 }
 
 func lib_MemoizeRune2ToRune(f func(v1, v2 rune) rune) func(v1, v2 rune) rune {
@@ -12115,6 +12276,14 @@ func lib_MustMaxInt(values []int) (max int) {
 	return max
 }
 
+func lib_MustMaxIntVA(values ...int) (max int) {
+	max, err := lib_MaxIntVA(values...)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
 func lib_MustMinInt(values []int) (min int) {
 	min, err := lib_MinInt(values)
 	if err != nil {
@@ -12173,6 +12342,14 @@ func lib_MustStringSliceToInt8Slice(line []string) (ValueLine []int8) {
 
 func lib_MustMaxInt8(values []int8) (max int8) {
 	max, err := lib_MaxInt8(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt8VA(values ...int8) (max int8) {
+	max, err := lib_MaxInt8VA(values...)
 	if err != nil {
 		panic(err)
 	}
@@ -12243,6 +12420,14 @@ func lib_MustMaxInt16(values []int16) (max int16) {
 	return max
 }
 
+func lib_MustMaxInt16VA(values ...int16) (max int16) {
+	max, err := lib_MaxInt16VA(values...)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
 func lib_MustMinInt16(values []int16) (min int16) {
 	min, err := lib_MinInt16(values)
 	if err != nil {
@@ -12301,6 +12486,14 @@ func lib_MustStringSliceToInt32Slice(line []string) (ValueLine []int32) {
 
 func lib_MustMaxInt32(values []int32) (max int32) {
 	max, err := lib_MaxInt32(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxInt32VA(values ...int32) (max int32) {
+	max, err := lib_MaxInt32VA(values...)
 	if err != nil {
 		panic(err)
 	}
@@ -12371,6 +12564,14 @@ func lib_MustMaxInt64(values []int64) (max int64) {
 	return max
 }
 
+func lib_MustMaxInt64VA(values ...int64) (max int64) {
+	max, err := lib_MaxInt64VA(values...)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
 func lib_MustMinInt64(values []int64) (min int64) {
 	min, err := lib_MinInt64(values)
 	if err != nil {
@@ -12435,6 +12636,14 @@ func lib_MustMaxFloat32(values []float32) (max float32) {
 	return max
 }
 
+func lib_MustMaxFloat32VA(values ...float32) (max float32) {
+	max, err := lib_MaxFloat32VA(values...)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
 func lib_MustMinFloat32(values []float32) (min float32) {
 	min, err := lib_MinFloat32(values)
 	if err != nil {
@@ -12493,6 +12702,14 @@ func lib_MustStringSliceToFloat64Slice(line []string) (ValueLine []float64) {
 
 func lib_MustMaxFloat64(values []float64) (max float64) {
 	max, err := lib_MaxFloat64(values)
+	if err != nil {
+		panic(err)
+	}
+	return max
+}
+
+func lib_MustMaxFloat64VA(values ...float64) (max float64) {
+	max, err := lib_MaxFloat64VA(values...)
 	if err != nil {
 		panic(err)
 	}

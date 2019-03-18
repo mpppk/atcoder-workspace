@@ -29,6 +29,19 @@ func Test_solve(t *testing.T) {
 		`,
 			expected: []int{6, 8, 0, 3, 0, 8},
 		},
+		{
+			name: "example2",
+			input: `
+2 3
+0 0 0 5
+0 0 0 4
+3 3 3 3
+1 1 1
+3 3 3
+4 4 4
+		`,
+			expected: []int{5, 5, 5},
+		},
 	}
 
 	for _, tt := range tests {

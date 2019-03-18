@@ -230,3 +230,10 @@ func ZZZRemoveFromSlice(slice []ZZZ, i int) []ZZZ {
 	copy(n, slice)
 	return append(n[:i], n[i+1:]...)
 }
+
+func TernaryOPZZZ(ok bool, v1, v2 ZZZ) ZZZ {
+	if ok {
+		return v1
+	}
+	return v2
+}
