@@ -237,3 +237,49 @@ func TernaryOPZZZ(ok bool, v1, v2 ZZZ) ZZZ {
 	}
 	return v2
 }
+
+type UnionFindZZZ struct {
+	nodes map[ZZZ]ZZZ
+}
+
+func NewUnionFindZZZ(values []ZZZ) *UnionFindZZZ {
+	m := map[ZZZ]ZZZ{}
+	for _, v := range values {
+		m[v] = v
+	}
+	return &UnionFindZZZ{nodes: m}
+}
+
+func (u *UnionFindZZZ) GetRoot(value ZZZ) (ZZZ, int) {
+	v := value
+	newV := u.nodes[v]
+	cnt := 0
+	for newV != v {
+		cnt++
+		oldV := v
+		v = newV
+		newV = u.nodes[newV]
+		u.nodes[oldV] = newV
+	}
+	return newV, cnt
+}
+
+func (u *UnionFindZZZ) Unite(v1, v2 ZZZ) (ZZZ, bool) {
+	v1Root, v1HopNum := u.GetRoot(v1)
+	v2Root, v2HopNum := u.GetRoot(v2)
+	if v1Root == v2Root {
+		return v1Root, false
+	}
+	if v1HopNum >= v2HopNum {
+		u.nodes[v2Root] = v1Root
+		return v1Root, true
+	}
+	u.nodes[v1Root] = v2Root
+	return v2Root, true
+}
+
+func (u *UnionFindZZZ) IsSameGroup(v1, v2 ZZZ) bool {
+	v1Root, _ := u.GetRoot(v1)
+	v2Root, _ := u.GetRoot(v2)
+	return v1Root == v2Root
+}

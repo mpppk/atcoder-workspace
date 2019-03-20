@@ -497,3 +497,269 @@ func TestTernaryOPZZZ(t *testing.T) {
 		})
 	}
 }
+
+func TestNewUnionFindZZZ(t *testing.T) {
+	type args struct {
+		values []ZZZ
+	}
+	tests := []struct {
+		name string
+		args args
+		want *UnionFindZZZ
+	}{
+		{
+			name: "NewUnionFindZZZ",
+			args: args{
+				values: []ZZZ{1, 2, 3},
+			},
+			want: &UnionFindZZZ{
+				nodes: map[ZZZ]ZZZ{
+					1: 1,
+					2: 2,
+					3: 3,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := NewUnionFindZZZ(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewUnionFindZZZ() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUnionFindZZZ_GetRoot(t *testing.T) {
+	type fields struct {
+		nodes map[ZZZ]ZZZ
+	}
+	type args struct {
+		value ZZZ
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   ZZZ
+		want1  int
+	}{
+		{
+			name: "UnionFindZZZ_GetRoot",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 3,
+					3: 3,
+				},
+			},
+			args: args{
+				value: 1,
+			},
+			want:  3,
+			want1: 2,
+		},
+		{
+			name: "UnionFindZZZ_GetRoot",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 3,
+					3: 3,
+				},
+			},
+			args: args{
+				value: 2,
+			},
+			want:  3,
+			want1: 1,
+		},
+		{
+			name: "UnionFindZZZ_GetRoot",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 3,
+					3: 3,
+				},
+			},
+			args: args{
+				value: 3,
+			},
+			want:  3,
+			want1: 0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := &UnionFindZZZ{
+				nodes: tt.fields.nodes,
+			}
+			got, got1 := u.GetRoot(tt.args.value)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UnionFindZZZ.GetRoot() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("UnionFindZZZ.GetRoot() got1 = %v, want %v", got1, tt.want1)
+			}
+		})
+	}
+}
+
+func TestUnionFindZZZ_Unite(t *testing.T) {
+	type fields struct {
+		nodes map[ZZZ]ZZZ
+	}
+	type args struct {
+		v1 ZZZ
+		v2 ZZZ
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   ZZZ
+		want1  bool
+	}{
+		{
+			name: "UnionFindZZZ_Unite",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 1,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 1,
+				v2: 2,
+			},
+			want:  1,
+			want1: true,
+		},
+		{
+			name: "UnionFindZZZ_Unite",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 1,
+				v2: 2,
+			},
+			want:  2,
+			want1: false,
+		},
+		{
+			name: "UnionFindZZZ_Unite",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 3,
+				v2: 1,
+			},
+			want:  2,
+			want1: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := &UnionFindZZZ{
+				nodes: tt.fields.nodes,
+			}
+			got, got1 := u.Unite(tt.args.v1, tt.args.v2)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("UnionFindZZZ.Unite() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("UnionFindZZZ.Unite() got1 = %v, want %v", got1, tt.want1)
+			}
+
+			fromRoot, _ := u.GetRoot(tt.args.v1)
+			toRoot, _ := u.GetRoot(tt.args.v2)
+			if fromRoot != toRoot {
+				t.Errorf("UnionFindZZZ.GetRoot() v1 root = %v, v2 root %v", fromRoot, toRoot)
+			}
+		})
+	}
+}
+
+func TestUnionFindZZZ_IsSameGroup(t *testing.T) {
+	type fields struct {
+		nodes map[ZZZ]ZZZ
+	}
+	type args struct {
+		v1 ZZZ
+		v2 ZZZ
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   bool
+	}{
+		{
+			name: "UnionFindZZZ_IsSameGroup",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 1,
+				v2: 2,
+			},
+			want: true,
+		},
+		{
+			name: "UnionFindZZZ_IsSameGroup",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 1,
+				v2: 3,
+			},
+			want: false,
+		},
+		{
+			name: "UnionFindZZZ_IsSameGroup",
+			fields: fields{
+				nodes: map[ZZZ]ZZZ{
+					1: 2,
+					2: 2,
+					3: 3,
+				},
+			},
+			args: args{
+				v1: 2,
+				v2: 3,
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := &UnionFindZZZ{
+				nodes: tt.fields.nodes,
+			}
+			if got := u.IsSameGroup(tt.args.v1, tt.args.v2); got != tt.want {
+				t.Errorf("UnionFindZZZ.IsSameGroup() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

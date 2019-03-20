@@ -5,7 +5,7 @@ BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
 YYY := YYY=rune,string,int,int8,int16,int32,int64,float32,float64
 ZZZ := ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64
 REPO_PATH := github.com/mpppk/atcoder
-COPY_FILES := ./lib/number0.go ./lib/string.go ./lib/input.go ./lib/utl.go ./lib/graph.go
+COPY_FILES := ./lib/type0.go ./lib/number0.go ./lib/string.go ./lib/input.go ./lib/utl.go ./lib/graph.go
 
 .PHONY: test
 test:
