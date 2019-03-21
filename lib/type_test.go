@@ -763,3 +763,31 @@ func TestUnionFindZZZ_IsSameGroup(t *testing.T) {
 		})
 	}
 }
+
+func TestCopyZZZSlice(t *testing.T) {
+	type args struct {
+		values [][]ZZZ
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]ZZZ
+	}{
+		{
+			name: "CopyZZZSlice",
+			args: args{
+				values: [][]ZZZ{{1, 2, 3}, {4, 5, 6}},
+			},
+			want: [][]ZZZ{{1, 2, 3}, {4, 5, 6}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := CopyZZZSlice(tt.args.values)
+			tt.args.values[0][0] = 999
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("CopyZZZSlice() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

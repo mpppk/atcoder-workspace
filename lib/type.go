@@ -27,8 +27,24 @@ func CopyZZZ(values []ZZZ) []ZZZ {
 	return dst
 }
 
+func CopyZZZSlice(values [][]ZZZ) [][]ZZZ {
+	dst := make([][]ZZZ, len(values))
+	for i, value := range values {
+		dst[i] = CopyZZZ(value)
+	}
+	return dst
+}
+
 func ReverseZZZ(values []ZZZ) []ZZZ {
 	newValues := CopyZZZ(values)
+	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
+		newValues[i], newValues[j] = values[j], values[i]
+	}
+	return newValues
+}
+
+func ReverseZZZSlice(values [][]ZZZ) [][]ZZZ {
+	newValues := CopyZZZSlice(values)
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
 		newValues[i], newValues[j] = values[j], values[i]
 	}
@@ -282,4 +298,16 @@ func (u *UnionFindZZZ) IsSameGroup(v1, v2 ZZZ) bool {
 	v1Root, _ := u.GetRoot(v1)
 	v2Root, _ := u.GetRoot(v2)
 	return v1Root == v2Root
+}
+
+func MemoizeZZZ(f func(v ZZZ) ZZZ) func(v ZZZ) ZZZ {
+	cache := map[ZZZ]ZZZ{}
+	return func(v ZZZ) ZZZ {
+		if cachedResult, ok := cache[v]; ok {
+			return cachedResult
+		}
+		result := f(v)
+		cache[v] = result
+		return result
+	}
 }
