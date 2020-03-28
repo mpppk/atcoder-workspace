@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/mpppk/atcoder/done/abc120/b"
 	"io"
 	"os"
 )
 
-func solve(input *lib_Input) int {
+func solve(input *b.lib_Input) int {
 	line := input.MustGetIntLine(0)
 	a, b, k := line[0], line[1], line[2]
 	min := a
@@ -25,6 +26,6 @@ func solve(input *lib_Input) int {
 }
 
 func main() {
-	input := lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
+	input := b.lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }

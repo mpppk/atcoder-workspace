@@ -3,12 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/mpppk/atcoder/done/abc123/a"
 	"io"
 	"math"
 	"os"
 )
 
-func solve(input *lib_Input) string {
+func solve(input *a.lib_Input) string {
 	antennas := input.MustGetColIntLine(0)
 	k := antennas[len(antennas)-1]
 	antennas = antennas[:len(antennas)-1]
@@ -23,6 +24,6 @@ func solve(input *lib_Input) string {
 }
 
 func main() {
-	input := lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
+	input := a.lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }

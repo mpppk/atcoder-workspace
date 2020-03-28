@@ -1,7 +1,8 @@
-package main
+package c
 
 import (
 	"bufio"
+	"github.com/mpppk/atcoder/done/abc123/c"
 	"strings"
 	"testing"
 )
@@ -10,31 +11,43 @@ func Test_solve(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    string
-		expected string
+		expected int64
 	}{
 		{
 			name: "example1",
 			input: `
-1
+5
+3
 2
 4
-8
-9
-15
+3
+5
 					`,
-			expected: "Yay!",
+			expected: 7,
 		},
 		{
 			name: "example1",
 			input: `
-15
-18
-26
-35
-36
-18
+10
+123
+123
+123
+123
+123
 					`,
-			expected: ":(",
+			expected: 5,
+		},
+		{
+			name: "example1",
+			input: `
+10000000007
+2
+3
+5
+7
+11
+					`,
+			expected: 5000000008,
 		},
 	}
 
@@ -44,7 +57,7 @@ func Test_solve(t *testing.T) {
 		if err != nil {
 			t.Errorf("unexpected error occurred in test %s: %v", tt.name, err)
 		}
-		actual := solve(input)
+		actual := c.solve(input)
 		if actual != tt.expected {
 			t.Errorf("%s is expected to return %v when input %q is given, but actually return %v",
 				tt.name, tt.expected, input.lines, actual)

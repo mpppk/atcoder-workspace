@@ -1,7 +1,8 @@
-package main
+package c
 
 import (
 	"bufio"
+	"github.com/mpppk/atcoder/done/abc120/c"
 	"strings"
 	"testing"
 )
@@ -15,37 +16,23 @@ func Test_solve(t *testing.T) {
 		{
 			name: "example1",
 			input: `
-8 12 2
+0011
 					`,
-			expected: 2,
+			expected: 4,
 		},
 		{
 			name: "example1",
 			input: `
-12 8 2
-					`,
-			expected: 2,
+		11011010001011
+							`,
+			expected: 12,
 		},
 		{
 			name: "example1",
 			input: `
-100 50 4
+0
 					`,
-			expected: 5,
-		},
-		{
-			name: "example1",
-			input: `
-50 100 4
-					`,
-			expected: 5,
-		},
-		{
-			name: "example1",
-			input: `
-2 4 1
-					`,
-			expected: 1,
+			expected: 0,
 		},
 	}
 
@@ -55,7 +42,7 @@ func Test_solve(t *testing.T) {
 		if err != nil {
 			t.Errorf("unexpected error occurred in test %s: %v", tt.name, err)
 		}
-		actual := solve(input)
+		actual := c.solve(input)
 		if actual != tt.expected {
 			t.Errorf("%s is expected to return %v when input %q is given, but actually return %v",
 				tt.name, tt.expected, input.lines, actual)

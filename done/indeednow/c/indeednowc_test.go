@@ -1,7 +1,9 @@
-package main
+package c
 
 import (
 	"bufio"
+	"github.com/mpppk/atcoder/done/indeednow/c"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -10,28 +12,36 @@ func Test_solve(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    string
-		expected int
+		expected []int
 	}{
 		{
 			name: "example1",
 			input: `
-0011
-					`,
-			expected: 4,
+3 6
+1 2 3 3
+3 3 3 6
+4 4 4 8
+3 4 3
+4 4 4
+100 100 1
+2 3 4
+0 0 0
+100 100 100
+		`,
+			expected: []int{6, 8, 0, 3, 0, 8},
 		},
 		{
-			name: "example1",
+			name: "example2",
 			input: `
-		11011010001011
-							`,
-			expected: 12,
-		},
-		{
-			name: "example1",
-			input: `
-0
-					`,
-			expected: 0,
+2 3
+0 0 0 5
+0 0 0 4
+3 3 3 3
+1 1 1
+3 3 3
+4 4 4
+		`,
+			expected: []int{5, 5, 5},
 		},
 	}
 
@@ -41,8 +51,8 @@ func Test_solve(t *testing.T) {
 		if err != nil {
 			t.Errorf("unexpected error occurred in test %s: %v", tt.name, err)
 		}
-		actual := solve(input)
-		if actual != tt.expected {
+		actual := c.solve(input)
+		if !reflect.DeepEqual(actual, tt.expected) {
 			t.Errorf("%s is expected to return %v when input %q is given, but actually return %v",
 				tt.name, tt.expected, input.lines, actual)
 		}

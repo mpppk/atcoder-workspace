@@ -4,11 +4,12 @@ import (
 	"bufio"
 	"container/list"
 	"fmt"
+	"github.com/mpppk/atcoder/done/abc120/c"
 	"io"
 	"os"
 )
 
-func solve(input *lib_Input) int {
+func solve(input *c.lib_Input) int {
 	s := input.MustGetFirstValue(0)
 	cubes := []rune(s)
 	stack := list.New()
@@ -32,6 +33,6 @@ func solve(input *lib_Input) int {
 }
 
 func main() {
-	input := lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
+	input := c.lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }
