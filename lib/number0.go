@@ -41,19 +41,15 @@ func Combination(n, r int) (int, error) {
 		return 1, nil
 	}
 
+	rRangeFac, err := RangeFactorial(n, r)
+	if err != nil {
+		return 0, fmt.Errorf("failed in Combination: %v", err)
+	}
 	rFac, err := Factorial(r)
 	if err != nil {
-		return 0, fmt.Errorf("too large r: %s", err)
+		return 0, fmt.Errorf("failed in Combination: %v", err)
 	}
-	nFac, err := Factorial(n)
-	if err != nil {
-		return 0, fmt.Errorf("too large n: %s", err)
-	}
-	nrFac, err := Factorial(n - r)
-	if err != nil {
-		return 0, fmt.Errorf("too large n - r: %s", err)
-	}
-	return nFac / (rFac * nrFac), nil
+	return rRangeFac / rFac, nil
 }
 
 func BigCombination(n, r int) (*big.Int, error) {
@@ -138,9 +134,17 @@ func MemoizedBigCombination(n, r int) (*big.Int, error) {
 	return nFac.Div(nFac, rFac.Mul(rFac, nrFac)), nil
 }
 
+func RangeFactorial(n, num int) (f int, err error) {
+	f = 1
+	for i := 0; i < num; i++ {
+		f *= n - i
+	}
+	return
+}
+
 func Factorial(n int) (f int, err error) {
 	if n > 20 { // FIXME Consider 32bit architecture
-		return 0, fmt.Errorf("too large n: %d", n)
+		return 0, fmt.Errorf("too large Factorical n: %d", n)
 	}
 
 	f = 1

@@ -70,16 +70,25 @@ func TestCombination(t *testing.T) {
 		{
 			name: "Combination",
 			args: args{
-				n: 2,
-				r: 4,
+				n: 10,
+				r: 5,
 			},
-			want:    0,
-			wantErr: true,
+			want:    252,
+			wantErr: false,
 		},
 		{
 			name: "Combination",
 			args: args{
-				n: 21,
+				n: 100,
+				r: 2,
+			},
+			want:    4950,
+			wantErr: false,
+		},
+		{
+			name: "Combination",
+			args: args{
+				n: 2,
 				r: 4,
 			},
 			want:    0,
