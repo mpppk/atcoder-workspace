@@ -7,11 +7,16 @@ ZZZ := ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64
 REPO_PATH := github.com/mpppk/atcoder
 COPY_FILES := ./lib/type0.go ./lib/number0.go ./lib/string.go ./lib/input.go ./lib/utl.go ./lib/graph.go
 
+.PHONY: build
+build:
+	go build -o ${pkg}/main ${pkg}/main.go ${pkg}/bundled_gen.go
+
 # 指定したパッケージのテストを実施します
 # ex) make test pkg=abc158/A
 .PHONY: test
 test:
-	atcoder-tools test --dir ./${pkg} --exec ./main -c true -s
+	$(MAKE) build pkg=${pkg}
+	atcoder-tools test --dir ./${pkg} --exec ./main -s
 
 # 自動生成されたコードを削除します
 .PHONY: clean

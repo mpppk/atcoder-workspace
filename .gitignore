@@ -4,3 +4,4 @@ gen-*.go
 must-*.go
 gen/
 .DS_Store
+main
