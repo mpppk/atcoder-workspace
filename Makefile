@@ -18,8 +18,24 @@ clean:
 	find ${pkg} -name "gen-*.go" | xargs rm
 
 .PHONY: bundle
-bundle: bundle-gen
+bundle:
 	bundle -pkg main -prefix ' ' -dst $(REPO_PATH)/${pkg} $(REPO_PATH)/${pkg} | pbcopy
+
+.PHONY: new
+new:
+	atcoder-tools gen --workspace . --lang go --template ./templates/main.tmpl ${contest}
+	find ./${contest}/**/*.go -type f | xargs goimports -w
+	$(MAKE) bundle-gen-all contest=${contest}
+
+
+.PHONY: bundle-gen-all
+bundle-gen-all:
+	$(MAKE) bundle-gen pkg=${contest}/A
+	cp ${contest}/A/bundled_gen.go ${contest}/B
+	cp ${contest}/A/bundled_gen.go ${contest}/C
+	cp ${contest}/A/bundled_gen.go ${contest}/D
+	cp ${contest}/A/bundled_gen.go ${contest}/E
+	cp ${contest}/A/bundled_gen.go ${contest}/F
 
 .PHONY: bundle-gen
 bundle-gen: mustify-gen

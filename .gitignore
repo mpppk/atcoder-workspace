@@ -3,3 +3,4 @@ bundled_utl.go
 gen-*.go
 must-*.go
 gen/
+.DS_Store
