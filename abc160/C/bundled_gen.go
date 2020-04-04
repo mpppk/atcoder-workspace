@@ -1026,6 +1026,10 @@ func lib_MinInt(values []int) (min int, err error) {
 	return
 }
 
+func lib_AbsInt(value int) int {
+	return int(math.Abs(float64(value)))
+}
+
 func lib_NewIntGridMap(grid [][]string, defaultValue int) (m [][]int) {
 	for _, line := range grid {
 		var newLine []int
@@ -1047,10 +1051,6 @@ func lib_IntRange(start, end, step int) []int {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsInt(value int) int {
-	return int(math.Abs(float64(value)))
 }
 
 func lib_SumInt8(values []int8) int8 {
@@ -1189,6 +1189,10 @@ func lib_MinInt8(values []int8) (min int8, err error) {
 	return
 }
 
+func lib_AbsInt8(value int8) int8 {
+	return int8(math.Abs(float64(value)))
+}
+
 func lib_NewInt8GridMap(grid [][]string, defaultValue int8) (m [][]int8) {
 	for _, line := range grid {
 		var newLine []int8
@@ -1210,10 +1214,6 @@ func lib_Int8Range(start, end, step int8) []int8 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsInt8(value int8) int8 {
-	return int8(math.Abs(float64(value)))
 }
 
 func lib_SumInt16(values []int16) int16 {
@@ -1352,6 +1352,10 @@ func lib_MinInt16(values []int16) (min int16, err error) {
 	return
 }
 
+func lib_AbsInt16(value int16) int16 {
+	return int16(math.Abs(float64(value)))
+}
+
 func lib_NewInt16GridMap(grid [][]string, defaultValue int16) (m [][]int16) {
 	for _, line := range grid {
 		var newLine []int16
@@ -1373,10 +1377,6 @@ func lib_Int16Range(start, end, step int16) []int16 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsInt16(value int16) int16 {
-	return int16(math.Abs(float64(value)))
 }
 
 func lib_SumInt32(values []int32) int32 {
@@ -1515,6 +1515,10 @@ func lib_MinInt32(values []int32) (min int32, err error) {
 	return
 }
 
+func lib_AbsInt32(value int32) int32 {
+	return int32(math.Abs(float64(value)))
+}
+
 func lib_NewInt32GridMap(grid [][]string, defaultValue int32) (m [][]int32) {
 	for _, line := range grid {
 		var newLine []int32
@@ -1536,10 +1540,6 @@ func lib_Int32Range(start, end, step int32) []int32 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsInt32(value int32) int32 {
-	return int32(math.Abs(float64(value)))
 }
 
 func lib_SumInt64(values []int64) int64 {
@@ -1678,6 +1678,10 @@ func lib_MinInt64(values []int64) (min int64, err error) {
 	return
 }
 
+func lib_AbsInt64(value int64) int64 {
+	return int64(math.Abs(float64(value)))
+}
+
 func lib_NewInt64GridMap(grid [][]string, defaultValue int64) (m [][]int64) {
 	for _, line := range grid {
 		var newLine []int64
@@ -1699,10 +1703,6 @@ func lib_Int64Range(start, end, step int64) []int64 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsInt64(value int64) int64 {
-	return int64(math.Abs(float64(value)))
 }
 
 func lib_SumFloat32(values []float32) float32 {
@@ -1841,6 +1841,10 @@ func lib_MinFloat32(values []float32) (min float32, err error) {
 	return
 }
 
+func lib_AbsFloat32(value float32) float32 {
+	return float32(math.Abs(float64(value)))
+}
+
 func lib_NewFloat32GridMap(grid [][]string, defaultValue float32) (m [][]float32) {
 	for _, line := range grid {
 		var newLine []float32
@@ -1862,10 +1866,6 @@ func lib_Float32Range(start, end, step float32) []float32 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsFloat32(value float32) float32 {
-	return float32(math.Abs(float64(value)))
 }
 
 func lib_SumFloat64(values []float64) float64 {
@@ -2004,6 +2004,10 @@ func lib_MinFloat64(values []float64) (min float64, err error) {
 	return
 }
 
+func lib_AbsFloat64(value float64) float64 {
+	return float64(math.Abs(float64(value)))
+}
+
 func lib_NewFloat64GridMap(grid [][]string, defaultValue float64) (m [][]float64) {
 	for _, line := range grid {
 		var newLine []float64
@@ -2025,10 +2029,6 @@ func lib_Float64Range(start, end, step float64) []float64 {
 		start += step
 	}
 	return s
-}
-
-func lib_AbsFloat64(value float64) float64 {
-	return float64(math.Abs(float64(value)))
 }
 
 type lib_Int3ToIntCache map[int]map[int]map[int]int
@@ -6062,6 +6062,21 @@ func lib_MemoizeRune(f func(v rune) rune) func(v rune) rune {
 	}
 }
 
+type lib_Func2Rune func(v1, v2 rune) rune
+
+type lib_CounterRune struct {
+	M     map[rune]int64
+	Func2 lib_Func2Rune
+}
+
+func lib_NewCounterRune() *lib_CounterRune {
+	return &lib_CounterRune{M: map[rune]int64{}}
+}
+
+func (c lib_CounterRune) CountBy2Rune(i, j rune) {
+	c.M[c.Func2(i, j)]++
+}
+
 func lib_ReduceString(values []string, f func(acc, cur string) string, initial string) (newValue string) {
 	newValue = initial
 	for _, value := range values {
@@ -6367,6 +6382,21 @@ func lib_MemoizeString(f func(v string) string) func(v string) string {
 		cache[v] = result
 		return result
 	}
+}
+
+type lib_Func2String func(v1, v2 string) string
+
+type lib_CounterString struct {
+	M     map[string]int64
+	Func2 lib_Func2String
+}
+
+func lib_NewCounterString() *lib_CounterString {
+	return &lib_CounterString{M: map[string]int64{}}
+}
+
+func (c lib_CounterString) CountBy2String(i, j string) {
+	c.M[c.Func2(i, j)]++
 }
 
 func lib_ReduceInt(values []int, f func(acc, cur int) int, initial int) (newValue int) {
@@ -6676,6 +6706,21 @@ func lib_MemoizeInt(f func(v int) int) func(v int) int {
 	}
 }
 
+type lib_Func2Int func(v1, v2 int) int
+
+type lib_CounterInt struct {
+	M     map[int]int64
+	Func2 lib_Func2Int
+}
+
+func lib_NewCounterInt() *lib_CounterInt {
+	return &lib_CounterInt{M: map[int]int64{}}
+}
+
+func (c lib_CounterInt) CountBy2Int(i, j int) {
+	c.M[c.Func2(i, j)]++
+}
+
 func lib_ReduceInt8(values []int8, f func(acc, cur int8) int8, initial int8) (newValue int8) {
 	newValue = initial
 	for _, value := range values {
@@ -6981,6 +7026,21 @@ func lib_MemoizeInt8(f func(v int8) int8) func(v int8) int8 {
 		cache[v] = result
 		return result
 	}
+}
+
+type lib_Func2Int8 func(v1, v2 int8) int8
+
+type lib_CounterInt8 struct {
+	M     map[int8]int64
+	Func2 lib_Func2Int8
+}
+
+func lib_NewCounterInt8() *lib_CounterInt8 {
+	return &lib_CounterInt8{M: map[int8]int64{}}
+}
+
+func (c lib_CounterInt8) CountBy2Int8(i, j int8) {
+	c.M[c.Func2(i, j)]++
 }
 
 func lib_ReduceInt16(values []int16, f func(acc, cur int16) int16, initial int16) (newValue int16) {
@@ -7290,6 +7350,21 @@ func lib_MemoizeInt16(f func(v int16) int16) func(v int16) int16 {
 	}
 }
 
+type lib_Func2Int16 func(v1, v2 int16) int16
+
+type lib_CounterInt16 struct {
+	M     map[int16]int64
+	Func2 lib_Func2Int16
+}
+
+func lib_NewCounterInt16() *lib_CounterInt16 {
+	return &lib_CounterInt16{M: map[int16]int64{}}
+}
+
+func (c lib_CounterInt16) CountBy2Int16(i, j int16) {
+	c.M[c.Func2(i, j)]++
+}
+
 func lib_ReduceInt32(values []int32, f func(acc, cur int32) int32, initial int32) (newValue int32) {
 	newValue = initial
 	for _, value := range values {
@@ -7595,6 +7670,21 @@ func lib_MemoizeInt32(f func(v int32) int32) func(v int32) int32 {
 		cache[v] = result
 		return result
 	}
+}
+
+type lib_Func2Int32 func(v1, v2 int32) int32
+
+type lib_CounterInt32 struct {
+	M     map[int32]int64
+	Func2 lib_Func2Int32
+}
+
+func lib_NewCounterInt32() *lib_CounterInt32 {
+	return &lib_CounterInt32{M: map[int32]int64{}}
+}
+
+func (c lib_CounterInt32) CountBy2Int32(i, j int32) {
+	c.M[c.Func2(i, j)]++
 }
 
 func lib_ReduceInt64(values []int64, f func(acc, cur int64) int64, initial int64) (newValue int64) {
@@ -7904,6 +7994,21 @@ func lib_MemoizeInt64(f func(v int64) int64) func(v int64) int64 {
 	}
 }
 
+type lib_Func2Int64 func(v1, v2 int64) int64
+
+type lib_CounterInt64 struct {
+	M     map[int64]int64
+	Func2 lib_Func2Int64
+}
+
+func lib_NewCounterInt64() *lib_CounterInt64 {
+	return &lib_CounterInt64{M: map[int64]int64{}}
+}
+
+func (c lib_CounterInt64) CountBy2Int64(i, j int64) {
+	c.M[c.Func2(i, j)]++
+}
+
 func lib_ReduceFloat32(values []float32, f func(acc, cur float32) float32, initial float32) (newValue float32) {
 	newValue = initial
 	for _, value := range values {
@@ -8211,6 +8316,21 @@ func lib_MemoizeFloat32(f func(v float32) float32) func(v float32) float32 {
 	}
 }
 
+type lib_Func2Float32 func(v1, v2 float32) float32
+
+type lib_CounterFloat32 struct {
+	M     map[float32]int64
+	Func2 lib_Func2Float32
+}
+
+func lib_NewCounterFloat32() *lib_CounterFloat32 {
+	return &lib_CounterFloat32{M: map[float32]int64{}}
+}
+
+func (c lib_CounterFloat32) CountBy2Float32(i, j float32) {
+	c.M[c.Func2(i, j)]++
+}
+
 func lib_ReduceFloat64(values []float64, f func(acc, cur float64) float64, initial float64) (newValue float64) {
 	newValue = initial
 	for _, value := range values {
@@ -8516,6 +8636,21 @@ func lib_MemoizeFloat64(f func(v float64) float64) func(v float64) float64 {
 		cache[v] = result
 		return result
 	}
+}
+
+type lib_Func2Float64 func(v1, v2 float64) float64
+
+type lib_CounterFloat64 struct {
+	M     map[float64]int64
+	Func2 lib_Func2Float64
+}
+
+func lib_NewCounterFloat64() *lib_CounterFloat64 {
+	return &lib_CounterFloat64{M: map[float64]int64{}}
+}
+
+func (c lib_CounterFloat64) CountBy2Float64(i, j float64) {
+	c.M[c.Func2(i, j)]++
 }
 
 func lib_MemoizeRune2ToRune(f func(v1, v2 rune) rune) func(v1, v2 rune) rune {

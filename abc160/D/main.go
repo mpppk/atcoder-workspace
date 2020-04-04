@@ -8,21 +8,18 @@ import (
 )
 
 func solve(N int, X int, Y int) {
-	m := countDist(N, X, Y)
-	for i := 1; i < N; i++ {
-		fmt.Println(m[i])
+	counter := lib_NewCounterInt()
+	counter.Func2 = func(i, j int) int {
+		return calcDist(i, j, X, Y)
 	}
-}
-
-func countDist(N, X, Y int) map[int]int {
-	m := map[int]int{}
 	for i := 1; i <= N; i++ {
 		for j := i + 1; j <= N; j++ {
-			dist := calcDist(i, j, X, Y)
-			m[dist]++
+			counter.CountBy2Int(i, j)
 		}
 	}
-	return m
+	for i := 1; i < N; i++ {
+		fmt.Println(counter.M[i])
+	}
 }
 
 func calcDist(i, j, X, Y int) int {

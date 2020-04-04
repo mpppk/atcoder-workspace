@@ -311,3 +311,18 @@ func MemoizeZZZ(f func(v ZZZ) ZZZ) func(v ZZZ) ZZZ {
 		return result
 	}
 }
+
+type Func2ZZZ func(v1, v2 ZZZ) ZZZ
+
+type CounterZZZ struct {
+	M     map[ZZZ]int64
+	Func2 Func2ZZZ
+}
+
+func NewCounterZZZ() *CounterZZZ {
+	return &CounterZZZ{M: map[ZZZ]int64{}}
+}
+
+func (c CounterZZZ) CountBy2ZZZ(i, j ZZZ) {
+	c.M[c.Func2(i, j)]++
+}
