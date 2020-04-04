@@ -32,7 +32,7 @@ func BitEnumeration(digits uint) (enums [][]bool) {
 	return
 }
 
-func Combination(n, r int) (int, error) {
+func Combination(n, r int64) (int64, error) {
 	if n < r {
 		return 0, fmt.Errorf("r(%d) is larger than n(%d)", r, n)
 	}
@@ -134,21 +134,21 @@ func MemoizedBigCombination(n, r int) (*big.Int, error) {
 	return nFac.Div(nFac, rFac.Mul(rFac, nrFac)), nil
 }
 
-func RangeFactorial(n, num int) (f int, err error) {
+func RangeFactorial(n, num int64) (f int64, err error) {
 	f = 1
-	for i := 0; i < num; i++ {
+	for i := int64(0); i < num; i++ {
 		f *= n - i
 	}
 	return
 }
 
-func Factorial(n int) (f int, err error) {
+func Factorial(n int64) (f int64, err error) {
 	if n > 20 { // FIXME Consider 32bit architecture
 		return 0, fmt.Errorf("too large Factorical n: %d", n)
 	}
 
 	f = 1
-	for i := 2; i <= n; i++ {
+	for i := int64(2); i <= n; i++ {
 		f = f * i
 	}
 	return
