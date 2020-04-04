@@ -5,6 +5,7 @@ package lib
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 )
 
@@ -142,6 +143,10 @@ func MinAAA(values []AAA) (min AAA, err error) {
 		}
 	}
 	return
+}
+
+func AbsAAA(value AAA) AAA {
+	return AAA(math.Abs(float64(value)))
 }
 
 func NewAAAGridMap(grid [][]string, defaultValue AAA) (m [][]AAA) {
