@@ -3,14 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/mpppk/atcoder/done/abc160/C"
 	"os"
 	"strconv"
 )
 
 func solve(K int64, N int64, A []int64) int64 {
-	diff := lib_MustRDiffInt64(A)
-	diff = append(diff, lib_AbsInt64(A[0]+(K-A[len(A)-1])))
-	return K - lib_MustMaxInt64(diff)
+	diff := C.lib_MustRDiffInt64(A)
+	diff = append(diff, C.lib_AbsInt64(A[0]+(K-A[len(A)-1])))
+	return K - C.lib_MustMaxInt64(diff)
 }
 
 func main() {

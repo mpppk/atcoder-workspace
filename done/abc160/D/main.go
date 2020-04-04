@@ -3,12 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/mpppk/atcoder/done/abc160/D"
 	"os"
 	"strconv"
 )
 
 func solve(N int, X int, Y int) {
-	counter := lib_NewCounterInt()
+	counter := D.lib_NewCounterInt()
 	counter.Func2 = func(i, j int) int {
 		return calcDist(i, j, X, Y)
 	}
@@ -23,14 +24,14 @@ func solve(N int, X int, Y int) {
 }
 
 func calcDist(i, j, X, Y int) int {
-	normalDist := lib_AbsInt(i - j)
-	XDist := lib_AbsInt(X - i)
-	YDist := lib_AbsInt(Y - j)
+	normalDist := D.lib_AbsInt(i - j)
+	XDist := D.lib_AbsInt(X - i)
+	YDist := D.lib_AbsInt(Y - j)
 	shortcutDist := XDist + YDist + 1
-	XDist2 := lib_AbsInt(X - j)
-	YDist2 := lib_AbsInt(Y - i)
+	XDist2 := D.lib_AbsInt(X - j)
+	YDist2 := D.lib_AbsInt(Y - i)
 	shortcutDist2 := XDist2 + YDist2 + 1
-	return lib_MustMinInt([]int{normalDist, shortcutDist, shortcutDist2})
+	return D.lib_MustMinInt([]int{normalDist, shortcutDist, shortcutDist2})
 }
 
 func main() {
