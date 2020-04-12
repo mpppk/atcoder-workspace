@@ -1,4 +1,4 @@
-module github.com/mpppk/atcoder
+module github.com/mpppk/atcoder-workspace
 
 go 1.14
 

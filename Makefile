@@ -39,52 +39,23 @@ setup:
 # ex) make bundle pkg=abc158/A
 .PHONY: bundle
 bundle:
-	bundle -pkg main -prefix ' ' -dst $(REPO_PATH)/${pkg} $(REPO_PATH)/${pkg} | pbcopy
+	gollup --dirs ./${pkg},./lib ${pkg}/main.go | goimports | pbcopy
 
 # 指定したコンテストの実施環境を作成します。
 # 各設問のパッケージ、バンドルされたライブラリ、テストなどが生成されます。
-# TODO: テスト生成コード追加
 # ex) make new contest=abc158
 .PHONY: new
 new:
 	atcoder-tools gen --workspace . --lang go --template ./templates/main.tmpl ${contest}
 	find ./${contest}/**/*.go -type f | xargs goimports -w
-	$(MAKE) bundle-gen-all contest=${contest}
 
-# ライブラリを1ファイルにまとめたソースコードファイルを指定したコンテストの各設問パッケージへ生成します
-# ex) make bundle-gen-all contest=abc158
-.PHONY: bundle-gen-all
-bundle-gen-all:
-	$(MAKE) bundle-gen pkg=${contest}/A
-	cp ${contest}/A/bundled_gen.go ${contest}/B
-	cp ${contest}/A/bundled_gen.go ${contest}/C
-	cp ${contest}/A/bundled_gen.go ${contest}/D
-	cp ${contest}/A/bundled_gen.go ${contest}/E
-	cp ${contest}/A/bundled_gen.go ${contest}/F
+.PHONY: generate
+generate: mustify-gen
 
-# ライブラリを1ファイルにまとめたソースコードファイルを指定したパッケージに生成します。
-# ex) make bundle-gen pkg=abc158/A
-.PHONY: bundle-gen
-bundle-gen: mustify-gen
-	bundle -o ${pkg}/bundled_gen.go -pkg main -dst $(REPO_PATH)/${pkg} $(REPO_PATH)/gen
-
-# input.goのうちエラーを返す関数をMustXXXとしてラップした関数としえtmust-input.goに出力します
+# エラーを返す関数をMustXXXとしてラップした関数としてmust-xxx.goに出力します
 .PHONY: mustify-gen
-mustify-gen: genny-gen
-	goofy mustify --file ./gen/input.go
-	find ./gen/*.go -type f | xargs goimports -w
-
-# gennyを利用してジェネリクスを利用したコードから実際のコードを生成します。
-.PHONY: genny-gen
-genny-gen: genny-lib
-	cp $(COPY_FILES) ./gen
-	genny -in='./lib/number.go' -out='./gen/gen-number.go' gen "$(AAAnumber)"
-	genny -in='./lib/number2.go' -out='./gen/gen-number2.go' gen "$(AAAnumber) $(BBBnumber)"
-	genny -in='./lib/int.go' -out='./gen/gen-int.go' gen "$(AAAint)"
-	genny -in='./lib/type.go' -out='./gen/gen-type.go' gen "$(ZZZ)"
-	genny -in='./lib/type2.go' -out='./gen/gen-type2.go' gen "$(YYY) $(ZZZ)"
-	genny -in='./lib/misc.go' -out='./gen/gen-misc.go' gen "$(AAAnumber)"
-	genny -in='./lib/input-number.go' -out='./gen/gen-input-number.go' gen "$(AAAnumber)"
+mustify-gen: genny-lib
+	mustify ./lib | xargs goimports -w
 
 .PHONY: genny-lib
 genny-lib:
