@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
 const YES = "Yes"
 const NO = "No"
 
 func solve(N int64) string {
-	digits := lib_ToDigitSliceInt64(N)
+	digits := lib.ToDigitSliceInt64(N)
 	if digits[0] == 7 || digits[1] == 7 || digits[2] == 7 {
 		return "Yes"
 	}
