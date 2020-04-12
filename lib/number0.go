@@ -199,3 +199,18 @@ func MemoizedBigFactorial(n int, cache map[int]*big.Int) *big.Int {
 	cache[n] = result
 	return result
 }
+
+func Gcd(a, b int, values ...int) int {
+	g := gcd(a, b)
+	for _, v := range values {
+		g = gcd(g, v)
+	}
+	return g
+}
+
+func gcd(a, b int) int {
+	if b == 0 {
+		return a
+	}
+	return gcd(b, a%b)
+}
