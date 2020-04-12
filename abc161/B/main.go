@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/mpppk/atcoder/done/abc161/B"
 	"os"
 	"strconv"
 )
@@ -12,7 +11,7 @@ const YES = "Yes"
 const NO = "No"
 
 func solve(N int64, M int64, A []int64) string {
-	allVoteNum := B.lib_SumInt64(A)
+	allVoteNum := lib_SumInt64(A)
 
 	cnt := int64(0)
 	for _, ai := range A {

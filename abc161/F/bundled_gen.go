@@ -4,7 +4,7 @@
 // go:generate goofy mustify --file input.go
 //
 
-package F
+package main
 
 import (
 	"bufio"
