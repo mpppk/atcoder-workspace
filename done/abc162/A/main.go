@@ -15,9 +15,9 @@ const NO = "No"
 func solve(N int64) string {
 	digits := lib.ToDigitSliceInt64(N)
 	if digits[0] == 7 || digits[1] == 7 || digits[2] == 7 {
-		return "Yes"
+		return YES
 	}
-	return "No"
+	return NO
 }
 
 func main() {
