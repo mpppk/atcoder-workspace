@@ -4,7 +4,7 @@ atcoderにGoで参加するための設定がセットアップ済みのリポ�
 
 ## 準備
 以下をあらかじめインストールしておいてください。
-* python3 ([atcoder-tools](https://github.com/kyuridenamida/atcoder-tools)を動かすのに必要です)
+* python3.5以上 ([atcoder-tools](https://github.com/kyuridenamida/atcoder-tools)を動かすのに必要です)
 * Go ([mustify](https://github.com/mpppk/mustify)と[gollup](https://github.com/mpppk/gollup)を動かすのに必要です。あと実装したコードのコンパイルにも当然必要です。)
 
 ## Setup
