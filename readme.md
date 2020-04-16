@@ -1,6 +1,8 @@
-# go-atcoder
+# go-atcoder-workspace
 
-atcoderにGoで参加するための設定がセットアップ済みのリポジトリです。
+atcoderにGoで参加するための設定がセットアップ済みのリポジトリです。  
+現時点ではLinuxとMacに対応しています。  
+Windows向けには、WSLとDockerでのセットアップ手順を今後追加予定です。
 
 ## 準備
 以下をあらかじめインストールしておいてください。
@@ -9,8 +11,8 @@ atcoderにGoで参加するための設定がセットアップ済みのリポ�
 
 ## Setup
 ```shell
-$ git clone https://github.com/mpppk/go-atcoder atcoder-workspace
-$ cd atcodre-workspace
+$ git clone https://github.com/mpppk/go-atcoder-workspace
+$ cd go-atcoder-workspace
 $ make setup # atcoder-tools, mustify, gollupをインストールします
 $ make generate # ライブラリコードの自動生成を行います
 ```
