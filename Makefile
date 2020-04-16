@@ -9,7 +9,7 @@ COPY_FILES := ./lib/type0.go ./lib/number0.go ./lib/string.go ./lib/input.go ./l
 
 .PHONY: build
 build:
-	go build -o ${pkg}/main ${pkg}/main.go ${pkg}/bundled_gen.go
+	go build -o ${pkg}/main ${pkg}/main.go
 
 # 指定したパッケージのテストを実施します
 # ex) make test pkg=abc158/A
@@ -21,7 +21,6 @@ test:
 # 自動生成されたコードを削除します
 .PHONY: clean
 clean:
-	find ${pkg} -name "bundled_*.go" | xargs rm
 	find ${pkg} -name "must-*.go" | xargs rm
 	find ${pkg} -name "gen-*.go" | xargs rm
 
@@ -30,8 +29,8 @@ clean:
 .PHONY: setup
 setup:
 	pip3 install atcoder-tools
-	go get github.com/mpppk/atcoder
-	go get github.com/mpppk/goofy
+	go get github.com/mpppk/mustify
+	go get github.com/mpppk/gollup
 	go get github.com/cheekybits/genny
 
 # atocderへの提出用に、指定された設問パッケージのソースコードを1ファイルにバンドルしたソースコードをクリップボードへコピーします
@@ -39,7 +38,7 @@ setup:
 # ex) make bundle pkg=abc158/A
 .PHONY: bundle
 bundle:
-	gollup --dirs ./${pkg},./lib ${pkg}/main.go | goimports | pbcopy
+	gollup ./${pkg} ./lib | pbcopy
 
 # 指定したコンテストの実施環境を作成します。
 # 各設問のパッケージ、バンドルされたライブラリ、テストなどが生成されます。
@@ -50,15 +49,17 @@ new:
 	find ./${contest}/**/*.go -type f | xargs goimports -w
 
 .PHONY: generate
-generate: mustify-gen
+generate: mustify
 
 # エラーを返す関数をMustXXXとしてラップした関数としてmust-xxx.goに出力します
-.PHONY: mustify-gen
-mustify-gen: genny-lib
-	mustify ./lib | xargs goimports -w
+.PHONY: mustify
+mustify: genny
+	find ./lib/*.go -type f | xargs -I{} bash -c 'mustify {} > $$(dirname {})/must-$$(basename {})'
+	find ./lib/*.go -type f | xargs -I{} bash -c 'test -s {} || rm {}'
 
-.PHONY: genny-lib
-genny-lib:
+.PHONY: genny
+genny:
+	$(MAKE) clean pkg=lib
 	genny -in='./lib/number.go' -out='./lib/gen-number.go' gen "$(AAAnumber)"
 	genny -in='./lib/number2.go' -out='./lib/gen-number2.go' gen "$(AAAnumber) $(BBBnumber)"
 	genny -in='./lib/int.go' -out='./lib/gen-int.go' gen "$(AAAint)"
