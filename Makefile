@@ -3,6 +3,7 @@ AAAint := AAA=int,int8,int16,int32,int64
 BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
 YYY := YYY=rune,string,int,int8,int16,int32,int64,float32,float64
 ZZZ := ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64
+CONTESTS_DIR := contents
 SUBMIT_DIR := submit
 SUBMIT_FILE := submit.go
 SUBMIT_FILE_PATH := ${SUBMIT_DIR}/${SUBMIT_FILE}
@@ -11,29 +12,29 @@ SUBMIT_FILE_PATH := ${SUBMIT_DIR}/${SUBMIT_FILE}
 # ex) make build pkg=abc158/A
 .PHONY: build
 build: bundle
-	go build -o ${pkg}/main ${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE}
+	go build -o ${CONTESTS_DIR}/${pkg}/main ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE}
 
 # コードをatcoderへ提出します FIXME: atcoder-toolsのreturn codeが255
 # ex) make submit pkg=abc158/A
 .PHONY: submit
 submit:
 	$(MAKE) build pkg=${pkg}
-	atcoder-tools submit --dir ./${pkg} --exec ./main --code ${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE} -u
+	atcoder-tools submit --dir ./${CONTESTS_DIR}/${pkg} --exec ./main --code ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE} -u
 
 # 指定したパッケージのテストを実施します
 # ex) make test pkg=abc158/A
 .PHONY: test
 test: bundle
 	$(MAKE) build pkg=${pkg}
-	atcoder-tools test --dir ./${pkg} --exec ./main -s
+	atcoder-tools test --dir ./${CONTESTS_DIR}/${pkg} --exec ./main -s
 
 # 自動生成されたコードを削除します
 # ex) make clean pkg=lib
 .PHONY: clean
 clean:
-	find ${pkg} -name "must-*.go" | xargs rm
-	find ${pkg} -name "gen-*.go" | xargs rm
-	find ${pkg} -name "submit/submit.go" | xargs rm
+	find ${CONTESTS_DIR}/${pkg} -name "must-*.go" | xargs rm
+	find ${CONTESTS_DIR}/${pkg} -name "gen-*.go" | xargs rm
+	find ${CONTESTS_DIR}/${pkg} -name "submit/submit.go" | xargs rm
 
 # 必要なツールをインストールします。2020/03/29時点では、Go対応パッチがatcoder-toolsには取り込まれていないので、
 # 実際にはhttps://github.com/nu50218/atcoder-toolsをpip install -eして利用しています
@@ -48,17 +49,17 @@ setup:
 # ex) make bundle pkg=abc158/A
 .PHONY: bundle
 bundle:
-	mkdir -p ${pkg}/${SUBMIT_DIR}
-	gollup ./${pkg} ./lib > ${SUBMIT_FILE}
-	mv ${SUBMIT_FILE} ${pkg}/${SUBMIT_DIR}
+	mkdir -p ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}
+	gollup ./${CONTESTS_DIR}/${pkg} ./lib > ${SUBMIT_FILE}
+	mv ${SUBMIT_FILE} ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}
 
 # 指定したコンテストの実施環境を作成します。
 # 各設問のパッケージやテストなどが生成されます。
 # ex) make new contest=abc158
 .PHONY: new
 new:
-	atcoder-tools gen --workspace . --lang go --template ./templates/main.tmpl ${contest}
-	find ./${contest}/**/*.go -type f | xargs goimports -w
+	atcoder-tools gen --workspace . --lang go --template ./templates/main.tmpl ${CONTESTS_DIR}/${contest}
+	find ./${CONTESTS_DIR}/${contest}/**/*.go -type f | xargs goimports -w
 
 # コードの自動生成を行います。
 .PHONY: generate
