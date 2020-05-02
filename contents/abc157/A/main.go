@@ -3,15 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
-
-	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(N int64) string {
-	fmt.Println(lib.MaxInt([]int{1, 2}))
-	return ""
+func solve(N int64) int64 {
+	return int64(math.Ceil(float64(N) / 2))
 }
 
 func main() {
