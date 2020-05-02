@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// AAAToBits は、0と1からなる文字列などを0->false, 1->trueのbool sliceとして返します.
 func AAAToBits(value AAA, minDigits int) (bits []bool) {
 	bin := fmt.Sprintf("%b", int(value))
 	digits := 0
