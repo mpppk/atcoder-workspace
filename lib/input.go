@@ -1,4 +1,3 @@
-//go:generate goofy mustify --file input.go
 package lib
 
 import (
@@ -52,6 +51,7 @@ func readLineAsChunks(reader *bufio.Reader) (chunks []string, err error) {
 	}
 }
 
+// Input は複数行からなる文字列から値をいい感じに取り出すためのメソッドを提供します.
 type Input struct {
 	lines [][]string
 }
@@ -75,6 +75,7 @@ func (i *Input) validateRowIndex(index int) error {
 	return nil
 }
 
+// GetLines は指定された範囲の行を返します. startRowIndexは含み、endRowIndexは含みません.存在しない行を指定した場合失敗します.
 func (i *Input) GetLines(startRowIndex, endRowIndex int) ([][]string, error) {
 	if err := i.validateRowIndex(startRowIndex); err != nil {
 		return nil, fmt.Errorf("invalid start row index: %v", err)
@@ -85,6 +86,7 @@ func (i *Input) GetLines(startRowIndex, endRowIndex int) ([][]string, error) {
 	return i.lines[startRowIndex:endRowIndex], nil
 }
 
+// GetStringLinesFrom は指定された行を含む、それ以降の行を返します.存在しない行を指定した場合失敗します.
 func (i *Input) GetStringLinesFrom(fromIndex int) (newLines [][]string, err error) {
 	for index := range i.lines {
 		if index < fromIndex {
@@ -99,6 +101,7 @@ func (i *Input) GetStringLinesFrom(fromIndex int) (newLines [][]string, err erro
 	return
 }
 
+// GetValue は指定された行と列の値を返します.存在しない行か列を指定した場合失敗します.
 func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	line, err := i.GetLine(rowIndex)
 	if err != nil {
@@ -110,10 +113,12 @@ func (i *Input) GetValue(rowIndex, colIndex int) (string, error) {
 	return line[colIndex], nil
 }
 
+// GetFirstValue は指定した行の最初の列の値を返します. 存在しない行を指定した場合失敗します.
 func (i *Input) GetFirstValue(rowIndex int) (string, error) {
 	return i.GetValue(rowIndex, 0)
 }
 
+// GetColLine は指定された列を返します。値が存在しない行がある場合失敗します.
 func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
 	if err := i.validateColIndex(colIndex); err != nil {
 		return nil, err
@@ -129,6 +134,7 @@ func (i *Input) GetColLine(colIndex int) (newLine []string, err error) {
 	return newLine, nil
 }
 
+// GetLine は指定された行を返します. 存在しない行がある場合、失敗します.
 func (i *Input) GetLine(index int) ([]string, error) {
 	if err := i.validateRowIndex(index); err != nil {
 		return nil, err
@@ -136,6 +142,7 @@ func (i *Input) GetLine(index int) ([]string, error) {
 	return i.lines[index], nil
 }
 
+// ReadAsStringGridFrom は指定された行以降の行を、一文字ずつのsliceとして返します.
 func (i *Input) ReadAsStringGridFrom(fromIndex int) ([][]string, error) {
 	lines, err := i.GetStringLinesFrom(fromIndex)
 	if err != nil {
@@ -157,12 +164,14 @@ func (i *Input) ReadAsStringGridFrom(fromIndex int) ([][]string, error) {
 	return m, nil
 }
 
+// NewInput はscannerから入力を読み込み、Inputを生成します.
 func NewInput(scanner *bufio.Scanner) *Input {
 	return &Input{
 		lines: toLines(scanner),
 	}
 }
 
+// NewInputFromReader はreaderから入力を読み込み、Inputを生成します.
 func NewInputFromReader(reader *bufio.Reader) (*Input, error) {
 	lines, err := toLinesFromReader(reader)
 	if err != nil {
