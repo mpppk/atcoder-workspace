@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// ReduceZZZ は、ZZZを引数として受け取るJavaScriptのreduceです.
 func ReduceZZZ(values []ZZZ, f func(acc, cur ZZZ) ZZZ, initial ZZZ) (newValue ZZZ) {
 	newValue = initial
 	for _, value := range values {
@@ -13,6 +14,7 @@ func ReduceZZZ(values []ZZZ, f func(acc, cur ZZZ) ZZZ, initial ZZZ) (newValue ZZ
 	return
 }
 
+// ReduceZZZSlice はZZZ Sliceを引数として受け取るJavaScriptのreduceです.
 func ReduceZZZSlice(values [][]ZZZ, f func(acc ZZZ, cur []ZZZ) ZZZ, initial ZZZ) (newValue ZZZ) {
 	newValue = initial
 	for _, value := range values {
