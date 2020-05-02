@@ -32,9 +32,9 @@ test: bundle
 # ex) make clean pkg=lib
 .PHONY: clean
 clean:
-	find ${CONTESTS_DIR}/${pkg} -name "must-*.go" | xargs rm
-	find ${CONTESTS_DIR}/${pkg} -name "gen-*.go" | xargs rm
-	find ${CONTESTS_DIR}/${pkg} -name "submit/submit.go" | xargs rm
+	find ${pkg} -name "must-*.go" | xargs rm
+	find ${pkg} -name "gen-*.go" | xargs rm
+	find ${pkg} -name "submit/submit.go" | xargs rm
 
 # 必要なツールをインストールします。2020/03/29時点では、Go対応パッチがatcoder-toolsには取り込まれていないので、
 # 実際にはhttps://github.com/nu50218/atcoder-toolsをpip install -eして利用しています
@@ -58,7 +58,7 @@ bundle:
 # ex) make new contest=abc158
 .PHONY: new
 new:
-	atcoder-tools gen --workspace . --lang go --template ./templates/main.tmpl ${CONTESTS_DIR}/${contest}
+	atcoder-tools gen --workspace ./${CONTESTS_DIR} --lang go --template ./templates/main.tmpl ${contest}
 	find ./${CONTESTS_DIR}/${contest}/**/*.go -type f | xargs goimports -w
 
 # コードの自動生成を行います。
