@@ -7,15 +7,17 @@ import (
 	"io"
 	"math"
 	"os"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(input *lib_Input) int {
+func solve(input *lib.Input) int {
 	startIndices := input.MustGetIntLine(1)
 	startRowIndex, startColIndex := startIndices[0]-1, startIndices[1]-1
 	endIndices := input.MustGetIntLine(2)
 	endRowIndex, endColIndex := endIndices[0]-1, endIndices[1]-1
 	m := input.MustReadAsStringGridFrom(3)
-	minStepMap := lib_NewIntGridMap(m, math.MaxInt32)
+	minStepMap := lib.NewIntGridMap(len(m), len(m[0]), math.MaxInt32)
 	step := 0
 
 	l := list.New()
@@ -67,6 +69,6 @@ func solve(input *lib_Input) int {
 }
 
 func main() {
-	input := lib_MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
+	input := lib.MustNewInputFromReader(bufio.NewReader(io.Reader(os.Stdin)))
 	fmt.Println(solve(input))
 }
