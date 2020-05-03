@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+// SumAAA は、与えられた値の合計値を返します.
 func SumAAA(values []AAA) AAA {
 	var sum AAA = 0
 	for _, value := range values {
@@ -17,6 +18,7 @@ func SumAAA(values []AAA) AAA {
 	return sum
 }
 
+// FilterAAA は、与えられた値それぞれを関数へ適用し、結果がtrueになる値のSliceを返します.
 func FilterAAA(values []AAA, f func(v AAA) bool) (newValues []AAA) {
 	for _, value := range values {
 		if f(value) {
@@ -26,6 +28,7 @@ func FilterAAA(values []AAA, f func(v AAA) bool) (newValues []AAA) {
 	return
 }
 
+// FilterAAASlice は、与えられたSliceそれぞれを関数へ適用し、結果がtrueになるSliceのSliceを返します.
 func FilterAAASlice(values [][]AAA, f func(v []AAA) bool) (newValues [][]AAA) {
 	for _, value := range values {
 		if f(value) {
@@ -35,6 +38,7 @@ func FilterAAASlice(values [][]AAA, f func(v []AAA) bool) (newValues [][]AAA) {
 	return
 }
 
+// UniqAAA は、与えられた値から重複を取り除いて返します.
 func UniqAAA(values []AAA) (newValues []AAA) {
 	m := map[AAA]bool{}
 	for _, value := range values {
@@ -47,6 +51,7 @@ func UniqAAA(values []AAA) (newValues []AAA) {
 	return
 }
 
+// SubtractAAABy は、
 func SubtractAAABy(values1 []AAA, values2 []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
 	if len(values1) != len(values2) {
 		return nil, errors.New("two values lengths are different")

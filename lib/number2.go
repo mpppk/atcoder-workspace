@@ -39,6 +39,7 @@ func (c BBB3ToAAACache) Set(k1, k2, k3 BBB, v AAA) AAA {
 	return v
 }
 
+// SumAAAByBBB は、与えられた値それぞれに関数を適用した結果を足し合わせて返します.
 func SumAAAByBBB(values []AAA, f func(v AAA) BBB) BBB {
 	var sum BBB = 0
 	for _, value := range values {
@@ -47,6 +48,7 @@ func SumAAAByBBB(values []AAA, f func(v AAA) BBB) BBB {
 	return sum
 }
 
+// AAASliceToBBBSlice は、AAA SliceをBBB Sliceに変換します.
 func AAASliceToBBBSlice(values []AAA) (newValues []BBB) {
 	for _, value := range values {
 		newValues = append(newValues, BBB(value))
@@ -54,6 +56,7 @@ func AAASliceToBBBSlice(values []AAA) (newValues []BBB) {
 	return
 }
 
+// MapBBBSliceToAAA は、BBBの二次元Sliceの各Sliceに対して関数を適用した結果を返します.
 func MapBBBSliceToAAA(values [][]BBB, f func(v []BBB) AAA) (newValues []AAA) {
 	for _, value := range values {
 		newValues = append(newValues, f(value))
@@ -61,17 +64,7 @@ func MapBBBSliceToAAA(values [][]BBB, f func(v []BBB) AAA) (newValues []AAA) {
 	return
 }
 
-func MapBBBSlice2ToAAA(values [][][]BBB, f func(v [][]BBB) AAA) (newValues []AAA) {
-	for _, value := range values {
-		newValues = append(newValues, f(value))
-	}
-	return
-}
-
+// MaxAAAByBBBSlice は、BBBの二次元Sliceの各Sliceに対して関数を適用した結果の最大値を返します.
 func MaxAAAByBBBSlice(values [][]BBB, f func(vs []BBB) AAA) (max AAA, err error) {
 	return MaxAAA(MapBBBSliceToAAA(values, f))
-}
-
-func MaxAAAByBBBSlice2(values [][][]BBB, f func(vs [][]BBB) AAA) (max AAA, err error) {
-	return MaxAAA(MapBBBSlice2ToAAA(values, f))
 }

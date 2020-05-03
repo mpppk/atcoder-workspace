@@ -23,12 +23,14 @@ func ReduceZZZSlice(values [][]ZZZ, f func(acc ZZZ, cur []ZZZ) ZZZ, initial ZZZ)
 	return
 }
 
+// CopyZZZ は、ZZZ Sliceをコピーします.
 func CopyZZZ(values []ZZZ) []ZZZ {
 	dst := make([]ZZZ, len(values))
 	copy(dst, values)
 	return dst
 }
 
+// CopyZZZSlice は、ZZZの2次元Sliceをコピーします.
 func CopyZZZSlice(values [][]ZZZ) [][]ZZZ {
 	dst := make([][]ZZZ, len(values))
 	for i, value := range values {
@@ -37,6 +39,7 @@ func CopyZZZSlice(values [][]ZZZ) [][]ZZZ {
 	return dst
 }
 
+// ReverseZZZ は、ZZZ Sliceの順序を反転させたコピーを返します.
 func ReverseZZZ(values []ZZZ) []ZZZ {
 	newValues := CopyZZZ(values)
 	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
@@ -45,14 +48,7 @@ func ReverseZZZ(values []ZZZ) []ZZZ {
 	return newValues
 }
 
-func ReverseZZZSlice(values [][]ZZZ) [][]ZZZ {
-	newValues := CopyZZZSlice(values)
-	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
-		newValues[i], newValues[j] = values[j], values[i]
-	}
-	return newValues
-}
-
+// MapZZZ はZZZ Sliceを引数として受け取るJavaScriptのmapです.
 func MapZZZ(values []ZZZ, f func(v ZZZ) ZZZ) (newValues []ZZZ) {
 	for _, value := range values {
 		newValues = append(newValues, f(value))
@@ -60,6 +56,7 @@ func MapZZZ(values []ZZZ, f func(v ZZZ) ZZZ) (newValues []ZZZ) {
 	return
 }
 
+// MapZZZSlice はZZZの2次元Sliceを引数として受け取るJavaScriptのmapです.
 func MapZZZSlice(values [][]ZZZ, f func(v []ZZZ) []ZZZ) (newValues [][]ZZZ) {
 	for _, value := range values {
 		newValues = append(newValues, f(value))
@@ -67,13 +64,7 @@ func MapZZZSlice(values [][]ZZZ, f func(v []ZZZ) []ZZZ) (newValues [][]ZZZ) {
 	return
 }
 
-func MapTypeZZZ(values [][]ZZZ, f func(v []ZZZ) ZZZ) (newValues []ZZZ) {
-	for _, value := range values {
-		newValues = append(newValues, f(value))
-	}
-	return
-}
-
+// ZipZZZ はZZZ Sliceを引数として受け取るrubyのzipです.
 func ZipZZZ(valuesList ...[]ZZZ) (newValuesList [][]ZZZ, err error) {
 	if len(valuesList) == 0 {
 		return nil, errors.New("empty values list are given to ZipZZZ")
@@ -95,6 +86,7 @@ func ZipZZZ(valuesList ...[]ZZZ) (newValuesList [][]ZZZ, err error) {
 	return
 }
 
+// SomeZZZ は、与えた条件式に一つでもマッチする値があればtrueを返します.
 func SomeZZZ(values []ZZZ, f func(v ZZZ) bool) bool {
 	for _, value := range values {
 		if f(value) {
@@ -104,6 +96,7 @@ func SomeZZZ(values []ZZZ, f func(v ZZZ) bool) bool {
 	return false
 }
 
+// SomeZZZSlice は、与えた条件式に一つでもマッチする値があればtrueを返します.
 func SomeZZZSlice(valuesList [][]ZZZ, f func(v []ZZZ) bool) bool {
 	for _, values := range valuesList {
 		if f(values) {
@@ -113,6 +106,7 @@ func SomeZZZSlice(valuesList [][]ZZZ, f func(v []ZZZ) bool) bool {
 	return false
 }
 
+// EveryZZZ は、与えた条件式に値が全てマッチすればtrueを返します.
 func EveryZZZ(values []ZZZ, f func(v ZZZ) bool) bool {
 	for _, value := range values {
 		if !f(value) {
@@ -122,6 +116,7 @@ func EveryZZZ(values []ZZZ, f func(v ZZZ) bool) bool {
 	return true
 }
 
+// EveryZZZSlice は、与えた条件式に値が全てマッチすればtrueを返します.
 func EveryZZZSlice(valuesList [][]ZZZ, f func(v []ZZZ) bool) bool {
 	for _, values := range valuesList {
 		if !f(values) {
@@ -131,6 +126,7 @@ func EveryZZZSlice(valuesList [][]ZZZ, f func(v []ZZZ) bool) bool {
 	return true
 }
 
+// ChunkZZZByBits は、bitがtrueになるごとにchunkを分割して返します.
 func ChunkZZZByBits(values []ZZZ, bits []bool) (newValues [][]ZZZ, err error) {
 	if len(values) != len(bits)+1 {
 		return nil, errors.New(fmt.Sprintf("there are different length between values(%d) and bits(%d)", len(values), len(bits)))
@@ -149,6 +145,7 @@ func ChunkZZZByBits(values []ZZZ, bits []bool) (newValues [][]ZZZ, err error) {
 	return
 }
 
+// UnsetZZZ は、i番目の要素を削除したSliceを返します.
 func UnsetZZZ(values []ZZZ, i int) ([]ZZZ, error) {
 	if i < 0 {
 		return nil, fmt.Errorf("negative number index is given: %d", i)
@@ -171,6 +168,7 @@ func UnsetZZZ(values []ZZZ, i int) ([]ZZZ, error) {
 	return append(newValues[:i], newValues[i+1:]...), nil
 }
 
+// ZZZCombination は、与えられた値からr個を取り出す場合の全組み合わせを返します.
 func ZZZCombination(values []ZZZ, r int) (combinations [][]ZZZ, err error) {
 	if r == 1 {
 		for _, value := range values {
@@ -197,7 +195,8 @@ func ZZZCombination(values []ZZZ, r int) (combinations [][]ZZZ, err error) {
 	return
 }
 
-func ZZZPermutation(values []ZZZ, r int) (permutations [][]ZZZ) {
+// ZZZPermutation は、与えらえれた値からr個を順序考慮して取り出す全組み合わせを返します。
+func ZZZPermutation(values []ZZZ, r int) (permutations [][]ZZZ, err error) {
 	if r == 1 {
 		for _, value := range values {
 			permutations = append(permutations, []ZZZ{value})
@@ -205,8 +204,16 @@ func ZZZPermutation(values []ZZZ, r int) (permutations [][]ZZZ) {
 		return
 	}
 	for i := range values {
-		newValues := ZZZRemoveFromSlice(values, i)
-		for _, pc := range ZZZPermutation(newValues, r-1) {
+		newValues, err := UnsetZZZ(values, i)
+		if err != nil {
+			return nil, err
+		}
+		perm, err := ZZZPermutation(newValues, r-1)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, pc := range perm {
 			newC := append(pc, values[i])
 			permutations = append(permutations, newC)
 		}
@@ -214,41 +221,7 @@ func ZZZPermutation(values []ZZZ, r int) (permutations [][]ZZZ) {
 	return
 }
 
-func ZZZSliceCombination(values [][]ZZZ, r int) (combinations [][][]ZZZ, err error) {
-	if r == 1 {
-		for _, value := range values {
-			combinations = append(combinations, [][]ZZZ{value})
-		}
-		return
-	}
-
-	for i := range values {
-		newValues := values
-		for j := 0; j <= i; j++ {
-			newValues = newValues[1:]
-			if err != nil {
-				return nil, err
-			}
-		}
-		partialCombinations, err := ZZZSliceCombination(newValues, r-1)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, pc := range partialCombinations {
-			newC := append(pc, values[i])
-			combinations = append(combinations, newC)
-		}
-	}
-	return
-}
-
-func ZZZRemoveFromSlice(slice []ZZZ, i int) []ZZZ {
-	n := make([]ZZZ, len(slice))
-	copy(n, slice)
-	return append(n[:i], n[i+1:]...)
-}
-
+// TernaryOPZZZ は、okがtrueであればv1, falseであればv2を返します.
 func TernaryOPZZZ(ok bool, v1, v2 ZZZ) ZZZ {
 	if ok {
 		return v1
@@ -256,10 +229,12 @@ func TernaryOPZZZ(ok bool, v1, v2 ZZZ) ZZZ {
 	return v2
 }
 
+// UnionFindZZZ はUnionFind木を表す構造体です.
 type UnionFindZZZ struct {
 	nodes map[ZZZ]ZZZ
 }
 
+// NewUnionFindZZZ は、与えられた値を初期値として持つUnionFind木の構造体を返します.
 func NewUnionFindZZZ(values []ZZZ) *UnionFindZZZ {
 	m := map[ZZZ]ZZZ{}
 	for _, v := range values {
@@ -268,6 +243,7 @@ func NewUnionFindZZZ(values []ZZZ) *UnionFindZZZ {
 	return &UnionFindZZZ{nodes: m}
 }
 
+// GetRoot は、与えられた値の根の値を返します.
 func (u *UnionFindZZZ) GetRoot(value ZZZ) (ZZZ, int) {
 	v := value
 	newV := u.nodes[v]
@@ -282,6 +258,7 @@ func (u *UnionFindZZZ) GetRoot(value ZZZ) (ZZZ, int) {
 	return newV, cnt
 }
 
+// Unite は、v1とv2のグループをマージします.
 func (u *UnionFindZZZ) Unite(v1, v2 ZZZ) (ZZZ, bool) {
 	v1Root, v1HopNum := u.GetRoot(v1)
 	v2Root, v2HopNum := u.GetRoot(v2)
@@ -296,12 +273,14 @@ func (u *UnionFindZZZ) Unite(v1, v2 ZZZ) (ZZZ, bool) {
 	return v2Root, true
 }
 
+// IsSameGroup は、v1とv2が同じグループに所属しているかを返します.
 func (u *UnionFindZZZ) IsSameGroup(v1, v2 ZZZ) bool {
 	v1Root, _ := u.GetRoot(v1)
 	v2Root, _ := u.GetRoot(v2)
 	return v1Root == v2Root
 }
 
+// MemoizeZZZ は、与えられた関数の戻り値をキャッシュし、2度目からはO(1)で結果を返すラッパーを返します.
 func MemoizeZZZ(f func(v ZZZ) ZZZ) func(v ZZZ) ZZZ {
 	cache := map[ZZZ]ZZZ{}
 	return func(v ZZZ) ZZZ {
@@ -314,17 +293,15 @@ func MemoizeZZZ(f func(v ZZZ) ZZZ) func(v ZZZ) ZZZ {
 	}
 }
 
-type Func2ZZZ func(v1, v2 ZZZ) ZZZ
-
 type CounterZZZ struct {
-	M     map[ZZZ]int64
-	Func2 Func2ZZZ
+	M    map[ZZZ]int64
+	Func func(values ...ZZZ) ZZZ
 }
 
 func NewCounterZZZ() *CounterZZZ {
 	return &CounterZZZ{M: map[ZZZ]int64{}}
 }
 
-func (c CounterZZZ) CountBy2ZZZ(i, j ZZZ) {
-	c.M[c.Func2(i, j)]++
+func (c CounterZZZ) CountBy(values ...ZZZ) {
+	c.M[c.Func(values...)]++
 }

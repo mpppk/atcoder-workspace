@@ -62,39 +62,6 @@ func TestMapType(t *testing.T) {
 	}
 }
 
-func TestMapTypeSlice(t *testing.T) {
-	type args struct {
-		values [][]ZZZ
-		f      func(v []ZZZ) ZZZ
-	}
-	tests := []struct {
-		name          string
-		args          args
-		wantNewValues []ZZZ
-	}{
-		{
-			name: "mapTypeSlice",
-			args: args{
-				values: [][]ZZZ{{1, 2, 3}, {4, 5, 6}},
-				f: func(ts []ZZZ) ZZZ {
-					t0, _ := ts[0].(int)
-					t1, _ := ts[1].(int)
-					t2, _ := ts[2].(int)
-					return ZZZ(t0 + t1 + t2)
-				},
-			},
-			wantNewValues: []ZZZ{6, 15},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if gotNewValues := MapTypeZZZ(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
-				t.Errorf("MapTypeZZZ() = %v, want %v", gotNewValues, tt.wantNewValues)
-			}
-		})
-	}
-}
-
 func TestZipType(t *testing.T) {
 	type args struct {
 		valuesList [][]ZZZ
@@ -366,41 +333,6 @@ func TestAAACombination(t *testing.T) {
 	}
 }
 
-func TestZZZSliceCombination(t *testing.T) {
-	type args struct {
-		values [][]ZZZ
-		r      int
-	}
-	tests := []struct {
-		name             string
-		args             args
-		wantCombinations [][][]ZZZ
-		wantErr          bool
-	}{
-		{
-			name: "ZZZCombination",
-			args: args{
-				values: [][]ZZZ{{1, 1}, {2, 2}, {3, 3}},
-				r:      2,
-			},
-			wantCombinations: [][][]ZZZ{{{2, 2}, {1, 1}}, {{3, 3}, {1, 1}}, {{3, 3}, {2, 2}}}, // FIXME ignore sequence
-			wantErr:          false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			gotCombinations, err := ZZZSliceCombination(tt.args.values, tt.args.r)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ZZZSliceCombination() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(gotCombinations, tt.wantCombinations) {
-				t.Errorf("ZZZSliceCombination() = %v, want %v", gotCombinations, tt.wantCombinations)
-			}
-		})
-	}
-}
-
 func TestZZZPermutation(t *testing.T) {
 	type args struct {
 		values []ZZZ
@@ -422,7 +354,11 @@ func TestZZZPermutation(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotPermutations := ZZZPermutation(tt.args.values, tt.args.r); !reflect.DeepEqual(gotPermutations, tt.wantPermutations) {
+			gotPermutations, err := ZZZPermutation(tt.args.values, tt.args.r)
+			if err != nil {
+				t.Error(err)
+			}
+			if !reflect.DeepEqual(gotPermutations, tt.wantPermutations) {
 				t.Errorf("ZZZPermutation() = %v, want %v", gotPermutations, tt.wantPermutations)
 			}
 		})
