@@ -3,25 +3,21 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
 func solve(X int64) {
-	for i := 0; ; i++ {
-		if pow5(i+1)-pow5(i) > pow9(10) {
-			fmt.Println(i)
+	for A := int64(0); A < 120; A++ {
+		for B := int64(-120); B < 120; B++ {
+			if lib.PowInt64(A, 5)-lib.PowInt64(B, 5) == X {
+				fmt.Println(A, B)
+				return
+			}
 		}
 	}
-}
-
-func pow5(v int) int64 {
-	return int64(math.Pow(float64(v), 5))
-}
-
-func pow9(v int) int64 {
-	return int64(math.Pow(float64(v), 5))
 }
 
 func main() {

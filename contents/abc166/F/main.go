@@ -5,13 +5,70 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 const YES = "Yes"
 const NO = "No"
 
-func solve(N int64, A int64, B int64, C int64, s []string) string {
-	return ""
+func solve(N int64, A int64, B int64, C int64, s []string) {
+	m := map[rune]int64{
+		'A': A,
+		'B': B,
+		'C': C,
+	}
+	var res []rune
+	for i := int64(0); i < N; i++ {
+		ss := []rune(s[i])
+		s1 := ss[0]
+		s2 := ss[1]
+
+		if m[s1] == 0 && m[s2] == 0 {
+			fmt.Println(NO)
+			return
+		}
+
+		// これ以降、s1かd2のどちらかは1以上
+
+		if m[s1] == 0 {
+			m[s1]++
+			m[s2]--
+			res = append(res, s1)
+			continue
+		}
+		if m[s2] == 0 {
+			m[s1]--
+			m[s2]++
+			res = append(res, s2)
+			continue
+		}
+
+		// これ以降、s1とs2はどちらも1以上
+
+		if i == N-1 {
+			m[s1]++
+			m[s2]--
+			res = append(res, s1)
+			continue
+		}
+
+		if strings.ContainsRune(s[i+1], s1) {
+			m[s1]++
+			m[s2]--
+			res = append(res, s1)
+			continue
+		}
+		if strings.ContainsRune(s[i+1], s2) {
+			m[s1]--
+			m[s2]++
+			res = append(res, s2)
+			continue
+		}
+	}
+	fmt.Println(YES)
+	for _, r := range res {
+		fmt.Println(string(r))
+	}
 }
 
 func main() {
@@ -37,5 +94,5 @@ func main() {
 		scanner.Scan()
 		s[i] = scanner.Text()
 	}
-	fmt.Println(solve(N, A, B, C, s))
+	solve(N, A, B, C, s)
 }
