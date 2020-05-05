@@ -19,7 +19,7 @@ build: bundle
 .PHONY: submit
 submit:
 	$(MAKE) build pkg=${pkg}
-	atcoder-tools submit --dir ./${CONTESTS_DIR}/${pkg} --exec ./main --code ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE} -u
+	atcoder-tools submit --timeout 2 --dir ./${CONTESTS_DIR}/${pkg} --exec ./main --code ${CONTESTS_DIR}/${pkg}/${SUBMIT_DIR}/${SUBMIT_FILE} -u ${flag}
 
 # 指定したパッケージのテストを実施します
 # ex) make test pkg=abc158/A
@@ -76,6 +76,7 @@ mustify: genny
 genny:
 	$(MAKE) clean pkg=lib
 	genny -in='./lib/number.go' -out='./lib/gen-number.go' gen "$(AAAnumber)"
+	genny -in='./lib/math.go' -out='./lib/gen-math.go' gen "$(AAAnumber)"
 	genny -in='./lib/number2.go' -out='./lib/gen-number2.go' gen "$(AAAnumber) $(BBBnumber)"
 	genny -in='./lib/int.go' -out='./lib/gen-int.go' gen "$(AAAint)"
 	genny -in='./lib/type.go' -out='./lib/gen-type.go' gen "$(ZZZ)"
