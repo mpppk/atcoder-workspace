@@ -1,8 +1,8 @@
 AAAnumber := AAA=int,int8,int16,int32,int64,float32,float64
 AAAint := AAA=int,int8,int16,int32,int64
 BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
-YYY := YYY=rune,string,int,int8,int16,int32,int64,float32,float64
-ZZZ := ZZZ=rune,string,int,int8,int16,int32,int64,float32,float64
+YYY := YYY=rune,bool,string,int,int8,int16,int32,int64,float32,float64
+ZZZ := ZZZ=rune,bool,string,int,int8,int16,int32,int64,float32,float64
 CONTESTS_DIR := contents
 SUBMIT_DIR := submit
 SUBMIT_FILE := submit.go
@@ -60,6 +60,11 @@ bundle:
 new:
 	atcoder-tools gen --workspace ./${CONTESTS_DIR} --lang go --template ./templates/main.tmpl ${contest}
 	find ./${CONTESTS_DIR}/${contest}/**/*.go -type f | xargs goimports -w
+
+# ライブラリのテストを行います.
+.PHONY: test-lib
+test-lib:
+	go test ./lib/...
 
 # コードの自動生成を行います。
 .PHONY: generate

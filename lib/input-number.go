@@ -81,6 +81,26 @@ func (i *Input) GetFirstAAAValue(rowIndex int) (AAA, error) {
 	return i.GetAAAValue(rowIndex, 0)
 }
 
+// GetFirstAAAValue は指定した行の最初の列の値をAAAとして返します. 存在しない行を指定した場合失敗します.
+func (i *Input) GetFirstAndSecondAAAValue(rowIndex int) (AAA, AAA, error) {
+	first, err := i.GetAAAValue(rowIndex, 0)
+	if err != nil {
+		return first, 0, err
+	}
+	second, err := i.GetAAAValue(rowIndex, 1)
+	return first, second, err
+}
+
+// GetFirstAAAValue は指定した行の最初の列の値をAAAとして返します. 存在しない行を指定した場合失敗します.
+func (i *Input) GetFromFirstToThirdAAAValue(rowIndex int) (AAA, AAA, AAA, error) {
+	first, second, err := i.GetFirstAndSecondAAAValue(rowIndex)
+	if err != nil {
+		return first, second, 0, err
+	}
+	third, err := i.GetAAAValue(rowIndex, 2)
+	return first, second, third, err
+}
+
 // GetColAAALine は指定された列をAAAとして返します。値が存在しない行がある場合失敗します.
 func (i *Input) GetColAAALine(colIndex int) (newLine []AAA, err error) {
 	strLine, err := i.GetColLine(colIndex)

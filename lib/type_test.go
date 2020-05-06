@@ -727,3 +727,78 @@ func TestCopyZZZSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestNew2DimZZZSlice(t *testing.T) {
+	type args struct {
+		row int
+		col int
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]ZZZ
+	}{
+		{
+			args: args{row: 2, col: 2},
+			want: [][]ZZZ{{nil, nil}, {nil, nil}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := New2DimZZZSlice(tt.args.row, tt.args.col); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("New2DimZZZSlice() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestNew2DimZZZSliceWithInitialValue(t *testing.T) {
+	type args struct {
+		row int
+		col int
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]ZZZ
+	}{
+		{
+			args: args{row: 2, col: 2},
+			want: [][]ZZZ{{1, 1}, {1, 1}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := New2DimZZZSliceWithInitialValue(tt.args.row, tt.args.col, 1); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("New2DimZZZSlice() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestNewZZZSliceWithInitialValue(t *testing.T) {
+	type args struct {
+		length       int
+		initialValue ZZZ
+	}
+	tests := []struct {
+		name string
+		args args
+		want []ZZZ
+	}{
+		{
+			args: args{
+				length:       3,
+				initialValue: 1,
+			},
+			want: []ZZZ{1, 1, 1},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := NewZZZSliceWithInitialValue(tt.args.length, tt.args.initialValue); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewZZZSliceWithInitialValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

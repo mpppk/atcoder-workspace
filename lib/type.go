@@ -305,3 +305,31 @@ func NewCounterZZZ() *CounterZZZ {
 func (c CounterZZZ) CountBy(values ...ZZZ) {
 	c.M[c.Func(values...)]++
 }
+
+// New2DimZZZSlice は、ZZZのゼロ値を持つ2次元sliceを返します.
+func New2DimZZZSlice(row, col int) [][]ZZZ {
+	ret := make([][]ZZZ, row)
+	for r := 0; r < row; r++ {
+		ret[r] = make([]ZZZ, col, col)
+	}
+	return ret
+}
+
+// NewZZZSliceWithInitialValue は、initialValueを値として持つZZZのSliceを返します.
+func NewZZZSliceWithInitialValue(length int, initialValue ZZZ) []ZZZ {
+	ret := make([]ZZZ, length)
+	for i := 0; i < length; i++ {
+		ret[i] = initialValue
+	}
+	return ret
+}
+
+// New2DimZZZSliceWithInitialValue は、initialValueを値として持つZZZの2次元Sliceを返します.
+func New2DimZZZSliceWithInitialValue(row, col int, initialValue ZZZ) [][]ZZZ {
+	ret := make([][]ZZZ, row)
+	values := NewZZZSliceWithInitialValue(col, initialValue)
+	for r := 0; r < row; r++ {
+		ret[r] = CopyZZZ(values)
+	}
+	return ret
+}

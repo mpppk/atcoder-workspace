@@ -194,6 +194,152 @@ func TestInput_GetFirstAAAValue(t *testing.T) {
 	}
 }
 
+func TestInput_GetFirstAndSecondAAAValue(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		rowIndex int
+	}
+	tests := []struct {
+		name       string
+		fields     fields
+		args       args
+		wantFirst  AAA
+		wantSecond AAA
+		wantErr    bool
+	}{
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 0,
+			},
+			wantFirst:  1,
+			wantSecond: 2,
+			wantErr:    false,
+		},
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 1,
+			},
+			wantFirst:  4,
+			wantSecond: 5,
+			wantErr:    false,
+		},
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 2,
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			first, second, err := i.GetFirstAndSecondAAAValue(tt.args.rowIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetFirstAAAValue() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(first, tt.wantFirst) {
+				t.Errorf("Input.GetFirstAAAValue() = %v, want %v", first, tt.wantFirst)
+			}
+			if !reflect.DeepEqual(second, tt.wantSecond) {
+				t.Errorf("Input.GetFirstAAAValue() = %v, want %v", second, tt.wantSecond)
+			}
+		})
+	}
+}
+
+func TestInput_GetFromFirstToThirdAAAValue(t *testing.T) {
+	type fields struct {
+		lines [][]string
+	}
+	type args struct {
+		rowIndex int
+	}
+	tests := []struct {
+		name       string
+		fields     fields
+		args       args
+		wantFirst  AAA
+		wantSecond AAA
+		wantThird  AAA
+		wantErr    bool
+	}{
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 0,
+			},
+			wantFirst:  1,
+			wantSecond: 2,
+			wantThird:  3,
+			wantErr:    false,
+		},
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 1,
+			},
+			wantFirst:  4,
+			wantSecond: 5,
+			wantThird:  6,
+			wantErr:    false,
+		},
+		{
+			name: "GetFirstAndSecondAAAValue",
+			fields: fields{
+				lines: [][]string{{"1", "2", "3"}, {"4", "5", "6"}},
+			},
+			args: args{
+				rowIndex: 2,
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Input{
+				lines: tt.fields.lines,
+			}
+			first, second, third, err := i.GetFromFirstToThirdAAAValue(tt.args.rowIndex)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Input.GetFirstAAAValue() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(first, tt.wantFirst) {
+				t.Errorf("Input.GetFirstAAAValue() = %v, want %v", first, tt.wantFirst)
+			}
+			if !reflect.DeepEqual(second, tt.wantSecond) {
+				t.Errorf("Input.GetFirstAAAValue() = %v, want %v", second, tt.wantSecond)
+			}
+			if !reflect.DeepEqual(third, tt.wantThird) {
+				t.Errorf("Input.GetFirstAAAValue() = %v, want %v", third, tt.wantThird)
+			}
+		})
+	}
+}
+
 func TestInput_GetColAAALine(t *testing.T) {
 	type fields struct {
 		lines [][]string
