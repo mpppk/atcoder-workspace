@@ -66,5 +66,5 @@ func MapBBBSliceToAAA(values [][]BBB, f func(v []BBB) AAA) (newValues []AAA) {
 
 // MaxAAAByBBBSlice は、BBBの二次元Sliceの各Sliceに対して関数を適用した結果の最大値を返します.
 func MaxAAAByBBBSlice(values [][]BBB, f func(vs []BBB) AAA) (max AAA, err error) {
-	return MaxAAA(MapBBBSliceToAAA(values, f))
+	return MaxAAA(MapBBBSliceToAAA(values, f)...)
 }

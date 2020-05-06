@@ -5,7 +5,6 @@ package lib
 import (
 	"errors"
 	"fmt"
-	"math"
 	"strconv"
 )
 
@@ -51,7 +50,7 @@ func UniqAAA(values []AAA) (newValues []AAA) {
 	return
 }
 
-// SubtractAAABy は、
+// SubtractAAABy は、values1に関数を適用した値からvalues2に関数を適用した値を引いた結果を返します.
 func SubtractAAABy(values1 []AAA, values2 []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
 	if len(values1) != len(values2) {
 		return nil, errors.New("two values lengths are different")
@@ -65,12 +64,14 @@ func SubtractAAABy(values1 []AAA, values2 []AAA, f func(v AAA) AAA) (newValues [
 	return newValues, nil
 }
 
+// SubtractAAA は、values1それぞれの要素からvalues2それぞれの要素を引いた結果を返します.
 func SubtractAAA(values1 []AAA, values2 []AAA) (newValues []AAA, err error) {
 	return SubtractAAABy(values1, values2, func(v AAA) AAA {
 		return v
 	})
 }
 
+// RDiffAAABy は、valuesそれぞれに関数を適用した結果の、隣り合う要素の差(n-(n-1))を返します.
 func RDiffAAABy(values []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
 	diffValues := append([]AAA{0}, values...)
 	newValues, err = SubtractAAABy(values, diffValues[:len(diffValues)-1], f)
@@ -80,12 +81,14 @@ func RDiffAAABy(values []AAA, f func(v AAA) AAA) (newValues []AAA, err error) {
 	return newValues[1:], nil
 }
 
+// RDiffAAA は、隣り合う要素の差(n-(n-1))を返します.
 func RDiffAAA(values []AAA) (newValues []AAA, err error) {
 	return RDiffAAABy(values, func(v AAA) AAA {
 		return v
 	})
 }
 
+// StringToAAASlice は、Stringの各文字をAAAへ変換したSliceを返します.
 func StringToAAASlice(s string) (ValueLine []AAA, err error) {
 	for _, r := range s {
 		v, err := strconv.ParseInt(string(r), 10, 64)
@@ -97,6 +100,7 @@ func StringToAAASlice(s string) (ValueLine []AAA, err error) {
 	return
 }
 
+// StringSliceToAAASlice は、String sliceをAAA sliceへ変換します.
 func StringSliceToAAASlice(line []string) (ValueLine []AAA, err error) {
 	newLine, err := toSpecificBitIntLine(line, 64)
 	if err != nil {
@@ -106,52 +110,6 @@ func StringSliceToAAASlice(line []string) (ValueLine []AAA, err error) {
 		ValueLine = append(ValueLine, AAA(v))
 	}
 	return
-}
-
-func MaxAAA(values []AAA) (max AAA, err error) {
-	if len(values) == 0 {
-		return 0, errors.New("empty slice is given")
-	}
-
-	max = values[0]
-	for _, value := range values {
-		if max < value {
-			max = value
-		}
-	}
-	return
-}
-
-func MaxAAAVA(values ...AAA) (max AAA, err error) {
-	if len(values) == 0 {
-		return 0, errors.New("empty slice is given")
-	}
-
-	max = values[0]
-	for _, value := range values {
-		if max < value {
-			max = value
-		}
-	}
-	return
-}
-
-func MinAAA(values []AAA) (min AAA, err error) {
-	if len(values) == 0 {
-		return 0, errors.New("empty slice is given")
-	}
-
-	min = values[0]
-	for _, value := range values {
-		if min > value {
-			min = value
-		}
-	}
-	return
-}
-
-func AbsAAA(value AAA) AAA {
-	return AAA(math.Abs(float64(value)))
 }
 
 func NewAAAGridMap(grid [][]string, defaultValue AAA) (m [][]AAA) {
@@ -165,14 +123,15 @@ func NewAAAGridMap(grid [][]string, defaultValue AAA) (m [][]AAA) {
 	return
 }
 
-func AAARange(start, end, step AAA) []AAA {
+// AAARange は、startからendまで、stepずつ増加する数列を返します.(endは含まない)
+func AAARange(start, end, step AAA) ([]AAA, error) {
 	if end < start {
-		return []AAA{}
+		return nil, fmt.Errorf("end(%v) is bigger than start(%v)", end, start)
 	}
 	s := make([]AAA, 0, int(1+(end-start)/step))
 	for start < end {
 		s = append(s, start)
 		start += step
 	}
-	return s
+	return s, nil
 }

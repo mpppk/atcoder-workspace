@@ -309,9 +309,10 @@ func TestAAARange(t *testing.T) {
 		step  AAA
 	}
 	tests := []struct {
-		name string
-		args args
-		want []AAA
+		name    string
+		args    args
+		want    []AAA
+		wantErr bool
 	}{
 		{
 			name: "AAARange",
@@ -340,44 +341,26 @@ func TestAAARange(t *testing.T) {
 			},
 			want: []AAA{0, 0.5},
 		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := AAARange(tt.args.start, tt.args.end, tt.args.step); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("AAARange() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestMaxAAAVA(t *testing.T) {
-	type args struct {
-		values []AAA
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantMax AAA
-		wantErr bool
-	}{
 		{
-			name: "MaxAAAVA",
+			name: "AAARange",
 			args: args{
-				values: []AAA{1, 2, 3},
+				start: 1,
+				end:   0,
+				step:  1,
 			},
-			wantMax: 3,
-			wantErr: false,
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotMax, err := MaxAAAVA(tt.args.values...)
+			got, err := AAARange(tt.args.start, tt.args.end, tt.args.step)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("MaxAAAVA() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("AAARange() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(gotMax, tt.wantMax) {
-				t.Errorf("MaxAAAVA() = %v, want %v", gotMax, tt.wantMax)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("AAARange() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
