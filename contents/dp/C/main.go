@@ -5,10 +5,36 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(N int64, a []int64, b []int64, c []int64) string {
-	return ""
+const (
+	B = 1
+	C = 2
+	A = 0
+)
+
+func solve(N int64, a []int64, b []int64, c []int64) int64 {
+	dp := lib.New2DimInt64Slice(int(N)+1, 3)
+	dp[0][A], dp[0][B], dp[0][C] = 0, 0, 0
+
+	for i := 1; i <= int(N); i++ {
+		dp[i][A] = lib.MustMaxInt64(
+			dp[i-1][B]+b[i-1],
+			dp[i-1][C]+c[i-1],
+		)
+		dp[i][B] = lib.MustMaxInt64(
+			dp[i-1][A]+a[i-1],
+			dp[i-1][C]+c[i-1],
+		)
+		dp[i][C] = lib.MustMaxInt64(
+			dp[i-1][A]+a[i-1],
+			dp[i-1][B]+b[i-1],
+		)
+	}
+
+	return lib.MustMaxInt64(dp[N][A], dp[N][B], dp[N][C])
 }
 
 func main() {

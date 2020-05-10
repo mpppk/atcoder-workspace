@@ -3,12 +3,29 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(N int64, K int64, h []int64) string {
-	return ""
+func solve(N int64, K int64, h []int64) int64 {
+	dummyH := make([]int64, K)
+	h = append(h, dummyH...)
+
+	dp := lib.NewInt64SliceWithInitialValue(int(N+K), math.MaxInt64/2)
+	dp[0] = 0
+	for i := 0; i < int(N); i++ {
+		for j := 1; j <= int(K); j++ {
+			dp[i+j] = lib.MustMinInt64(
+				dp[i+j],
+				dp[i]+lib.AbsInt64(h[i]-h[i+j]),
+			)
+		}
+	}
+
+	return dp[N-1]
 }
 
 func main() {
