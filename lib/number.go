@@ -135,3 +135,82 @@ func AAARange(start, end, step AAA) ([]AAA, error) {
 	}
 	return s, nil
 }
+
+// AAAMap は、map[AAA][AAA]に便利メソッドを追加します.
+type AAAMap map[AAA]AAA
+
+// MustGetは、指定したkeyの値を返します. 指定したkeyの値が存在しない場合panicします.
+func (m AAAMap) MustGet(key AAA) AAA {
+	v, ok := m[key]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key is specfied in AAAMap: %v", key))
+	}
+	return v
+}
+
+// GetOr は、指定したkeyの値が存在すればその値を、存在しなければdefaultValueを返します.
+func (m AAAMap) GetOr(key, defaultValue AAA) AAA {
+	v, ok := m[key]
+	if !ok {
+		return defaultValue
+	}
+	return v
+}
+
+// ChMin は、与えられた値が既に存在する値よりも小さければ代入します.
+// 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
+func (m AAAMap) ChMin(key, value AAA) (replaced bool, valueAlreadyExist bool) {
+	if v, ok := m[key]; ok {
+		if v > value {
+			m[key] = value
+			return true, true
+		} else {
+			return false, true
+		}
+	}
+	m[key] = value
+	return true, false
+}
+
+// MustChMin は、与えられた値が既に存在する値よりも小さければ代入します.
+// 指定したkeyの値が存在しない場合はpanicします.
+func (m AAAMap) MustChMin(key, value AAA) (replaced bool) {
+	v, ok := m[key]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key is specfied in AAAMap: %v", key))
+	}
+	if v > value {
+		m[key] = value
+		return true
+	}
+	return false
+}
+
+// ChMax は、与えられた値が既に存在する値よりも大きれば代入します.
+// 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
+func (m AAAMap) ChMax(key, value AAA) (replaced bool, valueAlreadyExist bool) {
+	if v, ok := m[key]; ok {
+		if v < value {
+			m[key] = value
+			return true, true
+		} else {
+			return false, true
+		}
+	}
+	m[key] = value
+	return true, false
+}
+
+// MustChMin は、与えられた値が既に存在する値よりも大きければ代入します.
+// 指定したkeyの値が存在しない場合はpanicします.
+func (m AAAMap) MustChMax(key, value AAA) (replaced bool) {
+	v, ok := m[key]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key is specfied in AAAMap: %v", key))
+	}
+	if v < value {
+		m[key] = value
+		return true
+	}
+	return false
+}
