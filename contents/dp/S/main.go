@@ -9,7 +9,7 @@ import (
 
 const MOD = 1000000007
 
-func solve(K string, D int64) string {
+func solve(K string, D int) string {
 	return ""
 }
 
@@ -22,8 +22,8 @@ func main() {
 	var K string
 	scanner.Scan()
 	K = scanner.Text()
-	var D int64
+	var D int
 	scanner.Scan()
-	D, _ = strconv.ParseInt(scanner.Text(), 10, 64)
+	D, _ = strconv.Atoi(scanner.Text())
 	fmt.Println(solve(K, D))
 }

@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func solve(N int64, M int64, l []int64, r []int64, a []int64) string {
+func solve(N int, M int, l []int, r []int, a []int) string {
 	return ""
 }
 
@@ -17,22 +17,22 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var M int64
+	N, _ = strconv.Atoi(scanner.Text())
+	var M int
 	scanner.Scan()
-	M, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	l := make([]int64, M)
-	r := make([]int64, M)
-	a := make([]int64, M)
-	for i := int64(0); i < M; i++ {
+	M, _ = strconv.Atoi(scanner.Text())
+	l := make([]int, M)
+	r := make([]int, M)
+	a := make([]int, M)
+	for i := 0; i < M; i++ {
 		scanner.Scan()
-		l[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		l[i], _ = strconv.Atoi(scanner.Text())
 		scanner.Scan()
-		r[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		r[i], _ = strconv.Atoi(scanner.Text())
 		scanner.Scan()
-		a[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		a[i], _ = strconv.Atoi(scanner.Text())
 	}
 	fmt.Println(solve(N, M, l, r, a))
 }

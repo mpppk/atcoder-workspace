@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func solve(N int64, C int64, h []int64) string {
+func solve(N int, C int, h []int) string {
 	return ""
 }
 
@@ -17,16 +17,16 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var C int64
+	N, _ = strconv.Atoi(scanner.Text())
+	var C int
 	scanner.Scan()
-	C, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	h := make([]int64, N)
-	for i := int64(0); i < N; i++ {
+	C, _ = strconv.Atoi(scanner.Text())
+	h := make([]int, N)
+	for i := 0; i < N; i++ {
 		scanner.Scan()
-		h[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		h[i], _ = strconv.Atoi(scanner.Text())
 	}
 	fmt.Println(solve(N, C, h))
 }

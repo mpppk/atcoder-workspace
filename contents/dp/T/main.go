@@ -9,7 +9,7 @@ import (
 
 const MOD = 1000000007
 
-func solve(N int64, s string) string {
+func solve(N int, s string) string {
 	return ""
 }
 
@@ -19,9 +19,9 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
+	N, _ = strconv.Atoi(scanner.Text())
 	var s string
 	scanner.Scan()
 	s = scanner.Text()

@@ -9,7 +9,7 @@ import (
 
 const MOD = 1000000007
 
-func solve(N int64, K int64, a [][]int64) string {
+func solve(N int, K int, a [][]int) string {
 	return ""
 }
 
@@ -19,20 +19,20 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var K int64
+	N, _ = strconv.Atoi(scanner.Text())
+	var K int
 	scanner.Scan()
-	K, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	a := make([][]int64, N)
-	for i := int64(0); i < N; i++ {
-		a[i] = make([]int64, N)
+	K, _ = strconv.Atoi(scanner.Text())
+	a := make([][]int, N)
+	for i := 0; i < N; i++ {
+		a[i] = make([]int, N)
 	}
-	for i := int64(0); i < N; i++ {
-		for j := int64(0); j < N; j++ {
+	for i := 0; i < N; i++ {
+		for j := 0; j < N; j++ {
 			scanner.Scan()
-			a[i][j], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+			a[i][j], _ = strconv.Atoi(scanner.Text())
 		}
 	}
 	fmt.Println(solve(N, K, a))

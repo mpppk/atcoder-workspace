@@ -9,7 +9,7 @@ import (
 
 const MOD = 1000000007
 
-func solve(H int64, W int64, N int64, r []int64, c []int64) string {
+func solve(H int, W int, N int, r []int, c []int) string {
 	return ""
 }
 
@@ -19,22 +19,22 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var H int64
+	var H int
 	scanner.Scan()
-	H, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var W int64
+	H, _ = strconv.Atoi(scanner.Text())
+	var W int
 	scanner.Scan()
-	W, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var N int64
+	W, _ = strconv.Atoi(scanner.Text())
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	r := make([]int64, N)
-	c := make([]int64, N)
-	for i := int64(0); i < N; i++ {
+	N, _ = strconv.Atoi(scanner.Text())
+	r := make([]int, N)
+	c := make([]int, N)
+	for i := 0; i < N; i++ {
 		scanner.Scan()
-		r[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		r[i], _ = strconv.Atoi(scanner.Text())
 		scanner.Scan()
-		c[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		c[i], _ = strconv.Atoi(scanner.Text())
 	}
 	fmt.Println(solve(H, W, N, r, c))
 }
