@@ -8,7 +8,18 @@ import (
 	"strconv"
 )
 
-func lib_MaxInt64(values ...int64) (max int64, err error) {
+type Int2DList [][]int
+type IntList []int
+
+func (a Int2DList) ChMax(i, j int, value int) bool {
+	curV := a[i][j]
+	if curV < value {
+		a[i][j] = value
+		return true
+	}
+	return false
+}
+func lib_MaxInt(values ...int) (max int, err error) {
 	if len(values) == 0 {
 		return 0, errors.New("empty slice is given")
 	}
@@ -20,17 +31,24 @@ func lib_MaxInt64(values ...int64) (max int64, err error) {
 	}
 	return
 }
-func lib_MustMaxInt64(values ...int64) (max int64) {
-	max, err := lib_MaxInt64(values...)
+func lib_MustMaxInt(values ...int) (max int) {
+	max, err := lib_MaxInt(values...)
 	if err != nil {
 		panic(err)
 	}
 	return max
 }
-func lib_New2DimInt64Slice(row, col int) [][]int64 {
-	ret := make([][]int64, row)
-	for r := 0; r < row; r++ {
-		ret[r] = make([]int64, col, col)
+func lib_NewInt2DList(length1, length2 int, initialValue int) Int2DList {
+	ret := make([][]int, length1, length1)
+	for i := 0; i < length1; i++ {
+		ret[i] = lib_NewIntList(length2, initialValue)
+	}
+	return ret
+}
+func lib_NewIntList(length int, initialValue int) IntList {
+	ret := make([]int, length, length)
+	for i := 0; i < length; i++ {
+		ret[i] = initialValue
 	}
 	return ret
 }
@@ -40,32 +58,35 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	var W int64
+	tempN, _ := strconv.ParseInt(scanner.Text(), 10, 64)
+	N = int(tempN)
+	var W int
 	scanner.Scan()
-	W, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	w := make([]int64, N)
-	v := make([]int64, N)
-	for i := int64(0); i < N; i++ {
+	tempW, _ := strconv.ParseInt(scanner.Text(), 10, 64)
+	W = int(tempW)
+	w := make([]int, N)
+	v := make([]int, N)
+	for i := 0; i < N; i++ {
 		scanner.Scan()
-		w[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		tempw, _ := strconv.ParseInt(scanner.Text(), 10, 64)
+		w[i] = int(tempw)
 		scanner.Scan()
-		v[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		tempv, _ := strconv.ParseInt(scanner.Text(), 10, 64)
+		v[i] = int(tempv)
 	}
 	fmt.Println(solve(N, W, w, v))
 }
-func solve(N int64, W int64, w []int64, v []int64) int64 {
-	dp := lib_New2DimInt64Slice(int(N)+1, int(W+1))
-	for i := 0; i < int(N); i++ {
-		for j := int64(0); j <= W; j++ {
-			newW := j + w[i]
-			if newW <= W {
-				dp[i+1][newW] = lib_MustMaxInt64(dp[i+1][newW], dp[i][j]+v[i])
+func solve(N int, W int, w []int, v []int) int {
+	list := lib_NewInt2DList(N+100, W+100, 0)
+	for i := 0; i < N; i++ {
+		for curW := 0; curW <= W; curW++ {
+			list.ChMax(i+1, curW, list[i][curW])
+			if newW := curW + w[i]; newW <= W {
+				list.ChMax(i+1, newW, list[i][curW]+v[i])
 			}
-			dp[i+1][j] = lib_MustMaxInt64(dp[i+1][j], dp[i][j])
 		}
 	}
-	return lib_MustMaxInt64(dp[N]...)
+	return lib_MustMaxInt(list[N]...)
 }

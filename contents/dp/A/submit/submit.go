@@ -9,6 +9,9 @@ import (
 	"strconv"
 )
 
+type Int64Map map[ // Int64Map は、map[Int64][Int64]に便利メソッドを追加します.
+int64]int64
+
 func lib_AbsInt64(value int64) int64 {
 	return int64(math.Abs(float64(value)))
 }
@@ -24,19 +27,28 @@ func lib_MinInt64(values ...int64) (min int64, err error) {
 	}
 	return
 }
-func lib_MustMinInt64(values ...int64) (min int64) {
-	min, err := lib_MinInt64(values...)
-	if err != nil {
-		panic(err)
-	}
-	return min
+func lib_NewInt64Map() Int64Map {
+	return map[int64]int64{}
 }
-func lib_NewInt64SliceWithInitialValue(length int, initialValue int64) []int64 {
-	ret := make([]int64, length)
-	for i := 0; i < length; i++ {
-		ret[i] = initialValue
+func (m Int64Map) ChMin(key, value int64, values ...int64) (replaced bool, valueAlreadyExist bool) {
+	min, _ := lib_MinInt64(append(values, value)...)
+	if v, ok := m[key]; ok {
+		if v > min {
+			m[key] = min
+			return true, true
+		} else {
+			return false, true
+		}
 	}
-	return ret
+	m[key] = min
+	return true, false
+}
+func (m Int64Map) MustGet(key int64) int64 {
+	v, ok := m[key]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key is specfied in Int64Map: %v", key))
+	}
+	return v
 }
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -55,11 +67,10 @@ func main() {
 	fmt.Println(solve(N, h))
 }
 func solve(N int64, h []int64) int64 {
-	dp := lib_NewInt64SliceWithInitialValue(int(N), math.MaxInt64/2)
-	dp[0] = 0
-	dp[1] = lib_AbsInt64(h[1] - h[0])
-	for n := int64(2); n < N; n++ {
-		dp[n] = lib_MustMinInt64(dp[n-1]+lib_AbsInt64(h[n]-h[n-1]), dp[n-2]+lib_AbsInt64(h[n]-h[n-2]))
+	m := lib_NewInt64Map()
+	m[0], m[1] = 0, lib_AbsInt64(h[1]-h[0])
+	for i := int64(2); i < N; i++ {
+		m.ChMin(i, m[i-1]+lib_AbsInt64(h[i-1]-h[i]), m[i-2]+lib_AbsInt64(h[i-2]-h[i]))
 	}
-	return dp[N-1]
+	return m.MustGet(N - 1)
 }

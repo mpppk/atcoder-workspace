@@ -433,8 +433,9 @@ func TestAAAMap_GetOr(t *testing.T) {
 
 func TestAAAMap_ChMin(t *testing.T) {
 	type args struct {
-		key   AAA
-		value AAA
+		key         AAA
+		value       AAA
+		extraValues []AAA
 	}
 	tests := []struct {
 		name                  string
@@ -449,6 +450,15 @@ func TestAAAMap_ChMin(t *testing.T) {
 				0: 2,
 			},
 			args:                  args{key: 0, value: 1},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          1,
+		},
+		{
+			m: map[AAA]AAA{
+				0: 2,
+			},
+			args:                  args{key: 0, value: 1, extraValues: []AAA{2, 3}},
 			wantReplaced:          true,
 			wantValueAlreadyExist: true,
 			wantNewValue:          1,
@@ -472,6 +482,15 @@ func TestAAAMap_ChMin(t *testing.T) {
 			wantNewValue:          2,
 		},
 		{
+			m: map[AAA]AAA{
+				0: 2,
+			},
+			args:                  args{key: 0, value: 3, extraValues: []AAA{1, 2, 4}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          1,
+		},
+		{
 			m:                     map[AAA]AAA{},
 			args:                  args{key: 0, value: 1},
 			wantReplaced:          true,
@@ -481,7 +500,7 @@ func TestAAAMap_ChMin(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotReplaced, gotValueAlreadyExist := tt.m.ChMin(tt.args.key, tt.args.value)
+			gotReplaced, gotValueAlreadyExist := tt.m.ChMin(tt.args.key, tt.args.value, tt.args.extraValues...)
 			if gotReplaced != tt.wantReplaced {
 				t.Errorf("ChMin() gotReplaced = %v, want %v", gotReplaced, tt.wantReplaced)
 			}
@@ -546,8 +565,9 @@ func TestAAAMap_MustChMin(t *testing.T) {
 
 func TestAAAMap_ChMax(t *testing.T) {
 	type args struct {
-		key   AAA
-		value AAA
+		key         AAA
+		value       AAA
+		extraValues []AAA
 	}
 	tests := []struct {
 		name                  string
@@ -585,6 +605,24 @@ func TestAAAMap_ChMax(t *testing.T) {
 			wantNewValue:          3,
 		},
 		{
+			m: map[AAA]AAA{
+				0: 2,
+			},
+			args:                  args{key: 0, value: 3, extraValues: []AAA{1, 2}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          3,
+		},
+		{
+			m: map[AAA]AAA{
+				0: 2,
+			},
+			args:                  args{key: 0, value: 1, extraValues: []AAA{2, 3, 4}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          4,
+		},
+		{
 			m:                     map[AAA]AAA{},
 			args:                  args{key: 0, value: 1},
 			wantReplaced:          true,
@@ -594,7 +632,7 @@ func TestAAAMap_ChMax(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotReplaced, gotValueAlreadyExist := tt.m.ChMax(tt.args.key, tt.args.value)
+			gotReplaced, gotValueAlreadyExist := tt.m.ChMax(tt.args.key, tt.args.value, tt.args.extraValues...)
 			if gotReplaced != tt.wantReplaced {
 				t.Errorf("ChMax() gotReplaced = %v, want %v", gotReplaced, tt.wantReplaced)
 			}
@@ -652,6 +690,191 @@ func TestAAAMap_MustChMax(t *testing.T) {
 			}
 			if tt.m[tt.args.key] != tt.wantNewValue {
 				t.Errorf("ChMin() new value = %v, want %v", tt.m[tt.args.key], tt.wantNewValue)
+			}
+		})
+	}
+}
+
+func TestAAA2DMap_ChMin(t *testing.T) {
+	type args struct {
+		key1   AAA
+		key2   AAA
+		value  AAA
+		values []AAA
+	}
+	tests := []struct {
+		name                  string
+		m                     AAA2DMap
+		args                  args
+		wantReplaced          bool
+		wantValueAlreadyExist bool
+		wantNewValue          AAA
+	}{
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 1},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          1,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 1, values: []AAA{2, 3}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          1,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 2},
+			wantReplaced:          false,
+			wantValueAlreadyExist: true,
+			wantNewValue:          2,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 3},
+			wantReplaced:          false,
+			wantValueAlreadyExist: true,
+			wantNewValue:          2,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 3, values: []AAA{1, 2, 4}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          1,
+		},
+		{
+			m:                     map[AAA]AAAMap{},
+			args:                  args{key1: 1, key2: 1, value: 1},
+			wantReplaced:          true,
+			wantValueAlreadyExist: false,
+			wantNewValue:          1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotReplaced, gotValueAlreadyExist := tt.m.ChMin(tt.args.key1, tt.args.key2, tt.args.value, tt.args.values...)
+			if gotReplaced != tt.wantReplaced {
+				t.Errorf("ChMin() gotReplaced = %v, want %v", gotReplaced, tt.wantReplaced)
+			}
+			if gotValueAlreadyExist != tt.wantValueAlreadyExist {
+				t.Errorf("ChMin() gotValueAlreadyExist = %v, want %v", gotValueAlreadyExist, tt.wantValueAlreadyExist)
+			}
+			if v := tt.m[tt.args.key1][tt.args.key2]; v != tt.wantNewValue {
+				t.Errorf("ChMin() new value = %v, want %v", v, tt.wantNewValue)
+			}
+		})
+	}
+}
+
+func TestAAA2DMap_ChMax(t *testing.T) {
+	type args struct {
+		key1   AAA
+		key2   AAA
+		value  AAA
+		values []AAA
+	}
+	tests := []struct {
+		name                  string
+		m                     AAA2DMap
+		args                  args
+		wantReplaced          bool
+		wantValueAlreadyExist bool
+		wantNewValue          AAA
+	}{
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 1},
+			wantReplaced:          false,
+			wantValueAlreadyExist: true,
+			wantNewValue:          2,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 1, values: []AAA{2, 3}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          3,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 2},
+			wantReplaced:          false,
+			wantValueAlreadyExist: true,
+			wantNewValue:          2,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 3},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          3,
+		},
+		{
+			m: map[AAA]AAAMap{
+				1: {
+					1: 2,
+				},
+			},
+			args:                  args{key1: 1, key2: 1, value: 3, values: []AAA{1, 2}},
+			wantReplaced:          true,
+			wantValueAlreadyExist: true,
+			wantNewValue:          3,
+		},
+		{
+			m:                     map[AAA]AAAMap{},
+			args:                  args{key1: 1, key2: 1, value: 1},
+			wantReplaced:          true,
+			wantValueAlreadyExist: false,
+			wantNewValue:          1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotReplaced, gotValueAlreadyExist := tt.m.ChMax(tt.args.key1, tt.args.key2, tt.args.value, tt.args.values...)
+			if gotReplaced != tt.wantReplaced {
+				t.Errorf("ChMax() gotReplaced = %v, want %v", gotReplaced, tt.wantReplaced)
+			}
+			if gotValueAlreadyExist != tt.wantValueAlreadyExist {
+				t.Errorf("ChMax() gotValueAlreadyExist = %v, want %v", gotValueAlreadyExist, tt.wantValueAlreadyExist)
 			}
 		})
 	}

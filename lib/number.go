@@ -139,6 +139,10 @@ func AAARange(start, end, step AAA) ([]AAA, error) {
 // AAAMap は、map[AAA][AAA]に便利メソッドを追加します.
 type AAAMap map[AAA]AAA
 
+func NewAAAMap(cap int) AAAMap {
+	return make(map[AAA]AAA, cap)
+}
+
 // MustGetは、指定したkeyの値を返します. 指定したkeyの値が存在しない場合panicします.
 func (m AAAMap) MustGet(key AAA) AAA {
 	v, ok := m[key]
@@ -159,16 +163,17 @@ func (m AAAMap) GetOr(key, defaultValue AAA) AAA {
 
 // ChMin は、与えられた値が既に存在する値よりも小さければ代入します.
 // 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
-func (m AAAMap) ChMin(key, value AAA) (replaced bool, valueAlreadyExist bool) {
+func (m AAAMap) ChMin(key, value AAA, values ...AAA) (replaced bool, valueAlreadyExist bool) {
+	min, _ := MinAAA(append(values, value)...)
 	if v, ok := m[key]; ok {
-		if v > value {
-			m[key] = value
+		if v > min {
+			m[key] = min
 			return true, true
 		} else {
 			return false, true
 		}
 	}
-	m[key] = value
+	m[key] = min
 	return true, false
 }
 
@@ -188,16 +193,17 @@ func (m AAAMap) MustChMin(key, value AAA) (replaced bool) {
 
 // ChMax は、与えられた値が既に存在する値よりも大きれば代入します.
 // 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
-func (m AAAMap) ChMax(key, value AAA) (replaced bool, valueAlreadyExist bool) {
+func (m AAAMap) ChMax(key, value AAA, values ...AAA) (replaced bool, valueAlreadyExist bool) {
+	max, _ := MaxAAA(append(values, value)...)
 	if v, ok := m[key]; ok {
-		if v < value {
-			m[key] = value
+		if v < max {
+			m[key] = max
 			return true, true
 		} else {
 			return false, true
 		}
 	}
-	m[key] = value
+	m[key] = max
 	return true, false
 }
 
@@ -210,6 +216,178 @@ func (m AAAMap) MustChMax(key, value AAA) (replaced bool) {
 	}
 	if v < value {
 		m[key] = value
+		return true
+	}
+	return false
+}
+
+func (m AAAMap) Keys() (keys []AAA) {
+	keys = make([]AAA, 0, len(m))
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return
+}
+
+func (m AAAMap) Values() (values []AAA) {
+	values = make([]AAA, 0, len(m))
+	for _, v := range m {
+		values = append(values, v)
+	}
+	return
+}
+
+// AAAMap は、map[AAA][AAA]に便利メソッドを追加します.
+type AAA2DMap map[AAA]AAAMap
+
+var AAAMapCapForAAA2DMap = 0
+
+func NewAAA2DMap(cap, cap2 int) AAA2DMap {
+	AAAMapCapForAAA2DMap = cap2
+	return make(map[AAA]AAAMap, cap)
+}
+
+func (m AAA2DMap) Get(key1, key2 AAA) (AAA, bool) {
+	v1, ok := m[key1]
+	if !ok {
+		return 0, false
+	}
+	v2, ok := v1[key2]
+	if !ok {
+		return 0, false
+	}
+	return v2, true
+}
+
+func (m AAA2DMap) Set(key1, key2, value AAA) (isNewValue bool) {
+	v1, ok := m[key1]
+	if !ok {
+		m[key1] = NewAAAMap(AAAMapCapForAAA2DMap)
+		v1 = m[key1]
+	}
+	_, ok = v1[key2]
+	v1[key2] = value
+	return !ok
+}
+
+// MustGetは、指定したkeyの値を返します. 指定したkeyの値が存在しない場合panicします.
+func (m AAA2DMap) MustGet(key1, key2 AAA) AAA {
+	v1, ok := m[key1]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key1 is specfied in AAAMap: %v", key1))
+	}
+	v2, ok := v1[key2]
+	if !ok {
+		panic(fmt.Sprintf("ivnalid key2 is specfied in AAAMap: %v", key2))
+	}
+	return v2
+}
+
+// GetOr は、指定したkeyの値が存在すればその値を、存在しなければdefaultValueを返します.
+func (m AAA2DMap) GetOr(key1, key2, defaultValue AAA) AAA {
+	v, ok := m.Get(key1, key2)
+	if !ok {
+		return defaultValue
+	}
+	return v
+}
+
+// ChMin は、与えられた値が既に存在する値よりも小さければ代入します.
+// 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
+func (m AAA2DMap) ChMin(key1, key2, value AAA, values ...AAA) (replaced bool, valueAlreadyExist bool) {
+	min, _ := MinAAA(append(values, value)...)
+	if v, ok := m.Get(key1, key2); ok {
+		if v > min {
+			m.Set(key1, key2, min)
+			return true, true
+		} else {
+			return false, true
+		}
+	}
+	m.Set(key1, key2, min)
+	return true, false
+}
+
+// ChMax は、与えられた値が既に存在する値よりも大きれば代入します.
+// 指定したkeyの値が存在しない場合も代入します. この場合、2つめの戻り値はfalseになります.
+func (m AAA2DMap) ChMax(key1, key2, value AAA, values ...AAA) (replaced bool, valueAlreadyExist bool) {
+	max, _ := MaxAAA(append(values, value)...)
+	if v, ok := m.Get(key1, key2); ok {
+		if v < max {
+			m.Set(key1, key2, max)
+			return true, true
+		} else {
+			return false, true
+		}
+	}
+	m.Set(key1, key2, max)
+	return true, false
+}
+
+func (m AAA2DMap) GetMap(key AAA) (AAAMap, bool) {
+	m1, ok := m[key]
+	return m1, ok
+}
+
+func (m AAA2DMap) MustGetMap(key AAA) AAAMap {
+	m1, ok := m.GetMap(key)
+	if !ok {
+		panic(fmt.Sprintf("invalid key is given to MustGetMap: %v", key))
+	}
+	return m1
+}
+
+type AAAList []AAA
+
+func NewAAAList(length int, initialValue AAA) AAAList {
+	ret := make([]AAA, length, length)
+	for i := 0; i < length; i++ {
+		ret[i] = initialValue
+	}
+	return ret
+}
+
+func (a AAAList) ChMin(i int, value AAA) bool {
+	curV := a[i]
+	if curV > value {
+		a[i] = value
+		return true
+	}
+	return false
+}
+
+func (a AAAList) ChMax(i int, value AAA) bool {
+	curV := a[i]
+	if curV < value {
+		a[i] = value
+		return true
+	}
+	return false
+}
+
+type AAA2DList [][]AAA
+
+func NewAAA2DList(length1, length2 int, initialValue AAA) AAA2DList {
+	ret := make([][]AAA, length1, length1)
+	for i := 0; i < length1; i++ {
+		ret[i] = NewAAAList(length2, initialValue)
+	}
+	return ret
+}
+
+func (a AAA2DList) ChMin(i, j int, value AAA) bool {
+	curV := a[i][j]
+	if curV > value {
+		a[i][j] = value
+		return true
+	}
+	return false
+}
+
+func (a AAA2DList) ChMax(i, j int, value AAA) bool {
+	curV := a[i][j]
+	if curV < value {
+		a[i][j] = value
 		return true
 	}
 	return false

@@ -10,32 +10,46 @@ import (
 )
 
 const (
+	A = 0
 	B = 1
 	C = 2
-	A = 0
 )
 
-func solve(N int64, a []int64, b []int64, c []int64) int64 {
-	dp := lib.New2DimInt64Slice(int(N)+1, 3)
-	dp[0][A], dp[0][B], dp[0][C] = 0, 0, 0
+func solve(N int, a []int, b []int, c []int) int {
+	m := lib.NewInt2DMap()
+	m.Set(0, A, 0)
+	m.Set(0, B, 0)
+	m.Set(0, C, 0)
 
-	for i := 1; i <= int(N); i++ {
-		dp[i][A] = lib.MustMaxInt64(
-			dp[i-1][B]+b[i-1],
-			dp[i-1][C]+c[i-1],
-		)
-		dp[i][B] = lib.MustMaxInt64(
-			dp[i-1][A]+a[i-1],
-			dp[i-1][C]+c[i-1],
-		)
-		dp[i][C] = lib.MustMaxInt64(
-			dp[i-1][A]+a[i-1],
-			dp[i-1][B]+b[i-1],
-		)
+	for i := 0; i < N; i++ {
+		m.ChMax(i+1, A, m[i][B]+a[i], m[i][C]+a[i])
+		m.ChMax(i+1, B, m[i][A]+b[i], m[i][C]+b[i])
+		m.ChMax(i+1, C, m[i][A]+c[i], m[i][B]+c[i])
 	}
-
-	return lib.MustMaxInt64(dp[N][A], dp[N][B], dp[N][C])
+	return lib.MustMaxInt(m[N].Values()...)
 }
+
+//func solve(N int, a []int, b []int, c []int) int {
+//	dp := lib.New2DimInt64Slice(int(N)+1, 3)
+//	dp[0][A], dp[0][B], dp[0][C] = 0, 0, 0
+//
+//	for i := 1; i <= int(N); i++ {
+//		dp[i][A] = lib.MustMaxInt64(
+//			dp[i-1][B]+b[i-1],
+//			dp[i-1][C]+c[i-1],
+//		)
+//		dp[i][B] = lib.MustMaxInt64(
+//			dp[i-1][A]+a[i-1],
+//			dp[i-1][C]+c[i-1],
+//		)
+//		dp[i][C] = lib.MustMaxInt64(
+//			dp[i-1][A]+a[i-1],
+//			dp[i-1][B]+b[i-1],
+//		)
+//	}
+//
+//	return lib.MustMaxInt64(dp[N][A], dp[N][B], dp[N][C])
+//}
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -43,19 +57,24 @@ func main() {
 	const maxBufSize = 1000000
 	scanner.Buffer(make([]byte, initialBufSize), maxBufSize)
 	scanner.Split(bufio.ScanWords)
-	var N int64
+	var N int
 	scanner.Scan()
-	N, _ = strconv.ParseInt(scanner.Text(), 10, 64)
-	a := make([]int64, N)
-	b := make([]int64, N)
-	c := make([]int64, N)
-	for i := int64(0); i < N; i++ {
+	N = parseInt(scanner.Text())
+	a := make([]int, N)
+	b := make([]int, N)
+	c := make([]int, N)
+	for i := 0; i < N; i++ {
 		scanner.Scan()
-		a[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		a[i] = parseInt(scanner.Text())
 		scanner.Scan()
-		b[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		b[i] = parseInt(scanner.Text())
 		scanner.Scan()
-		c[i], _ = strconv.ParseInt(scanner.Text(), 10, 64)
+		c[i] = parseInt(scanner.Text())
 	}
 	fmt.Println(solve(N, a, b, c))
+}
+
+func parseInt(s string) int {
+	ret, _ := strconv.ParseInt(s, 10, 64)
+	return int(ret)
 }
