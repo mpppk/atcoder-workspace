@@ -30,6 +30,21 @@ func MaxAAA(values ...AAA) (max AAA, err error) {
 	return
 }
 
+func MaxAAAIndex(values []AAA) (index int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
+	}
+
+	max := values[0]
+	for i, value := range values {
+		if max < value {
+			max = value
+			index = i
+		}
+	}
+	return
+}
+
 // MinAAAは、与えられた値の最小値を返します.
 func MinAAA(values ...AAA) (min AAA, err error) {
 	if len(values) == 0 {

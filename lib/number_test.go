@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"fmt"
 	"reflect"
 	"sort"
 	"testing"
@@ -875,6 +876,138 @@ func TestAAA2DMap_ChMax(t *testing.T) {
 			}
 			if gotValueAlreadyExist != tt.wantValueAlreadyExist {
 				t.Errorf("ChMax() gotValueAlreadyExist = %v, want %v", gotValueAlreadyExist, tt.wantValueAlreadyExist)
+			}
+		})
+	}
+}
+
+func TestAAA2DList_ChMin(t *testing.T) {
+	type args struct {
+		i     int
+		j     int
+		value AAA
+	}
+	tests := []struct {
+		name      string
+		a         AAA2DList
+		args      args
+		want      bool
+		wantValue AAA
+	}{
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     0,
+				j:     0,
+				value: -1,
+			},
+			want:      true,
+			wantValue: -1,
+		},
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     1,
+				j:     2,
+				value: -1,
+			},
+			want:      true,
+			wantValue: -1,
+		},
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     0,
+				j:     0,
+				value: 2,
+			},
+			want:      false,
+			wantValue: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.a.ChMin(tt.args.i, tt.args.j, tt.args.value); got != tt.want {
+				fmt.Println(tt.a[tt.args.i][tt.args.j])
+				t.Errorf("ChMin() = %v, want %v", got, tt.want)
+			}
+			if gotValue := tt.a[tt.args.i][tt.args.j]; gotValue != tt.wantValue {
+				t.Errorf("new value = %v, want %v", gotValue, tt.wantValue)
+			}
+		})
+	}
+}
+
+func TestAAA2DList_ChMax(t *testing.T) {
+	type args struct {
+		i     int
+		j     int
+		value AAA
+	}
+	tests := []struct {
+		name      string
+		a         AAA2DList
+		args      args
+		want      bool
+		wantValue AAA
+	}{
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     0,
+				j:     0,
+				value: 9,
+			},
+			want:      true,
+			wantValue: 9,
+		},
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     1,
+				j:     2,
+				value: 9,
+			},
+			want:      true,
+			wantValue: 9,
+		},
+		{
+			a: AAA2DList{
+				{1, 2, 3},
+				{4, 5, 6},
+			},
+			args: args{
+				i:     0,
+				j:     0,
+				value: -1,
+			},
+			want:      false,
+			wantValue: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.a.ChMax(tt.args.i, tt.args.j, tt.args.value); got != tt.want {
+				fmt.Println(tt.a[tt.args.i][tt.args.j])
+				t.Errorf("ChMax() = %v, want %v", got, tt.want)
+			}
+			if gotValue := tt.a[tt.args.i][tt.args.j]; gotValue != tt.wantValue {
+				t.Errorf("new value = %v, want %v", gotValue, tt.wantValue)
 			}
 		})
 	}

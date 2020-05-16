@@ -3,12 +3,33 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(N int, W int, w []int, v []int) string {
-	return ""
+func solve(N int, W int, w []int, v []int) int {
+	maxV := N * 1000
+	list := lib.NewInt2DList(N+10, maxV+10, math.MaxInt64/2)
+	list[0][0] = 0
+	for i := 0; i < N; i++ {
+		for curV := 0; curV <= maxV; curV++ {
+			list.ChMin(i+1, curV, list[i][curV])
+			if newW := list[i][curV] + w[i]; newW <= W {
+				list.ChMin(i+1, curV+v[i], newW)
+			}
+		}
+	}
+
+	retV := 0
+	for curV, w := range list[N] {
+		if curV > retV && w <= W {
+			retV = curV
+		}
+	}
+	return retV
 }
 
 func main() {
