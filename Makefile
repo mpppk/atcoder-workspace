@@ -1,5 +1,6 @@
 AAAnumber := AAA=int,int8,int16,int32,int64,float32,float64
 AAAint := AAA=int,int8,int16,int32,int64
+AAAnonnum := AAA=rune,bool,string
 BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
 YYY := YYY=rune,bool,string,int,int8,int16,int32,int64,float32,float64
 ZZZ := ZZZ=rune,bool,string,int,int8,int16,int32,int64,float32,float64

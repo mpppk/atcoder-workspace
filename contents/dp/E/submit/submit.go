@@ -2,36 +2,98 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-type Int2DList [][]int
-type IntList []int
+var IntMapCapForInt2DMap = 0
 
-func (a Int2DList) ChMin(i, j int, value int) bool {
-	curV := a[i][j]
-	if curV > value {
-		a[i][j] = value
-		return true
+type Int2DMap map[ // IntMap は、map[Int][Int]に便利メソッドを追加します.
+int]IntMap
+
+type IntMap map[ // IntMap は、map[Int][Int]に便利メソッドを追加します.
+int]int
+
+func lib_MaxInt(values ...int) (max int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
 	}
-	return false
+	max = values[0]
+	for _, value := range values {
+		if max < value {
+			max = value
+		}
+	}
+	return
 }
-func lib_NewInt2DList(length1, length2 int, initialValue int) Int2DList {
-	ret := make([][]int, length1, length1)
-	for i := 0; i < length1; i++ {
-		ret[i] = lib_NewIntList(length2, initialValue)
+func lib_MinInt(values ...int) (min int, err error) {
+	if len(values) == 0 {
+		return 0, errors.New("empty slice is given")
 	}
-	return ret
+	min = values[0]
+	for _, value := range values {
+		if min > value {
+			min = value
+		}
+	}
+	return
 }
-func lib_NewIntList(length int, initialValue int) IntList {
-	ret := make([]int, length, length)
-	for i := 0; i < length; i++ {
-		ret[i] = initialValue
+func lib_MustMaxInt(values ...int) (max int) {
+	max, err := lib_MaxInt(values...)
+	if err != nil {
+		panic(err)
 	}
-	return ret
+	return max
+}
+func lib_NewInt2DMap(cap, cap2 int) Int2DMap {
+	IntMapCapForInt2DMap = cap2
+	return make(map[int]IntMap, cap)
+}
+func lib_NewIntMap(cap int) IntMap {
+	return make(map[int]int, cap)
+}
+func (m Int2DMap) ChMin(key1, key2, value int, values ...int) (replaced bool, valueAlreadyExist bool) {
+	min, _ := lib_MinInt(append(values, value)...)
+	if v, ok := m.Get(key1, key2); ok {
+		if v > min {
+			m.Set(key1, key2, min)
+			return true, true
+		} else {
+			return false, true
+		}
+	}
+	m.Set(key1, key2, min)
+	return true, false
+}
+func (m Int2DMap) Get(key1, key2 int) (int, bool) {
+	v1, ok := m[key1]
+	if !ok {
+		return 0, false
+	}
+	v2, ok := v1[key2]
+	if !ok {
+		return 0, false
+	}
+	return v2, true
+}
+func (m IntMap) Keys() (keys []int) {
+	keys = make([]int, 0, len(m))
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return
+}
+func (m Int2DMap) Set(key1, key2, value int) (isNewValue bool) {
+	v1, ok := m[key1]
+	if !ok {
+		m[key1] = lib_NewIntMap(IntMapCapForInt2DMap)
+		v1 = m[key1]
+	}
+	_, ok = v1[key2]
+	v1[key2] = value
+	return !ok
 }
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -56,22 +118,16 @@ func main() {
 	fmt.Println(solve(N, W, w, v))
 }
 func solve(N int, W int, w []int, v []int) int {
-	maxV := N * 1000
-	list := lib_NewInt2DList(N+10, maxV+10, math.MaxInt64/2)
-	list[0][0] = 0
-	for i := 0; i < N; i++ {
-		for curV := 0; curV <= maxV; curV++ {
-			list.ChMin(i+1, curV, list[i][curV])
-			if newW := list[i][curV] + w[i]; newW <= W {
-				list.ChMin(i+1, curV+v[i], newW)
+	m := lib_NewInt2DMap(N, 1000*N)
+	m.Set(0, 0, 0)
+	for i, curV := range v {
+		curW := w[i]
+		for bV, bW := range m[i] {
+			m.ChMin(i+1, bV, bW)
+			if newW := bW + curW; newW <= W {
+				m.ChMin(i+1, bV+curV, newW)
 			}
 		}
 	}
-	retV := 0
-	for curV, w := range list[N] {
-		if curV > retV && w <= W {
-			retV = curV
-		}
-	}
-	return retV
+	return lib_MustMaxInt(m[N].Keys()...)
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 
@@ -11,26 +10,41 @@ import (
 )
 
 func solve(N int, W int, w []int, v []int) int {
-	maxV := N * 1000
-	list := lib.NewInt2DList(N+10, maxV+10, math.MaxInt64/2)
-	list[0][0] = 0
-	for i := 0; i < N; i++ {
-		for curV := 0; curV <= maxV; curV++ {
-			list.ChMin(i+1, curV, list[i][curV])
-			if newW := list[i][curV] + w[i]; newW <= W {
-				list.ChMin(i+1, curV+v[i], newW)
+	m := lib.NewInt2DMap(N, 1000*N)
+	m.Set(0, 0, 0)
+	for i, curV := range v {
+		curW := w[i]
+		for bV, bW := range m[i] {
+			m.ChMin(i+1, bV, bW)
+			if newW := bW + curW; newW <= W {
+				m.ChMin(i+1, bV+curV, newW)
 			}
 		}
 	}
-
-	retV := 0
-	for curV, w := range list[N] {
-		if curV > retV && w <= W {
-			retV = curV
-		}
-	}
-	return retV
+	return lib.MustMaxInt(m[N].Keys()...)
 }
+
+//func solve(N int, W int, w []int, v []int) int {
+//	maxV := N * 1000
+//	list := lib.NewInt2DList(N+10, maxV+10, math.MaxInt64/2)
+//	list[0][0] = 0
+//	for i := 0; i < N; i++ {
+//		for curV := 0; curV <= maxV; curV++ {
+//			list.ChMin(i+1, curV, list[i][curV])
+//			if newW := list[i][curV] + w[i]; newW <= W {
+//				list.ChMin(i+1, curV+v[i], newW)
+//			}
+//		}
+//	}
+//
+//	retV := 0
+//	for curV, w := range list[N] {
+//		if curV > retV && w <= W {
+//			retV = curV
+//		}
+//	}
+//	return retV
+//}
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
