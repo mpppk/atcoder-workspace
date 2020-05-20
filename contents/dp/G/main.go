@@ -5,10 +5,34 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
-func solve(N int, M int, x []int, y []int) string {
-	return ""
+func solve(N int, M int, x []int, y []int) int {
+	neighbors := make([][]int, N+5, N+5)
+	dp := lib.NewIntList(N+5, -1)
+
+	for i := 0; i < M; i++ {
+		curX, curY := x[i], y[i]
+		neighbors[curX] = append(neighbors[curX], curY)
+	}
+	ret := 0
+	for i := 1; i <= N; i++ {
+		ret = lib.MustMaxInt(ret, rec(dp, neighbors, i))
+	}
+	return ret
+}
+
+func rec(dp lib.IntList, neighbors [][]int, n int) int {
+	if dp[n] != -1 {
+		return dp[n]
+	}
+	dp[n] = 0
+	for _, neighbor := range neighbors[n] {
+		dp.ChMax(n, rec(dp, neighbors, neighbor)+1)
+	}
+	return dp[n]
 }
 
 func main() {
