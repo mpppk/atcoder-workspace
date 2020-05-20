@@ -1,9 +1,9 @@
 AAAnumber := AAA=int,int8,int16,int32,int64,float32,float64
 AAAint := AAA=int,int8,int16,int32,int64
-AAAnonnum := AAA=rune,bool,string
 BBBnumber := BBB=int,int8,int16,int32,int64,float32,float64
 YYY := YYY=rune,bool,string,int,int8,int16,int32,int64,float32,float64
 ZZZ := ZZZ=rune,bool,string,int,int8,int16,int32,int64,float32,float64
+ZZZnonnum := ZZZ=rune,bool,string
 CONTESTS_DIR := contents
 SUBMIT_DIR := submit
 SUBMIT_FILE := submit.go
@@ -85,6 +85,7 @@ genny:
 	genny -in='./lib/math.go' -out='./lib/gen-math.go' gen "$(AAAnumber)"
 	genny -in='./lib/number2.go' -out='./lib/gen-number2.go' gen "$(AAAnumber) $(BBBnumber)"
 	genny -in='./lib/int.go' -out='./lib/gen-int.go' gen "$(AAAint)"
+	genny -in='./lib/nonnum.go' -out='./lib/gen-nonum.go' gen "$(ZZZnonnum)"
 	genny -in='./lib/type.go' -out='./lib/gen-type.go' gen "$(ZZZ)"
 	genny -in='./lib/type2.go' -out='./lib/gen-type2.go' gen "$(YYY) $(ZZZ)"
 	genny -in='./lib/misc.go' -out='./lib/gen-misc.go' gen "$(AAAnumber)"

@@ -7,30 +7,47 @@ import (
 	"unicode/utf8"
 )
 
-type Int2DList [][]int
-type IntList []int
+type String2DList [][]string
 
-func (a Int2DList) ChMax(i, j int, value int) bool {
-	curV := a[i][j]
-	if curV < value {
-		a[i][j] = value
-		return true
-	}
-	return false
+func lib_CopyString(values []string) []string {
+	dst := make([]string, len(values))
+	copy(dst, values)
+	return dst
 }
-func lib_NewInt2DList(length1, length2 int, initialValue int) Int2DList {
-	ret := make([][]int, length1, length1)
-	for i := 0; i < length1; i++ {
-		ret[i] = lib_NewIntList(length2, initialValue)
+func lib_New2DimStringSliceWithInitialValue(row, col int, initialValue string) [][]string {
+	ret := make([][]string, row)
+	values := lib_NewStringSliceWithInitialValue(col, initialValue)
+	for r := 0; r < row; r++ {
+		ret[r] = lib_CopyString(values)
 	}
 	return ret
 }
-func lib_NewIntList(length int, initialValue int) IntList {
-	ret := make([]int, length, length)
+func lib_NewString2DList(row, col int, initialValue string) String2DList {
+	return lib_New2DimStringSliceWithInitialValue(row, col, initialValue)
+}
+func lib_NewStringSliceWithInitialValue(length int, initialValue string) []string {
+	ret := make([]string, length)
 	for i := 0; i < length; i++ {
 		ret[i] = initialValue
 	}
 	return ret
+}
+func (m String2DList) ChBy(row, col int, f func(cur, new string) bool, value string, values ...string) (replaced bool) {
+	maxBy := func(f func(cur, new string) bool, values ...string) string {
+		max := values[0]
+		for _, v := range values {
+			if f(max, v) {
+				max = v
+			}
+		}
+		return max
+	}
+	max := maxBy(f, append(values, value)...)
+	if f(m[row][col], max) {
+		m[row][col] = max
+		return true
+	}
+	return false
 }
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -47,32 +64,18 @@ func main() {
 	fmt.Println(solve(s, t))
 }
 func solve(s string, t string) string {
-	slen := utf8.RuneCountInString(s)
-	tlen := utf8.RuneCountInString(t)
-	m := lib_NewInt2DList(slen+5, tlen+5, 0)
-	m[0][0] = 0
+	slen, tlen := utf8.RuneCountInString(s), utf8.RuneCountInString(t)
+	sm := lib_NewString2DList(slen+5, tlen+5, "")
+	compare := func(cur, new string) bool {
+		return len(cur) < len(new)
+	}
 	for si, sr := range s {
 		for ti, tr := range t {
-			m.ChMax(si+1, ti+1, m[si][ti])
-			m.ChMax(si+1, ti+1, m[si+1][ti])
-			m.ChMax(si+1, ti+1, m[si][ti+1])
+			sm.ChBy(si+1, ti+1, compare, sm[si][ti], sm[si+1][ti], sm[si][ti+1])
 			if sr == tr {
-				m.ChMax(si+1, ti+1, m[si][ti]+1)
+				sm.ChBy(si+1, ti+1, compare, sm[si][ti]+string(sr))
 			}
 		}
 	}
-	result := ""
-	for i, j := slen, tlen; i > 0 && j > 0; {
-		switch m[i][j] {
-		case m[i-1][j]:
-			i--
-		case m[i][j-1]:
-			j--
-		default:
-			i--
-			j--
-			result = string(s[i]) + result
-		}
-	}
-	return result
+	return sm[slen][tlen]
 }

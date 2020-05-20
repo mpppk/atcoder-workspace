@@ -44,12 +44,10 @@ func solve(s string, t string) string {
 // TLE
 //func solve(s string, t string) string {
 //	slen, tlen := utf8.RuneCountInString(s), utf8.RuneCountInString(t)
-//	sm := lib.NewIntToString2DMap(slen, tlen)
-//	sm.Set(0, 0, "")
+//	sm := lib.NewString2DList(slen+5, tlen+5, "")
 //
 //	compare := func(cur, new string) bool {
 //		return len(cur) < len(new)
-//		//return utf8.RuneCountInString(cur) < utf8.RuneCountInString(new)
 //	}
 //
 //	for si, sr := range s {
@@ -60,7 +58,7 @@ func solve(s string, t string) string {
 //			}
 //		}
 //	}
-//	return sm.MustGet(slen, tlen)
+//	return sm[slen][tlen]
 //}
 
 func main() {
