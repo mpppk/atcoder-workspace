@@ -280,17 +280,27 @@ func (u *UnionFindZZZ) IsSameGroup(v1, v2 ZZZ) bool {
 	return v1Root == v2Root
 }
 
+type MemoZZZ struct {
+	M map[ZZZ]ZZZ
+	F func(ZZZ, func(ZZZ) ZZZ) ZZZ
+}
+
 // MemoizeZZZ は、与えられた関数の戻り値をキャッシュし、2度目からはO(1)で結果を返すラッパーを返します.
-func MemoizeZZZ(f func(v ZZZ) ZZZ) func(v ZZZ) ZZZ {
-	cache := map[ZZZ]ZZZ{}
-	return func(v ZZZ) ZZZ {
-		if cachedResult, ok := cache[v]; ok {
-			return cachedResult
-		}
-		result := f(v)
-		cache[v] = result
-		return result
+func MemoizeZZZ(f func(ZZZ, func(ZZZ) ZZZ) ZZZ) func(ZZZ) ZZZ {
+	m := &MemoZZZ{
+		M: map[ZZZ]ZZZ{},
+		F: f,
 	}
+	return m.call
+}
+
+func (m *MemoZZZ) call(v ZZZ) ZZZ {
+	if cachedResult, ok := m.M[v]; ok {
+		return cachedResult
+	}
+	res := m.F(v, m.call)
+	m.M[v] = res
+	return res
 }
 
 type CounterZZZ struct {
