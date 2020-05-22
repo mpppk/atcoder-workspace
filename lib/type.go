@@ -303,6 +303,15 @@ func (m *MemoZZZ) call(v ZZZ) ZZZ {
 	return res
 }
 
+// CountZZZ は、valuesの各要素をkey、それぞれの出現回数をvalueとしたmapを返します.
+func CountZZZ(values []ZZZ) map[ZZZ]int {
+	m := map[ZZZ]int{}
+	for _, value := range values {
+		m[value]++
+	}
+	return m
+}
+
 type CounterZZZ struct {
 	M    map[ZZZ]int64
 	Func func(values ...ZZZ) ZZZ
