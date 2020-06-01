@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
 func solve(N int, a []int) string {
+	dp := lib.NewFloat642DList()
 	return ""
 }
 

@@ -90,3 +90,30 @@ func gcd(a, b int) int {
 	}
 	return gcd(b, a%b)
 }
+
+// AdjacencyList は、x(x1...xn)とy(y1...yn)から、x1とy1、xnとynが相互接続しているグラフの隣接リストを返します
+func AdjacencyList(x []int, y []int, length int) ([][]int, error) {
+	if len(x) != len(y) {
+		return nil, fmt.Errorf("x and y lengths are different. x:%d y:%d", len(x), len(y))
+	}
+
+	ret := make([][]int, length, length)
+	for i := 0; i < len(x); i++ {
+		ret[x[i]-1] = append(ret[x[i]-1], y[i])
+		ret[y[i]-1] = append(ret[y[i]-1], x[i])
+	}
+	return ret, nil
+}
+
+// DirectedAdjacencyList は、x(x1...xn)とy(y1...yn)から、x1からy1、xnからynへ接続しているグラフの隣接リストを返します
+func DirectedAdjacencyList(x []int, y []int, length int) ([][]int, error) {
+	if len(x) != len(y) {
+		return nil, fmt.Errorf("x and y lengths are different. x:%d y:%d", len(x), len(y))
+	}
+
+	ret := make([][]int, length, length)
+	for i := 0; i < len(x); i++ {
+		ret[x[i]-1] = append(ret[x[i]-1], y[i])
+	}
+	return ret, nil
+}

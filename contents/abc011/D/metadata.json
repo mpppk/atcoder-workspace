@@ -1,0 +1,18 @@
+{
+ "code_filename": "main.go",
+ "judge": {
+  "diff": 1e-09,
+  "error_type": "absolute_or_relative",
+  "judge_type": "decimal"
+ },
+ "lang": "go",
+ "problem": {
+  "alphabet": "D",
+  "contest": {
+   "contest_id": "abc011"
+  },
+  "problem_id": "abc011_4"
+ },
+ "sample_in_pattern": "in_*.txt",
+ "sample_out_pattern": "out_*.txt"
+}

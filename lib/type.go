@@ -5,6 +5,16 @@ import (
 	"fmt"
 )
 
+// HasZZZ は、ZZZ sliceにvが含まれているかを返します.
+func HasZZZ(values []ZZZ, v ZZZ) bool {
+	for _, value := range values {
+		if value == v {
+			return true
+		}
+	}
+	return false
+}
+
 // ReduceZZZ は、ZZZを引数として受け取るJavaScriptのreduceです.
 func ReduceZZZ(values []ZZZ, f func(acc, cur ZZZ) ZZZ, initial ZZZ) (newValue ZZZ) {
 	newValue = initial
