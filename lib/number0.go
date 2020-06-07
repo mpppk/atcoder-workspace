@@ -33,7 +33,7 @@ func BitEnumeration(digits uint) (enums [][]bool) {
 }
 
 // Combination はnCr(n個の中からr個を選ぶ組み合わせの総数)を返します.
-func Combination(n, r int64) (int64, error) {
+func Combination(n, r int) (int, error) {
 	if n < r {
 		return 0, fmt.Errorf("r(%d) is larger than n(%d)", r, n)
 	}
@@ -54,22 +54,22 @@ func Combination(n, r int64) (int64, error) {
 }
 
 // RangeFactorial は、n-num+1, n-num+2, ... , nを全てかけた値を返します.
-func RangeFactorial(n, num int64) (f int64, err error) {
+func RangeFactorial(n, num int) (f int, err error) {
 	f = 1
-	for i := int64(0); i < num; i++ {
+	for i := 0; i < num; i++ {
 		f *= n - i
 	}
 	return
 }
 
 // Factorial はnの階乗を返します.
-func Factorial(n int64) (f int64, err error) {
+func Factorial(n int) (f int, err error) {
 	if n > 20 { // FIXME Consider 32bit architecture
 		return 0, fmt.Errorf("too large Factorical n: %d", n)
 	}
 
 	f = 1
-	for i := int64(2); i <= n; i++ {
+	for i := 2; i <= n; i++ {
 		f = f * i
 	}
 	return
@@ -116,4 +116,46 @@ func DirectedAdjacencyList(x []int, y []int, length int) ([][]int, error) {
 		ret[x[i]-1] = append(ret[x[i]-1], y[i])
 	}
 	return ret, nil
+}
+
+type ModInt struct {
+	mod int
+	V   int
+}
+
+func NewModAAA(mod, initialValue int) *ModInt {
+	return &ModInt{
+		mod: mod,
+		V:   initialValue,
+	}
+}
+
+// Pow はaのn乗をmodで割ったあまりを計算します
+func (m *ModInt) Pow(n int) *ModInt {
+	m.V = ModPow(m.V, n, m.mod)
+	return m
+}
+
+// ModSum はa+bをmodで割ったあまりを返します
+func ModSum(a, b, mod int) int {
+	return ((a % mod) + (b % mod)) % mod
+}
+
+// ModMul はa*bをmodで割ったあまりを返します
+func ModMul(a, b, mod int) int {
+	return (a % mod) * (b % mod) % mod
+}
+
+// ModPow は、aのn乗をmodで割ったあまりを返します
+func ModPow(a, n, mod int) int {
+	a %= mod
+	res := 1
+	for n > 0 {
+		if n&1 == 1 {
+			res = res * a % mod
+		}
+		a = a * a % mod
+		n >>= 1
+	}
+	return res
 }

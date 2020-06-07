@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"math"
 	"reflect"
 	"testing"
 )
@@ -184,6 +185,43 @@ func TestDirectedAdjacencyList(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DirectedAdjacencyList() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestModPow(t *testing.T) {
+	type args struct {
+		a   int
+		n   int
+		mod int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			args: args{
+				a:   3,
+				n:   2,
+				mod: int(math.Pow10(9)) + 7,
+			},
+			want: 9,
+		},
+		{
+			args: args{
+				a:   3,
+				n:   45,
+				mod: int(math.Pow10(9)) + 7,
+			},
+			want: 644897553,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ModPow(tt.args.a, tt.args.n, tt.args.mod); got != tt.want {
+				t.Errorf("ModPow() = %v, want %v", got, tt.want)
 			}
 		})
 	}
