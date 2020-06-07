@@ -5,10 +5,25 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/mpppk/atcoder-workspace/lib"
 )
 
 func solve(N int, A int, B int, S []int) string {
-	return ""
+	min, max := lib.MustMinInt(S...), lib.MustMaxInt(S...)
+	if min == max {
+		return "-1"
+	}
+
+	P := float64(B) / float64(max-min)
+	PS := make([]float64, 0, len(S))
+	for _, s := range S {
+		PS = append(PS, P*float64(s))
+	}
+	mean := lib.MeanFloat64(PS)
+	diff := mean - float64(A)
+
+	return fmt.Sprintf("%v %v", P, -diff)
 }
 
 func main() {

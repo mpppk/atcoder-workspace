@@ -17,6 +17,11 @@ func SumAAA(values []AAA) AAA {
 	return sum
 }
 
+func MeanAAA(values []AAA) AAA {
+	sum := SumAAA(values)
+	return sum / AAA(len(values))
+}
+
 // FilterAAA は、与えられた値それぞれを関数へ適用し、結果がtrueになる値のSliceを返します.
 func FilterAAA(values []AAA, f func(v AAA) bool) (newValues []AAA) {
 	for _, value := range values {
