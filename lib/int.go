@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"math"
 )
 
 // AAAToBits は、0と1からなる文字列などを0->false, 1->trueのbool sliceとして返します.
@@ -52,6 +53,11 @@ func PrimeFactorsAAA(n int) (pfs []int) {
 	}
 
 	return
+}
+
+// Pow10AAA は、10のy乗を返します.
+func Pow10AAA(y AAA) AAA {
+	return AAA(math.Pow10(int(y)))
 }
 
 type SAAAList []AAA

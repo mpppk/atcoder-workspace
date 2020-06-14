@@ -159,3 +159,25 @@ func ModPow(a, n, mod int) int {
 	}
 	return res
 }
+
+// CountIntAsList は、最大でmaxの値を取るvaluesの各要素をkey、それぞれの出現回数をvalueとしたlistを返します.
+func CountIntAsList(values []int, max int) []int {
+	m := make([]int, max, max)
+	for _, value := range values {
+		m[value]++
+	}
+	return m
+}
+
+// Divisor は、nの約数を列挙して返します.
+func Divisor(n int) (res []int) {
+	for i := 1; i*i <= n; i++ {
+		if n%i == 0 {
+			res = append(res, i)
+			if n/i != i {
+				res = append(res, n/i)
+			}
+		}
+	}
+	return
+}
