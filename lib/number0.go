@@ -92,6 +92,7 @@ func gcd(a, b int) int {
 }
 
 // AdjacencyList は、x(x1...xn)とy(y1...yn)から、x1とy1、xnとynが相互接続しているグラフの隣接リストを返します
+// 例えばx1の隣接要素は、list[xi]で得られます。1始まりの要素を追加する場合は、lengthには最大値Nに1を加えた数が必要であることに注意してください。
 func AdjacencyList(x []int, y []int, length int) ([][]int, error) {
 	if len(x) != len(y) {
 		return nil, fmt.Errorf("x and y lengths are different. x:%d y:%d", len(x), len(y))
@@ -99,8 +100,8 @@ func AdjacencyList(x []int, y []int, length int) ([][]int, error) {
 
 	ret := make([][]int, length, length)
 	for i := 0; i < len(x); i++ {
-		ret[x[i]-1] = append(ret[x[i]-1], y[i])
-		ret[y[i]-1] = append(ret[y[i]-1], x[i])
+		ret[x[i]] = append(ret[x[i]], y[i])
+		ret[y[i]] = append(ret[y[i]], x[i])
 	}
 	return ret, nil
 }

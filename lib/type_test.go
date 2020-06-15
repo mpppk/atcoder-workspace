@@ -802,3 +802,62 @@ func TestNewZZZSliceWithInitialValue(t *testing.T) {
 		})
 	}
 }
+
+func TestContainsZZZ(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		v      ZZZ
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			args: args{values: []ZZZ{1, 2, 3}, v: 1},
+			want: true,
+		},
+		{
+			args: args{values: []ZZZ{1, 2, 3}, v: 4},
+			want: false,
+		},
+		{
+			args: args{values: []ZZZ{}, v: 0},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ContainsZZZ(tt.args.values, tt.args.v); got != tt.want {
+				t.Errorf("ContainsZZZ() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestFlatMapZZZ(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		f      func(v ZZZ) []ZZZ
+	}
+	tests := []struct {
+		name          string
+		args          args
+		wantNewValues []ZZZ
+	}{
+		{
+			args: args{
+				values: []ZZZ{1, 2, 3},
+				f:      func(v ZZZ) []ZZZ { return []ZZZ{v, v} },
+			},
+			wantNewValues: []ZZZ{1, 1, 2, 2, 3, 3},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotNewValues := FlatMapZZZ(tt.args.values, tt.args.f); !reflect.DeepEqual(gotNewValues, tt.wantNewValues) {
+				t.Errorf("FlatMapZZZ() = %v, want %v", gotNewValues, tt.wantNewValues)
+			}
+		})
+	}
+}

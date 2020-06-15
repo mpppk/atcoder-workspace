@@ -5,14 +5,19 @@ import (
 	"fmt"
 )
 
-// HasZZZ は、ZZZ sliceにvが含まれているかを返します.
-func HasZZZ(values []ZZZ, v ZZZ) bool {
+// ContainsZZZ は、ZZZ sliceにvが含まれているかを返します.
+func ContainsZZZ(values []ZZZ, v ZZZ) bool {
 	for _, value := range values {
 		if value == v {
 			return true
 		}
 	}
 	return false
+}
+
+// HasZZZ は、ContainsZZZのaliasです.
+func HasZZZ(values []ZZZ, v ZZZ) bool {
+	return ContainsZZZ(values, v)
 }
 
 // ReduceZZZ は、ZZZを引数として受け取るJavaScriptのreduceです.
@@ -62,6 +67,14 @@ func ReverseZZZ(values []ZZZ) []ZZZ {
 func MapZZZ(values []ZZZ, f func(v ZZZ) ZZZ) (newValues []ZZZ) {
 	for _, value := range values {
 		newValues = append(newValues, f(value))
+	}
+	return
+}
+
+// FlatMapZZZ はZZZ Sliceを引数として受け取るflatmapです.
+func FlatMapZZZ(values []ZZZ, f func(v ZZZ) []ZZZ) (newValues []ZZZ) {
+	for _, value := range values {
+		newValues = append(newValues, f(value)...)
 	}
 	return
 }

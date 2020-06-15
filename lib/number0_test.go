@@ -48,13 +48,13 @@ func TestBitEnumeration(t *testing.T) {
 
 func TestCombination(t *testing.T) {
 	type args struct {
-		n int64
-		r int64
+		n int
+		r int
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    int64
+		want    int
 		wantErr bool
 	}{
 		{
@@ -130,10 +130,10 @@ func TestAdjacencyList(t *testing.T) {
 			args: args{
 				x:      []int{1, 2, 3},
 				y:      []int{4, 4, 5},
-				length: 5,
+				length: 6,
 			},
 			want: [][]int{
-				{4}, {4}, {5},
+				nil, {4}, {4}, {5},
 				{1, 2}, {3},
 			},
 		},
