@@ -14,6 +14,13 @@ var SIntListIsInitialized bool
 
 type SIntList []int
 
+func lib_IntSliceToMap(values []int) map[int]struct{} {
+	m := map[int]struct{}{}
+	for _, value := range values {
+		m[value] = struct{}{}
+	}
+	return m
+}
 func lib_ModSum(a, b, mod int) int {
 	return ((a % mod) + (b % mod)) % mod
 }
@@ -49,10 +56,7 @@ func main() {
 }
 func solve(N int, M int, a []int) int {
 	dp := lib_NewSIntList(N+1, 0)
-	m := map[int]bool{}
-	for _, ai := range a {
-		m[ai] = true
-	}
+	m := lib_IntSliceToMap(a)
 	if _, ok := m[1]; !ok {
 		dp[1] = 1
 	}

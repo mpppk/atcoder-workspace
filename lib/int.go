@@ -60,6 +60,15 @@ func Pow10AAA(y AAA) AAA {
 	return AAA(math.Pow10(int(y)))
 }
 
+// AAASliceToMap は、与えられた値をkeyとして持つmapを返します
+func AAASliceToMap(values []AAA) map[AAA]struct{} {
+	m := map[AAA]struct{}{}
+	for _, value := range values {
+		m[value] = struct{}{}
+	}
+	return m
+}
+
 type SAAAList []AAA
 
 var SAAAListIsInitialized bool

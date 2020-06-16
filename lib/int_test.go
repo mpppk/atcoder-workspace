@@ -87,3 +87,26 @@ func TestPrimeFactors(t *testing.T) {
 		})
 	}
 }
+
+func TestAAASliceToMap(t *testing.T) {
+	type args struct {
+		values []AAA
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[AAA]struct{}
+	}{
+		{
+			args: args{values: []AAA{1, 2, 3}},
+			want: map[AAA]struct{}{1: {}, 2: {}, 3: {}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := AAASliceToMap(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("AAASliceToMap() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

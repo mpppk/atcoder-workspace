@@ -13,10 +13,7 @@ const MOD = 1000000007
 
 func solve(N int, M int, a []int) int {
 	dp := lib.NewSIntList(N+1, 0)
-	m := map[int]bool{}
-	for _, ai := range a {
-		m[ai] = true
-	}
+	m := lib.IntSliceToMap(a)
 	if _, ok := m[1]; !ok {
 		dp[1] = 1
 	}
