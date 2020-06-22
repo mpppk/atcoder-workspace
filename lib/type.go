@@ -3,6 +3,7 @@ package lib
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 // ContainsZZZ は、ZZZ sliceにvが含まれているかを返します.
@@ -189,6 +190,26 @@ func UnsetZZZ(values []ZZZ, i int) ([]ZZZ, error) {
 	newValues := make([]ZZZ, len(values))
 	copy(newValues, values)
 	return append(newValues[:i], newValues[i+1:]...), nil
+}
+
+func JoinZZZ(values []ZZZ, sep string) string {
+	if len(values) == 0 {
+		return ""
+	}
+	var sb strings.Builder
+	for i := 0; i < len(values)-1; i++ {
+		sb.WriteString(fmt.Sprint(values[i]))
+		sb.WriteString(sep)
+	}
+	sb.WriteString(fmt.Sprint(values[len(values)-1]))
+	return sb.String()
+}
+
+func PrintZZZSlice(values []ZZZ, sep string) {
+	for i := 0; i < len(values)-1; i++ {
+		fmt.Print(values[i], sep)
+	}
+	fmt.Println(values[len(values)-1])
 }
 
 // ZZZCombination は、与えられた値からr個を取り出す場合の全組み合わせを返します.

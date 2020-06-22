@@ -861,3 +861,35 @@ func TestFlatMapZZZ(t *testing.T) {
 		})
 	}
 }
+
+func TestJoinZZZ(t *testing.T) {
+	type args struct {
+		values []ZZZ
+		sep    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			args: args{values: []ZZZ{1, 2, 3}, sep: " "},
+			want: "1 2 3",
+		},
+		{
+			args: args{values: []ZZZ{1}, sep: "xxx"},
+			want: "1",
+		},
+		{
+			args: args{values: []ZZZ{}, sep: "xxx"},
+			want: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := JoinZZZ(tt.args.values, tt.args.sep); got != tt.want {
+				t.Errorf("JoinZZZ() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

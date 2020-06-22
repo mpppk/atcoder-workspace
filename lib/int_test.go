@@ -110,3 +110,39 @@ func TestAAASliceToMap(t *testing.T) {
 		})
 	}
 }
+
+func TestAAAToBits(t *testing.T) {
+	type args struct {
+		value     AAA
+		minDigits int
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantBits []bool
+	}{
+		{
+			args:     args{value: 5, minDigits: 5},
+			wantBits: []bool{true, false, true, false, false},
+		},
+		{
+			args:     args{value: 5, minDigits: 0},
+			wantBits: []bool{true, false, true},
+		},
+		{
+			args:     args{value: 0, minDigits: 2},
+			wantBits: []bool{false, false},
+		},
+		{
+			args:     args{value: 1, minDigits: 2},
+			wantBits: []bool{true, false},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotBits := AAAToBits(tt.args.value, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
+				t.Errorf("AAAToBits() = %v, want %v", gotBits, tt.wantBits)
+			}
+		})
+	}
+}

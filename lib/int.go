@@ -3,29 +3,18 @@ package lib
 import (
 	"fmt"
 	"math"
+	"unicode/utf8"
 )
 
 // AAAToBits は、0と1からなる文字列などを0->false, 1->trueのbool sliceとして返します.
 func AAAToBits(value AAA, minDigits int) (bits []bool) {
 	bin := fmt.Sprintf("%b", int(value))
-	digits := 0
+	digits := utf8.RuneCountInString(bin)
 	for _, b := range bin {
-		digits++
-		if b == '0' {
-			bits = append(bits, false)
-		} else if b == '1' {
-			bits = append(bits, true)
-		} else {
-			panic("invalid bit:" + string(b) + ", " + string('0'))
-		}
+		bits = append(bits, b == '1')
 	}
-
-	for minDigits > digits {
-		bits = append([]bool{false}, bits...)
-		digits++
-	}
-
-	return
+	remainBitNums := TernaryOPInt(minDigits > digits, minDigits-digits, 0)
+	return append(ReverseBool(bits), make([]bool, remainBitNums)...)
 }
 
 // PrimeFactors はnを素因数分解します.
@@ -105,18 +94,20 @@ func (si SAAAList) ChMax(i AAA, value AAA) bool {
 	return false
 }
 
-func (si SAAAList) Rec(f func(AAA) AAA) {
+// Rec はUpdateで利用する再帰関数を登録します. 登録した関数はUpdateでの呼び出し時に自動でメモ化されます.
+func (si SAAAList) Rec(f func(index AAA) AAA) {
 	SAAAListRecFunc = f
 }
 
-func (si SAAAList) Update(v AAA) AAA {
+// Update は、indexの要素を事前に登録した再帰関数で更新します.
+func (si SAAAList) Update(index AAA) AAA {
 	if SAAAListRecFunc == nil {
 		panic("SAAAListRecFunc is nil")
 	}
-	if si[int(v)] != SAAAListInitialValue {
-		return si[int(v)]
+	if si[int(index)] != SAAAListInitialValue {
+		return si[int(index)]
 	}
-	ret := SAAAListRecFunc(v)
-	si[int(v)] = ret
+	ret := SAAAListRecFunc(index)
+	si[int(index)] = ret
 	return ret
 }
