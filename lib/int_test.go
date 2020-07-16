@@ -5,50 +5,6 @@ import (
 	"testing"
 )
 
-func TestValueToBits(t *testing.T) {
-	type args struct {
-		value     AAA
-		minDigits int
-	}
-	tests := []struct {
-		name     string
-		args     args
-		wantBits []bool
-	}{
-		{
-			name: "AAAToBits",
-			args: args{
-				value:     0,
-				minDigits: 1,
-			},
-			wantBits: []bool{false},
-		},
-		{
-			name: "AAAToBits",
-			args: args{
-				value:     0,
-				minDigits: 3,
-			},
-			wantBits: []bool{false, false, false},
-		},
-		{
-			name: "ValueToBits2",
-			args: args{
-				value:     8,
-				minDigits: 4,
-			},
-			wantBits: []bool{true, false, false, false},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if gotBits := AAAToBits(tt.args.value, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
-				t.Errorf("AAAToBits() = %v, want %v", gotBits, tt.wantBits)
-			}
-		})
-	}
-}
-
 func TestPrimeFactors(t *testing.T) {
 	type args struct {
 		n int
@@ -106,42 +62,6 @@ func TestAAASliceToMap(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := AAASliceToMap(tt.args.values); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("AAASliceToMap() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestAAAToBits(t *testing.T) {
-	type args struct {
-		value     AAA
-		minDigits int
-	}
-	tests := []struct {
-		name     string
-		args     args
-		wantBits []bool
-	}{
-		{
-			args:     args{value: 5, minDigits: 5},
-			wantBits: []bool{true, false, true, false, false},
-		},
-		{
-			args:     args{value: 5, minDigits: 0},
-			wantBits: []bool{true, false, true},
-		},
-		{
-			args:     args{value: 0, minDigits: 2},
-			wantBits: []bool{false, false},
-		},
-		{
-			args:     args{value: 1, minDigits: 2},
-			wantBits: []bool{true, false},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if gotBits := AAAToBits(tt.args.value, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
-				t.Errorf("AAAToBits() = %v, want %v", gotBits, tt.wantBits)
 			}
 		})
 	}

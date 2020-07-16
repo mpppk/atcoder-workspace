@@ -226,3 +226,39 @@ func TestModPow(t *testing.T) {
 		})
 	}
 }
+
+func TestIntToBits(t *testing.T) {
+	type args struct {
+		v         int
+		minDigits int
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantBits []bool
+	}{
+		{
+			args:     args{v: 5, minDigits: 5},
+			wantBits: []bool{true, false, true, false, false},
+		},
+		{
+			args:     args{v: 5, minDigits: 0},
+			wantBits: []bool{true, false, true},
+		},
+		{
+			args:     args{v: 0, minDigits: 2},
+			wantBits: []bool{false, false},
+		},
+		{
+			args:     args{v: 1, minDigits: 2},
+			wantBits: []bool{true, false},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotBits := IntToBits(tt.args.v, tt.args.minDigits); !reflect.DeepEqual(gotBits, tt.wantBits) {
+				t.Errorf("IntToBits() = %v, want %v", gotBits, tt.wantBits)
+			}
+		})
+	}
+}

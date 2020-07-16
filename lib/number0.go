@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"math/bits"
 	"strconv"
 )
 
@@ -9,7 +10,7 @@ func toSpecificBitIntLine(line []string, bitSize int) (intLine []int64, err erro
 	for j, v := range line {
 		intV, err := strconv.ParseInt(v, 10, bitSize)
 		if err != nil {
-			return nil, fmt.Errorf(fmt.Sprintf("%dth value: %v", j, err.Error()))
+			return nil, fmt.Errorf(fmt.Sprintf("%dth v: %v", j, err.Error()))
 		}
 		intLine = append(intLine, intV)
 	}
@@ -179,6 +180,15 @@ func Divisor(n int) (res []int) {
 				res = append(res, n/i)
 			}
 		}
+	}
+	return
+}
+
+// AAAToBits は、0と1からなる文字列などを0->false, 1->trueのbool sliceとして返します.
+func IntToBits(v int, minDigits int) (bts []bool) {
+	minDigits = MustMaxInt(minDigits, bits.Len64(uint64(v)))
+	for b := 0; b < minDigits; b++ {
+		bts = append(bts, (v>>b)&1 == 1)
 	}
 	return
 }

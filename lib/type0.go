@@ -8,3 +8,29 @@ func ReverseStr(s string) string {
 	}
 	return string(runes)
 }
+
+type bitGenerator struct {
+	cur       int
+	max       int
+	minDigits int
+}
+
+// NewBitGenerator は、与えられた桁数のビット列の全組み合わせを返すgeneratorを返します.
+// bit全探索を行う際に便利です.
+func NewBitGenerator(minDigits int) *bitGenerator {
+	return &bitGenerator{
+		cur:       0,
+		max:       1 << minDigits,
+		minDigits: minDigits,
+	}
+}
+
+// Next は、次のビット組み合わせを返します. 計算量はO(minDigits)です.
+func (b *bitGenerator) Next() []bool {
+	if b.cur == b.max {
+		return nil
+	}
+	r := IntToBits(b.cur, b.minDigits)
+	b.cur++
+	return r
+}

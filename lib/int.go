@@ -1,21 +1,8 @@
 package lib
 
 import (
-	"fmt"
 	"math"
-	"unicode/utf8"
 )
-
-// AAAToBits は、0と1からなる文字列などを0->false, 1->trueのbool sliceとして返します.
-func AAAToBits(value AAA, minDigits int) (bits []bool) {
-	bin := fmt.Sprintf("%b", int(value))
-	digits := utf8.RuneCountInString(bin)
-	for _, b := range bin {
-		bits = append(bits, b == '1')
-	}
-	remainBitNums := TernaryOPInt(minDigits > digits, minDigits-digits, 0)
-	return append(ReverseBool(bits), make([]bool, remainBitNums)...)
-}
 
 // PrimeFactors はnを素因数分解します.
 func PrimeFactorsAAA(n int) (pfs []int) {

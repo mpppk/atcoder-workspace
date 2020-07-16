@@ -15,3 +15,11 @@ func ExampleAdjacencyList() {
 	// Output:
 	// [[] [4] [4] [5] [1 2] [3]]
 }
+
+func ExampleAAAToBits() {
+	bits := lib.IntToBits(5, 5)
+	fmt.Println(bits)
+
+	// Output:
+	// [true false true false false]
+}
